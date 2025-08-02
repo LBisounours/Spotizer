@@ -3,50 +3,103 @@ import './App.css';
 
 // Grande base de données de musiques (même que précédemment)
 const musicDatabase = [
-  // Pop Hits
-  { id: 1, title: "Blinding Lights", artist: "The Weeknd", album: "After Hours", duration: "3:22", cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", genre: "Pop" },
-  { id: 2, title: "Watermelon Sugar", artist: "Harry Styles", album: "Fine Line", duration: "2:54", cover: "https://images.unsplash.com/photo-1619983081563-430f63602796?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", genre: "Pop" },
-  { id: 3, title: "Levitating", artist: "Dua Lipa", album: "Future Nostalgia", duration: "3:23", cover: "https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", genre: "Pop" },
-  { id: 4, title: "Good 4 U", artist: "Olivia Rodrigo", album: "SOUR", duration: "2:58", cover: "https://images.pexels.com/photos/6862590/pexels-photo-6862590.jpeg?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", genre: "Pop Rock" },
-  { id: 5, title: "Stay", artist: "The Kid LAROI, Justin Bieber", album: "F*CK LOVE 3+", duration: "2:21", cover: "https://images.pexels.com/photos/6826021/pexels-photo-6826021.jpeg?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", genre: "Pop" },
-  { id: 6, title: "As It Was", artist: "Harry Styles", album: "Harry's House", duration: "2:47", cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", genre: "Pop" },
-  { id: 7, title: "Anti-Hero", artist: "Taylor Swift", album: "Midnights", duration: "3:20", cover: "https://images.unsplash.com/photo-1560800452-f2d475982b96?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3", genre: "Pop" },
-  { id: 8, title: "Flowers", artist: "Miley Cyrus", album: "Endless Summer Vacation", duration: "3:20", cover: "https://images.pexels.com/photos/6865913/pexels-photo-6865913.jpeg?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", genre: "Pop" },
-  { id: 9, title: "Unholy", artist: "Sam Smith ft. Kim Petras", album: "Gloria", duration: "2:36", cover: "https://images.unsplash.com/photo-1623018035813-9cfb5b502e04?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3", genre: "Pop" },
-  
-  // Rock/Alternative
-  { id: 10, title: "Heat Waves", artist: "Glass Animals", album: "Dreamland", duration: "3:58", cover: "https://images.unsplash.com/photo-1657042855066-7f09c6c2c350?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3", genre: "Indie Rock" },
-  { id: 11, title: "Shivers", artist: "Ed Sheeran", album: "=", duration: "3:27", cover: "https://images.unsplash.com/photo-1575285113814-f770cb8c796e?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3", genre: "Pop Rock" },
-  { id: 12, title: "Ghost", artist: "Justice", album: "Woman", duration: "4:12", cover: "https://images.unsplash.com/photo-1720887237251-f46eb98416c8?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3", genre: "Electronic Rock" },
-  
-  // Hip-Hop/Rap
-  { id: 13, title: "Industry Baby", artist: "Lil Nas X, Jack Harlow", album: "MONTERO", duration: "3:32", cover: "https://images.unsplash.com/photo-1587731556938-38755b4803a6?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3", genre: "Hip-Hop" },
-  { id: 14, title: "Bad Habit", artist: "Steve Lacy", album: "Gemini Rights", duration: "3:52", cover: "https://images.pexels.com/photos/6865913/pexels-photo-6865913.jpeg?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3", genre: "R&B" },
-  { id: 15, title: "First Class", artist: "Jack Harlow", album: "Come Home The Kids Miss You", duration: "2:52", cover: "https://images.unsplash.com/photo-1623018035231-ebe361a64c76?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3", genre: "Hip-Hop" },
-  
-  // Electronic/Dance
-  { id: 16, title: "About Damn Time", artist: "Lizzo", album: "Special", duration: "3:12", cover: "https://images.unsplash.com/photo-1569411309162-52a667749a49?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3", genre: "Pop" },
-  { id: 17, title: "Running Up That Hill", artist: "Kate Bush", album: "Hounds of Love", duration: "4:58", cover: "https://images.pexels.com/photos/6862590/pexels-photo-6862590.jpeg?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3", genre: "Alternative" },
-  { id: 18, title: "I'm Good (Blue)", artist: "David Guetta & Bebe Rexha", album: "Single", duration: "2:55", cover: "https://images.pexels.com/photos/6826021/pexels-photo-6826021.jpeg?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-18.mp3", genre: "Electronic" },
-  
-  // R&B/Soul
-  { id: 19, title: "Break My Soul", artist: "Beyoncé", album: "Renaissance", duration: "4:38", cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-19.mp3", genre: "R&B" },
-  { id: 20, title: "Glimpse of Us", artist: "Joji", album: "Smithereens", duration: "3:53", cover: "https://images.unsplash.com/photo-1619983081563-430f63602796?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-20.mp3", genre: "R&B" },
-  
-  // Alternative/Indie
-  { id: 21, title: "Something in the Orange", artist: "Zach Bryan", album: "American Heartbreak", duration: "3:48", cover: "https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-21.mp3", genre: "Country" },
-  { id: 22, title: "Tití Me Preguntó", artist: "Bad Bunny", album: "Un Verano Sin Ti", duration: "4:02", cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-22.mp3", genre: "Latin" },
-  { id: 23, title: "Me Porto Bonito", artist: "Bad Bunny x Chencho Corleone", album: "Un Verano Sin Ti", duration: "2:58", cover: "https://images.unsplash.com/photo-1657042855066-7f09c6c2c350?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-23.mp3", genre: "Latin" },
-  { id: 24, title: "Left and Right", artist: "Charlie Puth ft. Jung Kook", album: "Single", duration: "2:34", cover: "https://images.unsplash.com/photo-1560800452-f2d475982b96?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-24.mp3", genre: "Pop" },
-  
-  // Plus de variété
-  { id: 25, title: "Enemy", artist: "Imagine Dragons x JID", album: "Mercury - Act 1", duration: "2:53", cover: "https://images.unsplash.com/photo-1575285113814-f770cb8c796e?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-25.mp3", genre: "Alternative Rock" },
-  { id: 26, title: "Calm Down", artist: "Rema", album: "Rave & Roses", duration: "3:59", cover: "https://images.unsplash.com/photo-1720887237251-f46eb98416c8?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-26.mp3", genre: "Afrobeats" },
-  { id: 27, title: "Sunroof", artist: "Nicky Youre & dazy", album: "Single", duration: "2:42", cover: "https://images.pexels.com/photos/6865913/pexels-photo-6865913.jpeg?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-27.mp3", genre: "Pop" },
-  { id: 28, title: "2 Be Loved (Am I Ready)", artist: "Lizzo", album: "Special", duration: "3:30", cover: "https://images.unsplash.com/photo-1623018035813-9cfb5b502e04?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-28.mp3", genre: "Pop" },
-  { id: 29, title: "Wait for U", artist: "Future ft. Drake & Tems", album: "I Never Liked You", duration: "4:36", cover: "https://images.unsplash.com/photo-1623018035231-ebe361a64c76?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-29.mp3", genre: "Hip-Hop" },
-  { id: 30, title: "Music For a Sushi Restaurant", artist: "Harry Styles", album: "Harry's House", duration: "3:13", cover: "https://images.unsplash.com/photo-1569411309162-52a667749a49?w=300&h=300&fit=crop", audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-30.mp3", genre: "Pop Rock" }
+  { id: 1, title: "Un quart d'heure", artist: "Satine", album: "", duration: "2.36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
+  { id: 2, title: "Côte Ouest", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "" },
+  { id: 3, title: "Harakiri", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "" },
+  { id: 4, title: "Bloody Stream", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font4.png", audioUrl: "Musique/Musique4.mp3", genre: "" },
+  { id: 5, title: "Bad Hatter", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "" },
+  { id: 6, title: "Black Betty", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "" },
+  { id: 7, title: "Un air qui fait", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "" },
+  { id: 8, title: "1000°C", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "" },
+  { id: 9, title: "Wellerman (Sea Shanty)", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "" },
+  { id: 10, title: "I Can't Fit In", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "" },
+  { id: 11, title: "C'est pas grave", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "" },
+  { id: 12, title: "Chaque soir", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "" },
+  { id: 13, title: "Sur tes pas", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font13.png", audioUrl: "Musique/Musique13.mp3", genre: "" },
+  { id: 14, title: "Fairytale", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "" },
+  { id: 15, title: "Malade", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "" },
+  { id: 16, title: "Bling‐Bang‐Bang‐Born", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font16.png", audioUrl: "Musique/Musique16.mp3", genre: "" },
+  { id: 17, title: "Body Talks", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musique17.mp3", genre: "" },
+  { id: 18, title: "Colors By Flow", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font18.png", audioUrl: "Musique/Musique18.mp3", genre: "" },
+  { id: 19, title: "Dans l'univers", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font19.png", audioUrl: "Musique/Musique19.mp3", genre: "" },
+  { id: 20, title: "Poupée Russe", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font20.png", audioUrl: "Musique/Musique20.mp3", genre: "" },
+  { id: 21, title: "À peu près", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font21.png", audioUrl: "Musique/Musique21.mp3", genre: "" },
+  { id: 22, title: "Toutes les machines ont un coeur", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font22.png", audioUrl: "Musique/Musique22.mp3", genre: "" },
+  { id: 23, title: "Épisode III - Les mains libres", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font23.png", audioUrl: "Musique/Musique23.mp3", genre: "" },
+  { id: 24, title: "Empires", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font24.png", audioUrl: "Musique/Musique24.mp3", genre: "" },
+  { id: 25, title: "Toxic", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font25.png", audioUrl: "Musique/Musique25.mp3", genre: "" },
+  { id: 26, title: "Flicker", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font26.png", audioUrl: "Musique/Musique26.mp3", genre: "" },
+  { id: 27, title: "Black Catcher", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font27.png", audioUrl: "Musique/Musique27.mp3", genre: "" },
+  { id: 28, title: "Femme à la mer", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font28.png", audioUrl: "Musique/Musique28.mp3", genre: "" },
+  { id: 29, title: "Chute d'étoiles", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font29.png", audioUrl: "Musique/Musique29.mp3", genre: "" },
+  { id: 30, title: "Dis-moi que tu me détestes.", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font30.png", audioUrl: "Musique/Musique30.mp3", genre: "" },
+  { id: 31, title: "Sundance", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font31.png", audioUrl: "Musique/Musique31.mp3", genre: "" },
+  { id: 32, title: "30", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font32.png", audioUrl: "Musique/Musique32.mp3", genre: "" },
+  { id: 33, title: "Trop beau", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font33.png", audioUrl: "Musique/Musique33.mp3", genre: "" },
+  { id: 34, title: "La Quête", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font34.png", audioUrl: "Musique/Musique34.mp3", genre: "" },
+  { id: 35, title: "Déprime", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font35.png", audioUrl: "Musique/Musique35.mp3", genre: "" },
+  { id: 36, title: "Tchin Tchin", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font36.png", audioUrl: "Musique/Musique36.mp3", genre: "" },
+  { id: 37, title: "Decrescendo", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font37.png", audioUrl: "Musique/Musique37.mp3", genre: "" },
+  { id: 38, title: "Astronaute", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "" },
+  { id: 39, title: "Dépassé", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font39.png", audioUrl: "Musique/Musique39.mp3", genre: "" },
+  { id: 40, title: "Hit Sale", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "" },
+  { id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "" },
+  { id: 42, title: "THE LONELIEST", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font42.png", audioUrl: "Musique/Musique42.mp3", genre: "" },
+  { id: 43, title: "Daylight", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font43.png", audioUrl: "Musique/Musique43.mp3", genre: "" },
+  { id: 44, title: "Ceux qui rêvent", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font44.png", audioUrl: "Musique/Musique44.mp3", genre: "" },
+  { id: 45, title: "Sharks", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font45.png", audioUrl: "Musique/Musique45.mp3", genre: "" },
+  { id: 46, title: "I WANNA BE YOUR SLAVE", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font46.png", audioUrl: "Musique/Musique46.mp3", genre: "" },
+  { id: 47, title: "Riptide", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font47.png", audioUrl: "Musique/Musique47.mp3", genre: "" },
+  { id: 48, title: "Évidemment", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font48.png", audioUrl: "Musique/Musique48.mp3", genre: "" },
+  { id: 49, title: "House of Memories", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font49.png", audioUrl: "Musique/Musique49.mp3", genre: "" },
+  { id: 50, title: "Heathens", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font50.png", audioUrl: "Musique/Musique50.mp3", genre: "" },
+  { id: 51, title: "Mockingbird", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font51.png", audioUrl: "Musique/Musique51.mp3", genre: "" },
+  { id: 52, title: "Stressed Out", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font52.png", audioUrl: "Musique/Musique52.mp3", genre: "" },
+  { id: 53, title: "Actrice Fantôme", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font53.png", audioUrl: "Musique/Musique53.mp3", genre: "" },
+  { id: 54, title: "Gangsta's Paradise", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font54.png", audioUrl: "Musique/Musique54.mp3", genre: "" },
+  { id: 55, title: "Stolen Dance", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font55.png", audioUrl: "Musique/Musique55.mp3", genre: "" },
+  { id: 56, title: "Feed the Machine", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font56.png", audioUrl: "Musique/Musique56.mp3", genre: "" },
+  { id: 57, title: "Le stade", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font57.png", audioUrl: "Musique/Musique57.mp3", genre: "" },
+  { id: 58, title: "Help me", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font58.png", audioUrl: "Musique/Musique58.mp3", genre: "" },
+  { id: 59, title: "IDGAF", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font59.png", audioUrl: "Musique/Musique59.mp3", genre: "" },
+  { id: 60, title: "Ma Meilleure Ennemie", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font60.png", audioUrl: "Musique/Musique60.mp3", genre: "" },
+  { id: 61, title: "Roi", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font61.png", audioUrl: "Musique/Musique61.mp3", genre: "" },
+  { id: 62, title: "Futur", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font62.png", audioUrl: "Musique/Musique62.mp3", genre: "" },
+  { id: 63, title: "God-Ish", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font63.png", audioUrl: "Musique/Musique63.mp3", genre: "" },
+  { id: 64, title: "Golden Hour", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font64.png", audioUrl: "Musique/Musique64.mp3", genre: "" },
+  { id: 65, title: "Im Doing Fine", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font65.png", audioUrl: "Musique/Musique65.mp3", genre: "" },
+  { id: 66, title: "Feel Good Inc.", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font66.png", audioUrl: "Musique/Musique66.mp3", genre: "" },
+  { id: 67, title: "Give and Take", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font67.png", audioUrl: "Musique/Musique67.mp3", genre: "" },
+  { id: 68, title: "Je ne pense qu'à ça", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font68.png", audioUrl: "Musique/Musique68.mp3", genre: "" },
+  { id: 69, title: "Crush", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font69.png", audioUrl: "Musique/Musique69.mp3", genre: "" },
+  { id: 70, title: "Radioactive", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font70.png", audioUrl: "Musique/Musique70.mp3", genre: "" },
+  { id: 71, title: "Mood", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font71.png", audioUrl: "Musique/Musique71.mp3", genre: "" },
+  { id: 72, title: "Vampire", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font72.png", audioUrl: "Musique/Musique72.mp3", genre: "" },
+  { id: 73, title: "Anxiety", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font73.png", audioUrl: "Musique/Musique73.mp3", genre: "" },
+  { id: 74, title: "Handclap", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font74.png", audioUrl: "Musique/Musique74.mp3", genre: "" },
+  { id: 75, title: "Hardware Store", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font75.png", audioUrl: "Musique/Musique75.mp3", genre: "" },
+  { id: 76, title: "Hit The Road Jack", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font76.png", audioUrl: "Musique/Musique76.mp3", genre: "" },
+  { id: 77, title: "I Wanna Be Like You", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font77.png", audioUrl: "Musique/Musique77.mp3", genre: "" },
+  { id: 78, title: "Light up the night", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font78.png", audioUrl: "Musique/Musique78.mp3", genre: "" },
+  { id: 79, title: "No Strings Attached", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font79.png", audioUrl: "Musique/Musique79.mp3", genre: "" },
+  { id: 80, title: "Overwhelmed", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font80.png", audioUrl: "Musique/Musique80.mp3", genre: "" },
+  { id: 81, title: "Party likes it's 1920", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font81.png", audioUrl: "Musique/Musique81.mp3", genre: "" },
+  { id: 82, title: "Problematic", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font82.png", audioUrl: "Musique/Musique82.mp3", genre: "" },
+  { id: 83, title: "Reflection", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font83.png", audioUrl: "Musique/Musique83.mp3", genre: "" },
+  { id: 84, title: "Rockstar", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font84.png", audioUrl: "Musique/Musique84.mp3", genre: "" },
+  { id: 85, title: "Star Walkin", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font85.png", audioUrl: "Musique/Musique85.mp3", genre: "" },
+  { id: 86, title: "Shiawase no Monosashi", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font86.png", audioUrl: "Musique/Musique86.mp3", genre: "" },
+  { id: 87, title: "Sweater weather", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font87.png", audioUrl: "Musique/Musique87.mp3", genre: "" },
+  { id: 88, title: "Two moons", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font88.png", audioUrl: "Musique/Musique88.mp3", genre: "" },
+  { id: 89, title: "Understand", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font89.png", audioUrl: "Musique/Musique89.mp3", genre: "" },
+  { id: 90, title: "Up & Down", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font90.png", audioUrl: "Musique/Musique90.mp3", genre: "" },
+  { id: 91, title: "Usseewa", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font91.png", audioUrl: "Musique/Musique91.mp3", genre: "" },
+  { id: 92, title: "Wild side", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font92.png", audioUrl: "Musique/Musique92.mp3", genre: "" },
+  { id: 93, title: "World's smallest violin", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font93.png", audioUrl: "Musique/Musique93.mp3", genre: "" },
+  { id: 94, title: "Veil", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font94.png", audioUrl: "Musique/Musique94.mp3", genre: "" },
+  { id: 95, title: "Star shopping", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font95.png", audioUrl: "Musique/Musique95.mp3", genre: "" },
 ];
+
 
 // Playlists par défaut
 const defaultPlaylists = [
@@ -522,7 +575,7 @@ function App() {
                 <div className="section">
                   <h2 className="section-title">Titres populaires</h2>
                   <div className="grid grid-cols-3">
-                    {musicDatabase.slice(0, 6).map(track => (
+                    {musicDatabase.slice(0, 95).map(track => (
                       <div key={track.id} className="card">
                         <img src={track.cover} alt={track.title} className="card-image" />
                         <button 
@@ -622,6 +675,9 @@ function App() {
                         </div>
                         <div className="genre-card genre-electronic" onClick={() => handleSearch('R&B')}>
                           <h4 className="genre-name">R&B</h4>
+                        </div>
+                        <div className="genre-card genre-test" onClick={() => handleSearch('Test')}>
+                          <h4 className="genre-name">Test</h4>
                         </div>
                       </div>
                     </div>

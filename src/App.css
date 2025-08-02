@@ -484,6 +484,10 @@ body {
   background: linear-gradient(135deg, #3b82f6, #06b6d4);
 }
 
+.genre-card.genre-test {
+  background: linear-gradient(135deg, #f6d43b, #06b6d4);
+}
+
 .genre-name {
   font-weight: bold;
   color: white;
