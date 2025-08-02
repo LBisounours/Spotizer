@@ -404,7 +404,7 @@ function App() {
         {/* Sidebar */}
         <div className="sidebar">
           <div className="sidebar-logo">
-            <h1>Deezer Clone</h1>
+            <h1>Spotizer</h1>
           </div>
           
           <nav className="sidebar-nav">
