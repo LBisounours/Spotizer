@@ -524,24 +524,22 @@ function App() {
           {/* Top Bar */}
           <div className="top-bar">
             <div className="top-bar-content">
-              <div className="nav-buttons">
-                <button className="nav-button">←</button>
-                <button className="nav-button">→</button>
-              </div>
               
               <div className="search-container">
                 <span className="search-icon">🔍</span>
                 <input 
-                  type="text" 
-                  className="search-input"
-                  placeholder="Rechercher parmi 30+ titres..."
-                  value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
-                />
-              </div>
-              
-              <div className="user-profile">
-                <button className="profile-button">👤</button>
+  type="text" 
+  className="search-input"
+  placeholder="Rechercher des titres..."
+  value={searchQuery}
+  onChange={(e) => handleSearch(e.target.value)}
+  onKeyDown={(e) => {
+  if (e.key === "Enter") {
+    setCurrentPage("search");
+    }
+  }}
+/>
+
               </div>
             </div>
           </div>
@@ -552,23 +550,7 @@ function App() {
               <div className="page-container">
                 {/* Hero Section */}
                 <div className="hero-section">
-                  <div className="hero-content">
-                    <h1 className="hero-title">Découvrez 30+ musiques</h1>
-                    <p className="hero-subtitle">Mode aléatoire, playlists personnalisées et écoute sans publicité</p>
-                    <div className="hero-buttons">
-                      <button className="hero-button" onClick={() => playTrack(musicDatabase[0])}>
-                        ▶️ Commencer l'écoute
-                      </button>
-                      <button className="hero-button-secondary" onClick={() => {
-                        setIsShuffleMode(true);
-                        const shuffled = shuffleArray(musicDatabase);
-                        setCurrentQueue(shuffled);
-                        playTrack(shuffled[0]);
-                      }}>
-                        🔀 Mode aléatoire
-                      </button>
-                    </div>
-                  </div>
+                  
                 </div>
 
                 {/* Titres populaires */}
