@@ -361,38 +361,72 @@ function App() {
   };
 
   const playTrack = (track, playlist = null) => {
-    setCurrentTrack(track);
-    setIsPlaying(true);
-    
-    // Définir la queue de lecture
-    let queue = [];
-    if (playlist && playlist.tracks.length > 0) {
-      queue = playlist.tracks;
-    } else if (selectedPlaylist && selectedPlaylist.tracks.length > 0) {
-      queue = selectedPlaylist.tracks;
-    } else {
-      queue = musicDatabase;
+  setCurrentTrack(track);
+  setIsPlaying(true);
+
+  // Définir la queue de lecture
+  let queue = [];
+  if (playlist && playlist.tracks.length > 0) {
+    queue = playlist.tracks;
+  } else if (selectedPlaylist && selectedPlaylist.tracks.length > 0) {
+    queue = selectedPlaylist.tracks;
+  } else {
+    queue = musicDatabase;
+  }
+
+  // Appliquer le mélange si activé
+  if (isShuffleMode) {
+    const shuffledQueue = shuffleArray(queue);
+    const currentIndex = shuffledQueue.findIndex(t => t.id === track.id);
+    if (currentIndex > 0) {
+      [shuffledQueue[0], shuffledQueue[currentIndex]] = [shuffledQueue[currentIndex], shuffledQueue[0]];
     }
-    
-    // Appliquer le mélange si activé
-    if (isShuffleMode) {
-      const shuffledQueue = shuffleArray(queue);
-      // S'assurer que la chanson actuelle est en première position
-      const currentIndex = shuffledQueue.findIndex(t => t.id === track.id);
-      if (currentIndex > 0) {
-        [shuffledQueue[0], shuffledQueue[currentIndex]] = [shuffledQueue[currentIndex], shuffledQueue[0]];
-      }
-      setCurrentQueue(shuffledQueue);
-    } else {
-      setCurrentQueue(queue);
+    setCurrentQueue(shuffledQueue);
+  } else {
+    setCurrentQueue(queue);
+  }
+
+  // Lancer la lecture audio
+  setTimeout(() => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
     }
-    
-    setTimeout(() => {
+  }, 100);
+
+  // 💡 Mettre à jour la Media Session (iOS / Android / PC)
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new window.MediaMetadata({
+      title: track.title,
+      artist: track.artist,
+      album: track.album || '',
+      artwork: [
+        { src: track.cover, sizes: '512x512', type: 'image/png' }
+      ]
+    });
+
+    navigator.mediaSession.setActionHandler('play', () => {
+      audioRef.current?.play();
+      setIsPlaying(true);
+    });
+
+    navigator.mediaSession.setActionHandler('pause', () => {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    });
+
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
       if (audioRef.current) {
-        audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
+        audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 3000);
       }
-    }, 100);
-  };
+    });
+
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      if (audioRef.current) {
+        audioRef.current.currentTime += 3000;
+      }
+    });
+  }
+};
 
   const togglePlayPause = () => {
     if (!audioRef.current || !currentTrack) return;
@@ -1123,6 +1157,8 @@ const createPlaylist = (name, description, cover) => {
           </div>
         </div>
       </div>
+
+      
 
       {/* Music Player */}
       {currentTrack && (
