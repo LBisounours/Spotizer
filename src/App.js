@@ -764,17 +764,25 @@ const createPlaylist = (name, description, cover) => {
                   <h2 className="section-title">Rock & Alternative</h2>
                   <div className="grid grid-cols-6">
                     {musicDatabase.filter(track => ['Indie Rock', 'Pop Rock', 'Alternative Rock', 'Alternative'].includes(track.genre)).slice(0, 6).map(track => (
-                      <div key={track.id} className="card">
+                      <div 
+                        key={track.id}
+                        className="card"
+                        onClick={() => playTrack(track)}
+                        style={{ cursor: "pointer" }}
+                        title="Cliquer pour jouer"
+                      >
                         <img src={track.cover} alt={track.title} className="card-image" />
                         <button 
                           className="play-button"
                           onClick={() => playTrack(track)}
                         >
-                          {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
                         </button>
                         <button 
                           className="add-to-playlist-btn"
-                          onClick={() => openAddToPlaylistModal(track)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // pour ne pas lancer playTrack
+                            openAddToPlaylistModal(track);
+                          }}
                         >
                           ➕
                         </button>
@@ -786,20 +794,28 @@ const createPlaylist = (name, description, cover) => {
                 </div>
 
                 <div className="section">
-                  <h2 className="section-title">Hip-Hop & R&B</h2>
+                  <h2 className="section-title">Hip-Hop & Rap</h2>
                   <div className="grid grid-cols-6">
-                    {musicDatabase.filter(track => ['Hip-Hop', 'R&B'].includes(track.genre)).slice(0, 6).map(track => (
-                      <div key={track.id} className="card">
+                    {musicDatabase.filter(track => ['Hip-Hop', 'Rap'].includes(track.genre)).slice(0, 6).map(track => (
+                      <div 
+                        key={track.id}
+                        className="card"
+                        onClick={() => playTrack(track)}
+                        style={{ cursor: "pointer" }}
+                        title="Cliquer pour jouer"
+                      >
                         <img src={track.cover} alt={track.title} className="card-image" />
                         <button 
                           className="play-button"
                           onClick={() => playTrack(track)}
                         >
-                          {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
                         </button>
                         <button 
                           className="add-to-playlist-btn"
-                          onClick={() => openAddToPlaylistModal(track)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // pour ne pas lancer playTrack
+                            openAddToPlaylistModal(track);
+                          }}
                         >
                           ➕
                         </button>
@@ -835,8 +851,8 @@ const createPlaylist = (name, description, cover) => {
                         <div className="genre-card genre-electronic" onClick={() => handleSearch('R&B')}>
                           <h4 className="genre-name">R&B</h4>
                         </div>
-                        <div className="genre-card genre-test" onClick={() => handleSearch('Test')}>
-                          <h4 className="genre-name">Test</h4>
+                        <div className="genre-card genre-rap" onClick={() => handleSearch('Rap')}>
+                          <h4 className="genre-name">Rap</h4>
                         </div>
                       </div>
                     </div>

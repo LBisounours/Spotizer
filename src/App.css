@@ -339,7 +339,7 @@ body {
 
 /* Cards */
 .card {
-  background: rgb(204, 152, 56);
+  background: linear-gradient(135deg, #edc33a, #bb5683);
   border-radius: 12px;
   padding: 16px;
   cursor: pointer;
@@ -349,7 +349,7 @@ body {
 }
 
 .card:hover {
-  background: rgb(158, 113, 29);
+  background: linear-gradient(135deg, #bb961c, #a13566);
   transform: translateY(-4px);
 }
 
@@ -487,7 +487,7 @@ body {
   background: linear-gradient(135deg, #3b82f6, #06b6d4);
 }
 
-.genre-card.genre-test {
+.genre-card.genre-rap {
   background: linear-gradient(135deg, #f6d43b, #06b6d4);
 }
 
@@ -546,13 +546,13 @@ body {
   align-items: center;
   padding: 12px;
   border-radius: 8px;
-  background: rgb(204, 152, 56);
+  background: linear-gradient(135deg, #edc33a, #bb5683);
   transition: background-color 0.3s ease;
   cursor: pointer;
 }
 
 .track-item:hover {
-  background: rgb(158, 113, 29);
+  background: linear-gradient(135deg, #bb961c, #a13566);
 }
 
 .track-number {
@@ -568,7 +568,7 @@ body {
 .track-play-btn {
   width: 32px;
   text-align: center;
-  color: white;
+  color: rgb(255, 255, 255);
   background: none;
   border: none;
   cursor: pointer;
@@ -700,13 +700,13 @@ body {
   padding: 8px;
   background: none;
   border: none;
-  color: #9ca3af;
+  color: #075df1;
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .player-btn:hover {
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .player-play-btn {
@@ -974,11 +974,11 @@ body {
 
 /* Indicateur de lecture sur les cartes */
 .card .play-button {
-  background: #0e9ed6;
+  background: #ffffff00;
 }
 
 .card .play-button:hover {
-  background: #0e9ed6;
+  background: #ffffff00;
   transform: scale(1.1);
 }
 
@@ -1274,7 +1274,7 @@ body {
 
 .playlist-option-tracks {
   font-size: 12px;
-  color: #000000;
+  color: #ffffff;
 }
 
 .already-added {
