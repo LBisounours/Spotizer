@@ -4,19 +4,19 @@ import './App.css';
 // Grande base de données de musiques (même que précédemment)
 const musicDatabase = [
   { id: 1, title: "Un quart d'heure", artist: "Satine", album: "", duration: "2.36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
-  { id: 2, title: "Côte Ouest", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "" },
-  { id: 3, title: "Harakiri", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "" },
-  { id: 4, title: "Bloody Stream", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font4.png", audioUrl: "Musique/Musique4.mp3", genre: "" },
-  { id: 5, title: "Bad Hatter", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "" },
-  { id: 6, title: "Black Betty", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "" },
-  { id: 7, title: "Un air qui fait", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "" },
-  { id: 8, title: "1000°C", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "" },
-  { id: 9, title: "Wellerman (Sea Shanty)", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "" },
-  { id: 10, title: "I Can't Fit In", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "" },
-  { id: 11, title: "C'est pas grave", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "" },
-  { id: 12, title: "Chaque soir", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "" },
-  { id: 13, title: "Sur tes pas", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font13.png", audioUrl: "Musique/Musique13.mp3", genre: "" },
-  { id: 14, title: "Fairytale", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "" },
+  { id: 2, title: "Côte Ouest", artist: "Artiste", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
+  { id: 3, title: "Harakiri", artist: "Artiste", album: "", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
+  { id: 4, title: "Bloody Stream", artist: "Artiste", album: "", duration: "4:21", cover: "Musique/Images/font4.png", audioUrl: "Musique/Musique4.mp3", genre: "" },
+  { id: 5, title: "Bad Hatter", artist: "Artiste", album: "", duration: "2:57", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "" },
+  { id: 6, title: "Black Betty", artist: "Artiste", album: "", duration: "2:24", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "" },
+  { id: 7, title: "Un air qui fait", artist: "Artiste", album: "", duration: "3:46", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "" },
+  { id: 8, title: "1000°C", artist: "Artiste", album: "", duration: "4:41", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "" },
+  { id: 9, title: "Wellerman (Sea Shanty)", artist: "Artiste", album: "2:35", duration: "", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "" },
+  { id: 10, title: "I Can't Fit In", artist: "Artiste", album: "", duration: "2:09", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "" },
+  { id: 11, title: "C'est pas grave", artist: "Artiste", album: "", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "" },
+  { id: 12, title: "Chaque soir", artist: "Artiste", album: "", duration: "3:14", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "" },
+  { id: 13, title: "Sur tes pas", artist: "Wakfu", album: "", duration: "4:01", cover: "Musique/Images/font13.png", audioUrl: "Musique/Musique13.mp3", genre: "Opening" },
+  { id: 14, title: "Fairytale", artist: "Artiste", album: "", duration: "3:02", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "" },
   { id: 15, title: "Malade", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "" },
   { id: 16, title: "Bling‐Bang‐Bang‐Born", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font16.png", audioUrl: "Musique/Musique16.mp3", genre: "" },
   { id: 17, title: "Body Talks", artist: "Artiste", album: "", duration: "", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musique17.mp3", genre: "" },
@@ -107,11 +107,110 @@ const defaultPlaylists = [
     id: 'default-1',
     name: "Mes favoris",
     description: "Ma playlist personnelle",
-    cover: "https://images.unsplash.com/photo-1623018035813-9cfb5b502e04?w=300&h=300&fit=crop",
+    cover: "https://images.unsplash.com/photo-1623018035813-9cfb5b502e04?w=300&h=300&fit=crophttps://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless",
     tracks: [],
     isDefault: true
   }
 ];
+
+const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit }) => {
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
+        <h2 className="modal-title">Options pour "{playlist.name}"</h2>
+        <div className="playlist-options">
+          <button
+  className="option-btn edit-btn"
+  onClick={() => {
+    onClose(); 
+    onEdit(playlist);
+  }}
+>
+  ✏️ Éditer la playlist
+</button>
+          <button 
+            className="option-btn delete-btn"
+            onClick={() => onDelete(playlist.id)}
+          >
+            🗑️ Supprimer la playlist
+          </button>
+        </div>
+        <div className="modal-buttons">
+          <button onClick={onClose} className="btn btn-secondary">
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+  const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [cover, setCover] = useState('');
+
+  // Lorsqu’on reçoit une nouvelle playlist à éditer, on initialise les champs
+  useEffect(() => {
+    setName(playlist.name || '');
+    setDescription(playlist.description || '');
+    setCover(playlist.cover || '');
+  }, [playlist]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!name.trim()) {
+      alert("Le nom de la playlist est obligatoire !");
+      return;
+    }
+
+    onSave({
+      ...playlist,
+      name: name.trim(),
+      description: description.trim(),
+      cover: cover.trim() || playlist.cover,
+    });
+
+    onClose();
+  };
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
+        <h2>Modifier la playlist</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Nom *</label>
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            autoFocus
+          />
+          <label>Description</label>
+          <textarea
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+          />
+          <label>URL de la cover</label>
+          <input
+            type="url"
+            value={cover}
+            onChange={e => setCover(e.target.value)}
+          />
+          <div style={{ marginTop: "15px" }}>
+            <button type="submit">Sauvegarder</button>
+            <button type="button" onClick={onClose} style={{ marginLeft: "10px" }}>
+              Annuler
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -130,8 +229,30 @@ function App() {
   const [trackToAdd, setTrackToAdd] = useState(null);
   const [showPlaylistOptionsModal, setShowPlaylistOptionsModal] = useState(false);
   const [playlistToEdit, setPlaylistToEdit] = useState(null);
-  
-  // Nouveaux états pour le mode aléatoire
+  const [playlistForOptions, setPlaylistForOptions] = useState(null);
+  const [showPlaylistEditModal, setShowPlaylistEditModal] = useState(false);
+
+  // Ouvre modal options pour une playlist donnée
+  const openOptions = (playlist) => {
+    setPlaylistForOptions(playlist);
+    setShowPlaylistOptionsModal(true);
+  };
+
+  const handleEditPlaylist = (playlist) => {
+    setPlaylistToEdit(playlist);
+    setShowPlaylistEditModal(true);
+    setShowPlaylistOptionsModal(false);
+  };
+
+  const updatePlaylist = (updatedPlaylist) => {
+  setPlaylists((prev) =>
+    prev.map((p) => (p.id === updatedPlaylist.id ? updatedPlaylist : p))
+  );
+  setShowPlaylistEditModal(false);
+};
+
+
+// Nouveaux états pour le mode aléatoire
   const [isShuffleMode, setIsShuffleMode] = useState(false);
   const [currentQueue, setCurrentQueue] = useState([]);
   const [isRepeatMode, setIsRepeatMode] = useState(false); // 0: off, 1: repeat all, 2: repeat one
@@ -175,7 +296,41 @@ function App() {
       } else {
         nextTrack();
       }
-    };
+    
+  return (
+    <div>
+      {/* Affiche la liste des playlists */}
+      {playlists.map((pl) => (
+        <div key={pl.id}>
+          <span>{pl.name}</span>
+          <button onClick={() => openOptions(pl)}>Options</button>
+        </div>
+      ))}
+
+      {/* Modal options */}
+      {showPlaylistOptionsModal && playlistForOptions && (
+        <PlaylistOptionsModal
+          playlist={playlistForOptions}
+          onClose={() => setShowPlaylistOptionsModal(false)}
+          onDelete={(id) => {
+            setPlaylists((prev) => prev.filter((p) => p.id !== id));
+            setShowPlaylistOptionsModal(false);
+          }}
+          onEdit={handleEditPlaylist}
+        />
+      )}
+
+      {/* Modal édition */}
+      {showPlaylistEditModal && playlistToEdit && (
+        <PlaylistEditModal
+          playlist={playlistToEdit}
+          onClose={() => setShowPlaylistEditModal(false)}
+          onSave={updatePlaylist}
+        />
+      )}
+    </div>
+  );
+};
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('durationchange', handleDurationChange);
@@ -365,18 +520,19 @@ function App() {
   };
 
   // Gestion des playlists
-  const createPlaylist = (name, description) => {
-    const newPlaylist = {
-      id: Date.now().toString(),
-      name,
-      description,
-      cover: "https://images.unsplash.com/photo-1569411309162-52a667749a49?w=300&h=300&fit=crop",
-      tracks: [],
-      isDefault: false
-    };
-    setPlaylists([...playlists, newPlaylist]);
-    setShowCreatePlaylistModal(false);
+const createPlaylist = (name, description, cover) => {
+  const newPlaylist = {
+    id: Date.now().toString(),
+    name,
+    description,
+    cover: cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", // Image par défaut si vide
+    tracks: [],
+    isDefault: false
   };
+  setPlaylists([...playlists, newPlaylist]);
+  setShowCreatePlaylistModal(false);
+};
+
 
   const deletePlaylist = (playlistId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cette playlist ?')) {
@@ -498,13 +654,23 @@ function App() {
             {playlists.map(playlist => (
               <div key={playlist.id} className="playlist-item-container">
                 <button 
-                  className={`playlist-item ${selectedPlaylist?.id === playlist.id ? 'active' : ''}`}
-                  onClick={() => openPlaylist(playlist)}
-                  title="Ouvrir la playlist"
-                >
-                  <div className="playlist-name">{playlist.name}</div>
-                  <div className="playlist-tracks">{playlist.tracks.length} titres</div>
-                </button>
+                className={`playlist-item ${selectedPlaylist?.id === playlist.id ? 'active' : ''}`}
+                onClick={() => openPlaylist(playlist)}
+                title="Ouvrir la playlist"
+              >
+                <img
+                src={playlist.cover}
+                alt={`Cover de ${playlist.name}`}
+                className="playlist-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless";
+                }}
+              />
+
+                <div className="playlist-name">{playlist.name}</div>
+                <div className="playlist-tracks">{playlist.tracks.length} titres</div>
+              </button>
                 {!playlist.isDefault && (
                   <button 
                     className="playlist-options-btn"
@@ -528,17 +694,17 @@ function App() {
               <div className="search-container">
                 <span className="search-icon">🔍</span>
                 <input 
-  type="text" 
-  className="search-input"
-  placeholder="Rechercher des titres..."
-  value={searchQuery}
-  onChange={(e) => handleSearch(e.target.value)}
-  onKeyDown={(e) => {
-  if (e.key === "Enter") {
-    setCurrentPage("search");
-    }
-  }}
-/>
+                type="text" 
+                className="search-input"
+                placeholder="Rechercher des titres..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+                onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setCurrentPage("search");
+                  }
+                }}
+              />
 
               </div>
             </div>
@@ -556,31 +722,42 @@ function App() {
                 {/* Titres populaires */}
                 <div className="section">
                   <h2 className="section-title">Titres populaires</h2>
-                  <div className="grid grid-cols-3">
+                  <div className="grid grid-cols-6">
                     {musicDatabase.slice(0, 95).map(track => (
-                      <div key={track.id} className="card">
-                        <img src={track.cover} alt={track.title} className="card-image" />
-                        <button 
-                          className="play-button"
-                          onClick={() => playTrack(track)}
-                          title="Écouter maintenant"
-                        >
-                          {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
-                        </button>
-                        <button 
-                          className="add-to-playlist-btn"
-                          onClick={() => openAddToPlaylistModal(track)}
-                          title="Ajouter à une playlist"
-                        >
-                          ➕
-                        </button>
-                        <h3 className="card-title">{track.title}</h3>
-                        <p className="card-subtitle">{track.artist}</p>
-                        <p className="card-info">{track.genre} • {track.duration}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                      <div
+                  key={track.id}
+                  className="card"
+                  onClick={() => playTrack(track)}
+                  style={{
+                    cursor: "pointer",
+                    boxShadow: currentTrack?.id === track.id && isPlaying
+                      ? "0 0 20px 10px rgba(20, 116, 226, 0.7)"
+                      : "none"
+                  }}
+                  title="Cliquer pour jouer"
+                >
+
+                <img src={track.cover} alt={track.title} className="card-image" />
+
+                <button
+                  className="add-to-playlist-btn"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Empêche le clic d'ouvrir la lecture
+                    openAddToPlaylistModal(track);
+                  }}
+                  title="Ajouter à une playlist"
+                >
+                  ➕
+                </button>
+
+                <h3 className="card-title">{track.title}</h3>
+                <p className="card-subtitle">{track.artist}</p>
+                <p className="card-info">{track.genre} • {track.duration}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
 
                 {/* Par genre */}
                 <div className="section">
@@ -639,7 +816,7 @@ function App() {
               <div className="page-container">
                 {!searchQuery ? (
                   <div className="search-empty">
-                    <div className="search-empty-icon">🔍</div>
+                    <div className="search-empty-icon"></div>
                     <h2 className="search-empty-title">Rechercher dans {musicDatabase.length} musiques</h2>
                     <p className="search-empty-subtitle">Trouvez vos artistes, albums et titres préférés</p>
                     
@@ -684,7 +861,13 @@ function App() {
                     </div>
                     <div className="track-list">
                       {searchResults.map((track, index) => (
-                        <div key={track.id} className="track-item">
+                        <div
+                          key={track.id}
+                          className="track-item"
+                          onClick={() => playTrack(track, selectedPlaylist)}
+                          style={{ cursor: "pointer" }}
+                          title="Cliquer pour jouer"
+                        >
                           <div className="track-number">{index + 1}</div>
                           <button 
                             className="track-play-btn"
@@ -767,13 +950,22 @@ function App() {
                       ) : (
                         <div className="track-list">
                           {selectedPlaylist.tracks.map((track, index) => (
-                            <div key={track.id} className="track-item">
+                            <div
+                              key={track.id}
+                              className="track-item"
+                              onClick={() => playTrack(track, selectedPlaylist)}
+                              style={{ cursor: "pointer" }}
+                              title="Cliquer pour jouer"
+                            >
+
                               <div className="track-number">{index + 1}</div>
                               <button 
                                 className="track-play-btn"
-                                onClick={() => playTrack(track, selectedPlaylist)}
+                                onClick={(e) => {
+                                  e.stopPropagation(); // empêche que le clic lance aussi le div parent
+                                  playTrack(track, selectedPlaylist);
+                                }}
                               >
-                                {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
                               </button>
                               <img src={track.cover} alt={track.title} className="track-cover" />
                               <div className="track-info">
@@ -783,9 +975,13 @@ function App() {
                               <div className="track-genre">{track.genre}</div>
                               <button 
                                 className="remove-from-playlist-btn"
-                                onClick={() => removeTrackFromPlaylist(selectedPlaylist.id, track.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation(); // empêche de jouer la musique
+                                  removeTrackFromPlaylist(selectedPlaylist.id, track.id);
+                                }}
                                 title="Retirer de la playlist"
                               >
+
                                 🗑️
                               </button>
                               <div className="track-duration">{track.duration}</div>
@@ -809,37 +1005,49 @@ function App() {
                     </div>
                     
                     <div className="section">
-                      <h2 className="section-title">Mes playlists ({playlists.length})</h2>
-                      <div className="grid grid-cols-4">
-                        {playlists.map(playlist => (
-                          <div key={playlist.id} className="card">
-                            <img src={playlist.cover} alt={playlist.name} className="card-image" />
-                            <button 
-                              className="play-button"
-                              onClick={() => playPlaylist(playlist)}
-                              disabled={playlist.tracks.length === 0}
-                            >
-                              ▶️
-                            </button>
-                            <button 
-                              className="shuffle-card-btn"
-                              onClick={() => playPlaylistShuffle(playlist)}
-                              disabled={playlist.tracks.length === 0}
-                              title="Écouter en mode aléatoire"
-                            >
-                              🔀
-                            </button>
-                            <h3 className="card-title">{playlist.name}</h3>
-                            <p className="card-subtitle">{playlist.description}</p>
-                            <p className="card-info">{playlist.tracks.length} titres</p>
-                            <button 
-                              className="view-playlist-btn"
-                              onClick={() => setSelectedPlaylist(playlist)}
-                            >
-                              Voir la playlist
-                            </button>
-                          </div>
-                        ))}
+  <h2 className="section-title">Mes playlists ({playlists.length})</h2>
+  <div className="grid grid-cols-4">
+    {playlists.map(playlist => (
+      <div
+        key={playlist.id}
+        className="card"
+        onClick={() => playPlaylist(playlist)}
+        style={{ cursor: "pointer" }}
+        title="Cliquer pour écouter"
+      >
+        <img src={playlist.cover} alt={playlist.name} className="card-image" />
+
+        {/* Boutons avec stopPropagation */}
+
+        <button
+          className="shuffle-card-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            playPlaylistShuffle(playlist);
+          }}
+          disabled={playlist.tracks.length === 0}
+          title="Écouter en mode aléatoire"
+        >
+          🔀
+        </button>
+
+        <h3 className="card-title">{playlist.name}</h3>
+        <p className="card-subtitle">{playlist.description}</p>
+        <p className="card-info">{playlist.tracks.length} titres</p>
+
+        <button
+          className="view-playlist-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedPlaylist(playlist);
+          }}
+        >
+          Voir la playlist
+        </button>
+      </div>
+))}
+
+
                       </div>
                     </div>
 
@@ -860,13 +1068,19 @@ function App() {
                       </div>
                       <div className="track-list">
                         {musicDatabase.map((track, index) => (
-                          <div key={track.id} className="track-item">
+                          <div
+                            key={track.id}
+                            className="track-item"
+                            onClick={() => playTrack(track, selectedPlaylist)}
+                            style={{ cursor: "pointer" }}
+                            title="Cliquer pour jouer"
+                          >
+
                             <div className="track-number">{index + 1}</div>
                             <button 
                               className="track-play-btn"
                               onClick={() => playTrack(track)}
                             >
-                              {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
                             </button>
                             <img src={track.cover} alt={track.title} className="track-cover" />
                             <div className="track-info">
@@ -1001,35 +1215,42 @@ function App() {
       )}
 
       {showPlaylistOptionsModal && playlistToEdit && (
-        <PlaylistOptionsModal 
-          playlist={playlistToEdit}
-          onClose={() => setShowPlaylistOptionsModal(false)}
-          onDelete={deletePlaylist}
-        />
-      )}
+  <PlaylistOptionsModal 
+    playlist={playlistToEdit}
+    onClose={() => setShowPlaylistOptionsModal(false)}
+    onDelete={deletePlaylist}
+    onEdit={handleEditPlaylist} // <-- AJOUT ICI
+  />
+)}
+
+      
     </div>
   );
 }
 
-// Composants des modals (même code que précédemment)
+
 const CreatePlaylistModal = ({ onClose, onCreate }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [cover, setCover] = useState(''); // <-- Nouveau champ
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim()) {
-      onCreate(name.trim(), description.trim());
+      onCreate(name.trim(), description.trim(), cover.trim()); // <-- Passe cover
       setName('');
       setDescription('');
+      setCover(''); // Reset champ cover
     }
   };
+  
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Créer une nouvelle playlist</h2>
         <form onSubmit={handleSubmit} className="modal-form">
+          {/* Nom */}
           <div className="form-group">
             <label className="form-label">Nom de la playlist *</label>
             <input
@@ -1041,6 +1262,8 @@ const CreatePlaylistModal = ({ onClose, onCreate }) => {
               required
             />
           </div>
+
+          {/* Description */}
           <div className="form-group">
             <label className="form-label">Description (optionnel)</label>
             <textarea
@@ -1051,6 +1274,19 @@ const CreatePlaylistModal = ({ onClose, onCreate }) => {
               rows="3"
             />
           </div>
+
+          {/* Cover */}
+          <div className="form-group">
+            <label className="form-label">URL de la cover (optionnel)</label>
+            <input
+              type="url"
+              value={cover}
+              onChange={(e) => setCover(e.target.value)}
+              className="form-input"
+              placeholder="https://exemple.com/image.jpg"
+            />
+          </div>
+
           <div className="modal-buttons">
             <button type="submit" className="btn btn-primary">
               Créer
@@ -1095,29 +1331,6 @@ const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
         <div className="modal-buttons">
           <button onClick={onClose} className="btn btn-secondary">
             Fermer
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const PlaylistOptionsModal = ({ playlist, onClose, onDelete }) => {
-  return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
-        <h2 className="modal-title">Options pour "{playlist.name}"</h2>
-        <div className="playlist-options">
-          <button 
-            className="option-btn delete-btn"
-            onClick={() => onDelete(playlist.id)}
-          >
-            🗑️ Supprimer la playlist
-          </button>
-        </div>
-        <div className="modal-buttons">
-          <button onClick={onClose} className="btn btn-secondary">
-            Annuler
           </button>
         </div>
       </div>

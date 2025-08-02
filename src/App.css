@@ -7,7 +7,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #000103 50%, #0f3460 100%);
   color: white;
   overflow-x: hidden;
 }
@@ -15,6 +15,9 @@ body {
 .App {
   min-height: 100vh;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="10" cy="20" r="2" fill="%23fff" /%3E%3Ccircle cx="25" cy="70" r="1" fill="%23fff" /%3E%3Ccircle cx="80" cy="10" r="1.5" fill="%23fff" /%3E%3Ccircle cx="50" cy="50" r="2" fill="%23fff" /%3E%3Ccircle cx="30" cy="30" r="1" fill="%23fff" /%3E%3Ccircle cx="60" cy="80" r="1.5" fill="%23fff" /%3E%3Ccircle cx="90" cy="40" r="2" fill="%23fff" /%3E%3C/svg%3E');
+  z-index: -1;
+  animation: starsAnimation 5s infinite ease-in-out;
 }
 
 /* Layout principal */
@@ -327,7 +330,7 @@ body {
 }
 
 .grid-cols-6 {
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
 }
 
 .grid-cols-4 {
@@ -336,7 +339,7 @@ body {
 
 /* Cards */
 .card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(204, 152, 56);
   border-radius: 12px;
   padding: 16px;
   cursor: pointer;
@@ -346,7 +349,7 @@ body {
 }
 
 .card:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(158, 113, 29);
   transform: translateY(-4px);
 }
 
@@ -371,7 +374,7 @@ body {
 }
 
 .card-subtitle {
-  color: #9ca3af;
+  color: #000000;
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
@@ -379,7 +382,7 @@ body {
 }
 
 .card-info {
-  color: #6b7280;
+  color: #000000;
   font-size: 12px;
 }
 
@@ -391,7 +394,7 @@ body {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #22c55e;
+  background: #0e9ed6;
   border: none;
   color: black;
   cursor: pointer;
@@ -409,7 +412,7 @@ body {
 }
 
 .play-button:hover {
-  background: #16a34a;
+  background: #0e9ed6;
 }
 
 /* Search Page */
@@ -543,19 +546,19 @@ body {
   align-items: center;
   padding: 12px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(204, 152, 56);
   transition: background-color 0.3s ease;
   cursor: pointer;
 }
 
 .track-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(158, 113, 29);
 }
 
 .track-number {
   width: 32px;
   text-align: center;
-  color: #9ca3af;
+  color: #000000;
 }
 
 .track-item:hover .track-number {
@@ -596,12 +599,12 @@ body {
 }
 
 .track-artist {
-  color: #9ca3af;
+  color: #000000;
   font-size: 14px;
 }
 
 .track-duration {
-  color: #9ca3af;
+  color: #000000;
   font-size: 14px;
 }
 
@@ -956,7 +959,7 @@ body {
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #22c55e;
+  color: #0e9ed6;
 }
 
 /* Amélioration de la barre de progression */
@@ -966,22 +969,22 @@ body {
 }
 
 .progress-bar:hover .progress-fill {
-  background: #22c55e;
+  background: #0e9ed6;
 }
 
 /* Indicateur de lecture sur les cartes */
 .card .play-button {
-  background: #22c55e;
+  background: #0e9ed6;
 }
 
 .card .play-button:hover {
-  background: #16a34a;
+  background: #0e9ed6;
   transform: scale(1.1);
 }
 
 /* Style pour les boutons actifs */
 .track-play-btn {
-  color: #22c55e !important;
+  color: #0e9ed6 !important;
 }
 
 /* Nouveaux styles pour les playlists */
@@ -1003,7 +1006,7 @@ body {
 }
 
 .playlist-options-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(241, 15, 15, 0.1);
   color: white;
 }
 
@@ -1053,7 +1056,7 @@ body {
 }
 
 .add-to-playlist-btn:hover {
-  background: #22c55e;
+  background: #0e9ed6;
   transform: scale(1.1);
 }
 
@@ -1068,18 +1071,20 @@ body {
 }
 
 .add-to-playlist-btn-small:hover {
-  background: #22c55e;
+  background: rgba(19, 3, 3, 0.1);
   color: white;
 }
 
 .track-genre {
-  color: #6b7280;
+  color: #000000;
   font-size: 12px;
   min-width: 80px;
   text-align: center;
 }
 
 .remove-from-playlist-btn {
+  position: relative;
+  left: -10px;
   padding: 4px 8px;
   background: rgba(239, 68, 68, 0.1);
   border: none;
@@ -1167,7 +1172,7 @@ body {
 
 .play-playlist-btn {
   padding: 12px 32px;
-  background: #22c55e;
+  background: #0e9ed6;
   color: white;
   border: none;
   border-radius: 24px;
@@ -1180,7 +1185,7 @@ body {
 }
 
 .play-playlist-btn:hover:not(:disabled) {
-  background: #16a34a;
+  background: #0e9ed6;
   transform: translateY(-1px);
 }
 
@@ -1203,7 +1208,7 @@ body {
 
 .view-playlist-btn {
   position: absolute;
-  bottom: 8px;
+  bottom: 4px;
   left: 8px;
   right: 8px;
   padding: 8px;
@@ -1222,7 +1227,7 @@ body {
 }
 
 .view-playlist-btn:hover {
-  background: #22c55e;
+  background: #0e9ed6;
 }
 
 /* Modals améliorés */
@@ -1269,11 +1274,11 @@ body {
 
 .playlist-option-tracks {
   font-size: 12px;
-  color: #9ca3af;
+  color: #000000;
 }
 
 .already-added {
-  color: #22c55e;
+  color: #0e9ed6;
   font-size: 12px;
   font-weight: 600;
 }
@@ -1357,7 +1362,7 @@ body {
 
 /* Boutons de contrôle du lecteur */
 .player-btn.active {
-  color: #22c55e !important;
+  color: #0e9ed6 !important;
   background: rgba(34, 197, 94, 0.2);
   border-radius: 4px;
 }
@@ -1462,7 +1467,7 @@ body {
 
 .mode-indicator {
   font-size: 12px;
-  color: #22c55e;
+  color: #0e9ed6;
 }
 
 .now-playing-indicator {
@@ -1471,19 +1476,19 @@ body {
   align-items: center;
   gap: 4px;
   font-size: 10px;
-  color: #9ca3af;
+  color: #af9e9c;
   min-width: 80px;
 }
 
 /* Amélioration des boutons répétition */
 .player-btn[title*="Répéter"].active {
-  color: #22c55e !important;
+  color: #0e9ed6 !important;
 }
 
 /* Animation améliorée pour la lecture */
 .playing-animation {
   animation: bounce 1s infinite;
-  color: #22c55e;
+  color: #0e9ed6;
 }
 
 @keyframes bounce {
@@ -1560,4 +1565,12 @@ body {
   white-space: nowrap;
   z-index: 1000;
   margin-bottom: 4px;
+}
+
+.playlist-cover {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 10px;
 }
