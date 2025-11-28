@@ -68,7 +68,7 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 57, title: "Le stade", artist: "Fredz", album: "", duration: "2:35", cover: "Musique/Images/font57.png", audioUrl: "Musique/Musique57.mp3", genre: "Rap" }, 
 { id: 58, title: "Help me", artist: "Or3o", album: "", duration: "4:20", cover: "Musique/Images/font58.png", audioUrl: "Musique/Musique58.mp3", genre: "Indie Pop" }, 
 { id: 59, title: "IDGAF", artist: "BoyWithUke", album: "", duration: "2:26", cover: "Musique/Images/font59.png", audioUrl: "Musique/Musique59.mp3", genre: "Bedroom Pop" }, 
-{ id: 60, title: "Ma Meilleure Ennemie", artist: "Pomme", album: "", duration: "2:28", cover: "Musique/Images/font60.png", audioUrl: "Musique/Musique60.mp3", genre: "Pop Indé" }, 
+{ id: 60, title: "Ma Meilleure Ennemie", artist: "Stomae & Pomme", album: "", duration: "2:28", cover: "Musique/Images/font60.png", audioUrl: "Musique/Musique60.mp3", genre: "Pop Indé" }, 
 { id: 61, title: "Roi", artist: "Videoclub", album: "", duration: "3:49", cover: "Musique/Images/font61.png", audioUrl: "Musique/Musique61.mp3", genre: "Pop Indé" }, 
 { id: 62, title: "Futur", artist: "DYES IWASAKI", album: "", duration: "3:22", cover: "Musique/Images/font62.png", audioUrl: "Musique/Musique62.mp3", genre: "Electro Swing" }, 
 { id: 63, title: "God-Ish", artist: "PinocchioP", album: "", duration: "3:24", cover: "Musique/Images/font63.png", audioUrl: "Musique/Musique63.mp3", genre: "J-Pop" }, 
