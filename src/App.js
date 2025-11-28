@@ -94,7 +94,7 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 83, title: "Reflection", artist: "Christina Aguilera", album: "", duration: "3:19", cover: "Musique/Images/font83.png", audioUrl: "Musique/Musique83.mp3", genre: "Pop" },
 { id: 84, title: "Rockstar", artist: "BoyWithUke", album: "", duration: "4:32", cover: "Musique/Images/font84.png", audioUrl: "Musique/Musique84.mp3", genre: "Pop" },
 { id: 85, title: "Star Walkin", artist: "Lil Nas X", album: "", duration: "3:27", cover: "Musique/Images/font85.png", audioUrl: "Musique/Musique85.mp3", genre: "Pop Rap" }, 
-{ id: 86, title: "Shiawase no Monosashi", artist: "Ai Kayano", album: "", duration: "5:00", cover: "Musique/Images/font86.png", audioUrl: "Musique/Musique86.mp3", genre: "Ending" }, 
+{ id: 86, title: "Shiawase no Monosashi", artist: "Ai Kayano", album: "", duration: "5:00", cover: "Musique/Images/font86.png", audioUrl: "Musique/Musique86.mp3", genre: "Opening" }, 
 { id: 87, title: "Sweater weather", artist: "The Neighbourhood", album: "", duration: "3:57", cover: "Musique/Images/font87.png", audioUrl: "Musique/Musique87.mp3", genre: "Alternative" }, 
 { id: 88, title: "Two moons", artist: "BoyWithUke", album: "", duration: "3:56", cover: "Musique/Images/font88.png", audioUrl: "Musique/Musique88.mp3", genre: "Pop" },
 { id: 89, title: "Understand", artist: "BoyWithUke", album: "", duration: "3:14", cover: "Musique/Images/font89.png", audioUrl: "Musique/Musique89.mp3", genre: "Pop" },
@@ -102,7 +102,7 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 91, title: "Usseewa", artist: "Ado", album: "", duration: "3:24", cover: "Musique/Images/font91.png", audioUrl: "Musique/Musique91.mp3", genre: "J-Pop" }, 
 { id: 92, title: "Wild side", artist: "Beastars", album: "", duration: "2:38", cover: "Musique/Images/font92.png", audioUrl: "Musique/Musique92.mp3", genre: "Opening" }, 
 { id: 93, title: "World's smallest violin", artist: "AJR", album: "", duration: "3:07", cover: "Musique/Images/font93.png", audioUrl: "Musique/Musique93.mp3", genre: "Alternative" }, 
-{ id: 94, title: "Veil", artist: "Keina Suda", album: "", duration: "3:28", cover: "Musique/Images/font94.png", audioUrl: "Musique/Musique94.mp3", genre: "Ending" }, 
+{ id: 94, title: "Veil", artist: "Fire Force", album: "", duration: "3:28", cover: "Musique/Images/font94.png", audioUrl: "Musique/Musique94.mp3", genre: "Opening" }, 
 { id: 95, title: "Star shopping", artist: "Lil Peep", album: "", duration: "2:22", cover: "Musique/Images/font95.png", audioUrl: "Musique/Musique95.mp3", genre: "Emo Rap" }, 
 ];const defaultPlaylists = [
 {
