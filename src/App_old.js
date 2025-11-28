@@ -1,14 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
-import { ThemeProvider, useTheme } from './contexts/ThemeContext';
-import { MusicProvider, useMusic } from './contexts/MusicContext';
-import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
-import QueuePanel from './components/QueuePanel';
-import ThemeSelector from './components/ThemeSelector';
-import SleepTimerModal from './components/SleepTimerModal';
-import StatsPage from './components/StatsPage';
-import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';
 
 // Grande base de données de musiques
 const musicDatabase = [
@@ -16,95 +7,95 @@ const musicDatabase = [
   { id: 2, title: "Côte Ouest", artist: "47Ter", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
   { id: 3, title: "Harakiri", artist: "47Ter", album: "", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
   { id: 4, title: "Bloody Stream", artist: "Jojo's Bizzare Adventure", album: "", duration: "4:21", cover: "Musique/Images/font4.png", audioUrl: "Musique/Musique4.mp3", genre: "Opening" },
-  { id: 5, title: "Bad Hatter", artist: "Artiste", album: "", duration: "2:57", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "Pop" },
-  { id: 6, title: "Black Betty", artist: "Artiste", album: "", duration: "2:24", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "Rock" },
-  { id: 7, title: "Un air qui fait", artist: "47Ter", album: "", duration: "3:46", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "Rap" },
-  { id: 8, title: "1000°C", artist: "Artiste", album: "", duration: "4:41", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "Electro" },
-  { id: 9, title: "Wellerman (Sea Shanty)", artist: "Artiste", album: "2:35", duration: "", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "Folk" },
-  { id: 10, title: "I Can't Fit In", artist: "Artiste", album: "", duration: "2:09", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "Pop" },
-  { id: 11, title: "C'est pas grave", artist: "Artiste", album: "", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "Pop" },
-  { id: 12, title: "Chaque soir", artist: "47Ter", album: "", duration: "3:14", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "Rap" },
+  { id: 5, title: "Bad Hatter", artist: "Artiste", album: "", duration: "2:57", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "" },
+  { id: 6, title: "Black Betty", artist: "Artiste", album: "", duration: "2:24", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "" },
+  { id: 7, title: "Un air qui fait", artist: "47Ter", album: "", duration: "3:46", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "" },
+  { id: 8, title: "1000°C", artist: "Artiste", album: "", duration: "4:41", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "" },
+  { id: 9, title: "Wellerman (Sea Shanty)", artist: "Artiste", album: "2:35", duration: "", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "" },
+  { id: 10, title: "I Can't Fit In", artist: "Artiste", album: "", duration: "2:09", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "" },
+  { id: 11, title: "C'est pas grave", artist: "Artiste", album: "", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "" },
+  { id: 12, title: "Chaque soir", artist: "47Ter", album: "", duration: "3:14", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "" },
   { id: 13, title: "Sur tes pas", artist: "Wakfu", album: "", duration: "4:01", cover: "Musique/Images/font13.png", audioUrl: "Musique/Musique13.mp3", genre: "Opening" },
-  { id: 14, title: "Fairytale", artist: "Alexandre Rybak", album: "", duration: "3:02", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "Pop" },
-  { id: 15, title: "Malade", artist: "Artiste", album: "", duration: "3:11", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "Pop" },
+  { id: 14, title: "Fairytale", artist: "Alexandre Rybak", album: "", duration: "3:02", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "" },
+  { id: 15, title: "Malade", artist: "Artiste", album: "", duration: "3:11", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "" },
   { id: 16, title: "Bling‐Bang‐Bang‐Born", artist: "Mashle", album: "", duration: "2:48", cover: "Musique/Images/font16.png", audioUrl: "Musique/Musique16.mp3", genre: "Opening" },
-  { id: 17, title: "Body Talks", artist: "Artiste", album: "", duration: "3:00", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musique17.mp3", genre: "Pop" },
+  { id: 17, title: "Body Talks", artist: "Artiste", album: "", duration: "3:00", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musique17.mp3", genre: "" },
   { id: 18, title: "Colors By Flow", artist: "Code Guess", album: "", duration: "3:38", cover: "Musique/Images/font18.png", audioUrl: "Musique/Musique18.mp3", genre: "Opening" },
-  { id: 19, title: "Dans l'univers", artist: "Artiste", album: "", duration: "4:06", cover: "Musique/Images/font19.png", audioUrl: "Musique/Musique19.mp3", genre: "Pop" },
-  { id: 20, title: "Poupée Russe", artist: "Artiste", album: "", duration: "2:44", cover: "Musique/Images/font20.png", audioUrl: "Musique/Musique20.mp3", genre: "Pop" },
-  { id: 21, title: "À peu près", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font21.png", audioUrl: "Musique/Musique21.mp3", genre: "Pop" },
-  { id: 22, title: "Toutes les machines ont un coeur", artist: "Artiste", album: "", duration: "4:19", cover: "Musique/Images/font22.png", audioUrl: "Musique/Musique22.mp3", genre: "Pop" },
-  { id: 23, title: "Épisode III - Les mains libres", artist: "Artiste", album: "", duration: "3:40", cover: "Musique/Images/font23.png", audioUrl: "Musique/Musique23.mp3", genre: "Pop" },
-  { id: 24, title: "Empires", artist: "Artiste", album: "", duration: "3:10", cover: "Musique/Images/font24.png", audioUrl: "Musique/Musique24.mp3", genre: "Rock" },
-  { id: 25, title: "Toxic", artist: "Artiste", album: "", duration: "2:50", cover: "Musique/Images/font25.png", audioUrl: "Musique/Musique25.mp3", genre: "Pop" },
-  { id: 26, title: "Flicker", artist: "Artiste", album: "", duration: "3:14", cover: "Musique/Images/font26.png", audioUrl: "Musique/Musique26.mp3", genre: "Pop" },
-  { id: 27, title: "Black Catcher", artist: "Artiste", album: "", duration: "3:18", cover: "Musique/Images/font27.png", audioUrl: "Musique/Musique27.mp3", genre: "Opening" },
-  { id: 28, title: "Femme à la mer", artist: "Artiste", album: "", duration: "3:59", cover: "Musique/Images/font28.png", audioUrl: "Musique/Musique28.mp3", genre: "Pop" },
-  { id: 29, title: "Chute d'étoiles", artist: "Suzuya", album: "", duration: "2:12", cover: "Musique/Images/font29.png", audioUrl: "Musique/Musique29.mp3", genre: "Rap" },
-  { id: 30, title: "Dis-moi que tu me détestes.", artist: "Suzuya", album: "2:05", duration: "", cover: "Musique/Images/font30.png", audioUrl: "Musique/Musique30.mp3", genre: "Rap" },
-  { id: 31, title: "Sundance", artist: "Artiste", album: "", duration: "2:50", cover: "Musique/Images/font31.png", audioUrl: "Musique/Musique31.mp3", genre: "Electro" },
-  { id: 32, title: "30", artist: "Artiste", album: "", duration: "3:32", cover: "Musique/Images/font32.png", audioUrl: "Musique/Musique32.mp3", genre: "Pop" },
-  { id: 33, title: "Trop beau", artist: "Artiste", album: "", duration: "4:04", cover: "Musique/Images/font33.png", audioUrl: "Musique/Musique33.mp3", genre: "Pop" },
-  { id: 34, title: "La Quête", artist: "Artiste", album: "", duration: "3:54", cover: "Musique/Images/font34.png", audioUrl: "Musique/Musique34.mp3", genre: "Pop" },
-  { id: 35, title: "Déprime", artist: "Artiste", album: "", duration: "3:19", cover: "Musique/Images/font35.png", audioUrl: "Musique/Musique35.mp3", genre: "Pop" },
-  { id: 36, title: "Tchin Tchin", artist: "Artiste", album: "", duration: "2:36", cover: "Musique/Images/font36.png", audioUrl: "Musique/Musique36.mp3", genre: "Pop" },
-  { id: 37, title: "Decrescendo", artist: "Artiste", album: "", duration: "3.41", cover: "Musique/Images/font37.png", audioUrl: "Musique/Musique37.mp3", genre: "Pop" },
-  { id: 38, title: "Astronaute", artist: "Artiste", album: "", duration: "6:58", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "Pop" },
-  { id: 39, title: "Dépassé", artist: "Artiste", album: "", duration: "2:52", cover: "Musique/Images/font39.png", audioUrl: "Musique/Musique39.mp3", genre: "Pop" },
-  { id: 40, title: "Hit Sale", artist: "Artiste", album: "", duration: "3:19", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "Rap" },
-  { id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Artiste", album: "", duration: "3:45", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "Pop" },
-  { id: 42, title: "THE LONELIEST", artist: "Artiste", album: "", duration: "4.47", cover: "Musique/Images/font42.png", audioUrl: "Musique/Musique42.mp3", genre: "Rock" },
-  { id: 43, title: "Daylight", artist: "Artiste", album: "", duration: "3:49", cover: "Musique/Images/font43.png", audioUrl: "Musique/Musique43.mp3", genre: "Pop" },
-  { id: 44, title: "Ceux qui rêvent", artist: "Artiste", album: "", duration: "1:58", cover: "Musique/Images/font44.png", audioUrl: "Musique/Musique44.mp3", genre: "Pop" },
-  { id: 45, title: "Sharks", artist: "Artiste", album: "", duration: "3:36", cover: "Musique/Images/font45.png", audioUrl: "Musique/Musique45.mp3", genre: "Rock" },
-  { id: 46, title: "I WANNA BE YOUR SLAVE", artist: "Artiste", album: "", duration: "2:52", cover: "Musique/Images/font46.png", audioUrl: "Musique/Musique46.mp3", genre: "Rock" },
-  { id: 47, title: "Riptide", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font47.png", audioUrl: "Musique/Musique47.mp3", genre: "Pop" },
-  { id: 48, title: "Évidemment", artist: "Artiste", album: "", duration: "3:18", cover: "Musique/Images/font48.png", audioUrl: "Musique/Musique48.mp3", genre: "Pop" },
-  { id: 49, title: "House of Memories", artist: "Artiste", album: "", duration: "3:29", cover: "Musique/Images/font49.png", audioUrl: "Musique/Musique49.mp3", genre: "Rock" },
-  { id: 50, title: "Heathens", artist: "Artiste", album: "", duration: "3:14", cover: "Musique/Images/font50.png", audioUrl: "Musique/Musique50.mp3", genre: "Rock" },
-  { id: 51, title: "Mockingbird", artist: "Artiste", album: "", duration: "4:17", cover: "Musique/Images/font51.png", audioUrl: "Musique/Musique51.mp3", genre: "Rap" },
-  { id: 52, title: "Stressed Out", artist: "Artiste", album: "", duration: "3:22", cover: "Musique/Images/font52.png", audioUrl: "Musique/Musique52.mp3", genre: "Rock" },
-  { id: 53, title: "Actrice Fantôme", artist: "Artiste", album: "", duration: "2:52", cover: "Musique/Images/font53.png", audioUrl: "Musique/Musique53.mp3", genre: "Pop" },
-  { id: 54, title: "Gangsta's Paradise", artist: "Artiste", album: "", duration: "4:01", cover: "Musique/Images/font54.png", audioUrl: "Musique/Musique54.mp3", genre: "Rap" },
-  { id: 55, title: "Stolen Dance", artist: "Artiste", album: "", duration: "5:13", cover: "Musique/Images/font55.png", audioUrl: "Musique/Musique55.mp3", genre: "Pop" },
-  { id: 56, title: "Feed the Machine", artist: "Poor Mans Poison", album: "", duration: "3:03", cover: "Musique/Images/font56.png", audioUrl: "Musique/Musique56.mp3", genre: "Folk" },
-  { id: 57, title: "Le stade", artist: "Artiste", album: "", duration: "2:35", cover: "Musique/Images/font57.png", audioUrl: "Musique/Musique57.mp3", genre: "Pop" },
-  { id: 58, title: "Help me", artist: "Artiste", album: "", duration: "4:20", cover: "Musique/Images/font58.png", audioUrl: "Musique/Musique58.mp3", genre: "Pop" },
-  { id: 59, title: "IDGAF", artist: "BoyWithUke", album: "", duration: "2:26", cover: "Musique/Images/font59.png", audioUrl: "Musique/Musique59.mp3", genre: "Pop" },
-  { id: 60, title: "Ma Meilleure Ennemie", artist: "Artiste", album: "", duration: "2:28", cover: "Musique/Images/font60.png", audioUrl: "Musique/Musique60.mp3", genre: "Pop" },
-  { id: 61, title: "Roi", artist: "Artiste", album: "", duration: "3:49", cover: "Musique/Images/font61.png", audioUrl: "Musique/Musique61.mp3", genre: "Pop" },
-  { id: 62, title: "Futur", artist: "Artiste", album: "", duration: "3:22", cover: "Musique/Images/font62.png", audioUrl: "Musique/Musique62.mp3", genre: "Pop" },
-  { id: 63, title: "God-Ish", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font63.png", audioUrl: "Musique/Musique63.mp3", genre: "Pop" },
-  { id: 64, title: "Golden Hour", artist: "Artiste", album: "", duration: "3:51", cover: "Musique/Images/font64.png", audioUrl: "Musique/Musique64.mp3", genre: "Pop" },
-  { id: 65, title: "Im Doing Fine", artist: "Artiste", album: "", duration: "1:39", cover: "Musique/Images/font65.png", audioUrl: "Musique/Musique65.mp3", genre: "Pop" },
-  { id: 66, title: "Feel Good Inc.", artist: "Artiste", album: "", duration: "4:13", cover: "Musique/Images/font66.png", audioUrl: "Musique/Musique66.mp3", genre: "Rock" },
-  { id: 67, title: "Give and Take", artist: "Poor Mans Poison", album: "", duration: "3:17", cover: "Musique/Images/font67.png", audioUrl: "Musique/Musique67.mp3", genre: "Folk" },
-  { id: 68, title: "Je ne pense qu'à ça", artist: "Artiste", album: "", duration: "2:34", cover: "Musique/Images/font68.png", audioUrl: "Musique/Musique68.mp3", genre: "Pop" },
-  { id: 69, title: "Crush", artist: "Artiste", album: "", duration: "3:12", cover: "Musique/Images/font69.png", audioUrl: "Musique/Musique69.mp3", genre: "Pop" },
-  { id: 70, title: "Radioactive", artist: "Artiste", album: "", duration: "3:05", cover: "Musique/Images/font70.png", audioUrl: "Musique/Musique70.mp3", genre: "Rock" },
-  { id: 71, title: "Mood", artist: "Artiste", album: "", duration: "2:30", cover: "Musique/Images/font71.png", audioUrl: "Musique/Musique71.mp3", genre: "Pop" },
-  { id: 72, title: "Vampire", artist: "Artiste", album: "", duration: "2:17", cover: "Musique/Images/font72.png", audioUrl: "Musique/Musique72.mp3", genre: "Pop" },
-  { id: 73, title: "Anxiety", artist: "Artiste", album: "", duration: "4:09", cover: "Musique/Images/font73.png", audioUrl: "Musique/Musique73.mp3", genre: "Pop" },
-  { id: 74, title: "Handclap", artist: "Artiste", album: "", duration: "3:11", cover: "Musique/Images/font74.png", audioUrl: "Musique/Musique74.mp3", genre: "Pop" },
-  { id: 75, title: "Hardware Store", artist: "Artiste", album: "", duration: "3:44", cover: "Musique/Images/font75.png", audioUrl: "Musique/Musique75.mp3", genre: "Pop" },
-  { id: 76, title: "Hit The Road Jack", artist: "Artiste", album: "", duration: "2:02", cover: "Musique/Images/font76.png", audioUrl: "Musique/Musique76.mp3", genre: "Jazz" },
-  { id: 77, title: "I Wanna Be Like You", artist: "Artiste", album: "", duration: "2:01", cover: "Musique/Images/font77.png", audioUrl: "Musique/Musique77.mp3", genre: "Jazz" },
-  { id: 78, title: "Light up the night", artist: "Artiste", album: "", duration: "3:53", cover: "Musique/Images/font78.png", audioUrl: "Musique/Musique78.mp3", genre: "Rock" },
-  { id: 79, title: "No Strings Attached", artist: "Artiste", album: "", duration: "4:07", cover: "Musique/Images/font79.png", audioUrl: "Musique/Musique79.mp3", genre: "Pop" },
-  { id: 80, title: "Overwhelmed", artist: "Artiste", album: "", duration: "3:26", cover: "Musique/Images/font80.png", audioUrl: "Musique/Musique80.mp3", genre: "Pop" },
-  { id: 81, title: "Party likes it's 1920", artist: "Artiste", album: "3:05", duration: "", cover: "Musique/Images/font81.png", audioUrl: "Musique/Musique81.mp3", genre: "Jazz" },
-  { id: 82, title: "Problematic", artist: "Artiste", album: "", duration: "3:33", cover: "Musique/Images/font82.png", audioUrl: "Musique/Musique82.mp3", genre: "Pop" },
-  { id: 83, title: "Reflection", artist: "Artiste", album: "", duration: "3:19", cover: "Musique/Images/font83.png", audioUrl: "Musique/Musique83.mp3", genre: "Pop" },
-  { id: 84, title: "Rockstar", artist: "BoyWithUke", album: "", duration: "4:32", cover: "Musique/Images/font84.png", audioUrl: "Musique/Musique84.mp3", genre: "Pop" },
-  { id: 85, title: "Star Walkin", artist: "Artiste", album: "", duration: "3:27", cover: "Musique/Images/font85.png", audioUrl: "Musique/Musique85.mp3", genre: "Pop" },
-  { id: 86, title: "Shiawase no Monosashi", artist: "Artiste", album: "", duration: "5:00", cover: "Musique/Images/font86.png", audioUrl: "Musique/Musique86.mp3", genre: "Opening" },
-  { id: 87, title: "Sweater weather", artist: "Artiste", album: "", duration: "3:57", cover: "Musique/Images/font87.png", audioUrl: "Musique/Musique87.mp3", genre: "Rock" },
+  { id: 19, title: "Dans l'univers", artist: "Artiste", album: "", duration: "4:06", cover: "Musique/Images/font19.png", audioUrl: "Musique/Musique19.mp3", genre: "" },
+  { id: 20, title: "Poupée Russe", artist: "Artiste", album: "", duration: "2:44", cover: "Musique/Images/font20.png", audioUrl: "Musique/Musique20.mp3", genre: "" },
+  { id: 21, title: "À peu près", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font21.png", audioUrl: "Musique/Musique21.mp3", genre: "" },
+  { id: 22, title: "Toutes les machines ont un coeur", artist: "Artiste", album: "", duration: "4:19", cover: "Musique/Images/font22.png", audioUrl: "Musique/Musique22.mp3", genre: "" },
+  { id: 23, title: "Épisode III - Les mains libres", artist: "Artiste", album: "", duration: "3:40", cover: "Musique/Images/font23.png", audioUrl: "Musique/Musique23.mp3", genre: "" },
+  { id: 24, title: "Empires", artist: "Artiste", album: "", duration: "3:10", cover: "Musique/Images/font24.png", audioUrl: "Musique/Musique24.mp3", genre: "" },
+  { id: 25, title: "Toxic", artist: "Artiste", album: "", duration: "2:50", cover: "Musique/Images/font25.png", audioUrl: "Musique/Musique25.mp3", genre: "" },
+  { id: 26, title: "Flicker", artist: "Artiste", album: "", duration: "3:14", cover: "Musique/Images/font26.png", audioUrl: "Musique/Musique26.mp3", genre: "" },
+  { id: 27, title: "Black Catcher", artist: "Artiste", album: "", duration: "3:18", cover: "Musique/Images/font27.png", audioUrl: "Musique/Musique27.mp3", genre: "" },
+  { id: 28, title: "Femme à la mer", artist: "Artiste", album: "", duration: "3:59", cover: "Musique/Images/font28.png", audioUrl: "Musique/Musique28.mp3", genre: "" },
+  { id: 29, title: "Chute d'étoiles", artist: "Suzuya", album: "", duration: "2:12", cover: "Musique/Images/font29.png", audioUrl: "Musique/Musique29.mp3", genre: "" },
+  { id: 30, title: "Dis-moi que tu me détestes.", artist: "Suzuya", album: "2:05", duration: "", cover: "Musique/Images/font30.png", audioUrl: "Musique/Musique30.mp3", genre: "" },
+  { id: 31, title: "Sundance", artist: "Artiste", album: "", duration: "2:50", cover: "Musique/Images/font31.png", audioUrl: "Musique/Musique31.mp3", genre: "" },
+  { id: 32, title: "30", artist: "Artiste", album: "", duration: "3:32", cover: "Musique/Images/font32.png", audioUrl: "Musique/Musique32.mp3", genre: "" },
+  { id: 33, title: "Trop beau", artist: "Artiste", album: "", duration: "4:04", cover: "Musique/Images/font33.png", audioUrl: "Musique/Musique33.mp3", genre: "" },
+  { id: 34, title: "La Quête", artist: "Artiste", album: "", duration: "3:54", cover: "Musique/Images/font34.png", audioUrl: "Musique/Musique34.mp3", genre: "" },
+  { id: 35, title: "Déprime", artist: "Artiste", album: "", duration: "3:19", cover: "Musique/Images/font35.png", audioUrl: "Musique/Musique35.mp3", genre: "" },
+  { id: 36, title: "Tchin Tchin", artist: "Artiste", album: "", duration: "2:36", cover: "Musique/Images/font36.png", audioUrl: "Musique/Musique36.mp3", genre: "" },
+  { id: 37, title: "Decrescendo", artist: "Artiste", album: "", duration: "3.41", cover: "Musique/Images/font37.png", audioUrl: "Musique/Musique37.mp3", genre: "" },
+  { id: 38, title: "Astronaute", artist: "Artiste", album: "", duration: "6:58", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "" },
+  { id: 39, title: "Dépassé", artist: "Artiste", album: "", duration: "2:52", cover: "Musique/Images/font39.png", audioUrl: "Musique/Musique39.mp3", genre: "" },
+  { id: 40, title: "Hit Sale", artist: "Artiste", album: "", duration: "3:19", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "" },
+  { id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Artiste", album: "", duration: "3:45", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "" },
+  { id: 42, title: "THE LONELIEST", artist: "Artiste", album: "", duration: "4.47", cover: "Musique/Images/font42.png", audioUrl: "Musique/Musique42.mp3", genre: "" },
+  { id: 43, title: "Daylight", artist: "Artiste", album: "", duration: "3:49", cover: "Musique/Images/font43.png", audioUrl: "Musique/Musique43.mp3", genre: "" },
+  { id: 44, title: "Ceux qui rêvent", artist: "Artiste", album: "", duration: "1:58", cover: "Musique/Images/font44.png", audioUrl: "Musique/Musique44.mp3", genre: "" },
+  { id: 45, title: "Sharks", artist: "Artiste", album: "", duration: "3:36", cover: "Musique/Images/font45.png", audioUrl: "Musique/Musique45.mp3", genre: "" },
+  { id: 46, title: "I WANNA BE YOUR SLAVE", artist: "Artiste", album: "", duration: "2:52", cover: "Musique/Images/font46.png", audioUrl: "Musique/Musique46.mp3", genre: "" },
+  { id: 47, title: "Riptide", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font47.png", audioUrl: "Musique/Musique47.mp3", genre: "" },
+  { id: 48, title: "Évidemment", artist: "Artiste", album: "", duration: "3:18", cover: "Musique/Images/font48.png", audioUrl: "Musique/Musique48.mp3", genre: "" },
+  { id: 49, title: "House of Memories", artist: "Artiste", album: "", duration: "3:29", cover: "Musique/Images/font49.png", audioUrl: "Musique/Musique49.mp3", genre: "" },
+  { id: 50, title: "Heathens", artist: "Artiste", album: "", duration: "3:14", cover: "Musique/Images/font50.png", audioUrl: "Musique/Musique50.mp3", genre: "" },
+  { id: 51, title: "Mockingbird", artist: "Artiste", album: "", duration: "4:17", cover: "Musique/Images/font51.png", audioUrl: "Musique/Musique51.mp3", genre: "" },
+  { id: 52, title: "Stressed Out", artist: "Artiste", album: "", duration: "3:22", cover: "Musique/Images/font52.png", audioUrl: "Musique/Musique52.mp3", genre: "" },
+  { id: 53, title: "Actrice Fantôme", artist: "Artiste", album: "", duration: "2:52", cover: "Musique/Images/font53.png", audioUrl: "Musique/Musique53.mp3", genre: "" },
+  { id: 54, title: "Gangsta's Paradise", artist: "Artiste", album: "", duration: "4:01", cover: "Musique/Images/font54.png", audioUrl: "Musique/Musique54.mp3", genre: "" },
+  { id: 55, title: "Stolen Dance", artist: "Artiste", album: "", duration: "5:13", cover: "Musique/Images/font55.png", audioUrl: "Musique/Musique55.mp3", genre: "" },
+  { id: 56, title: "Feed the Machine", artist: "Poor Mans Poison", album: "", duration: "3:03", cover: "Musique/Images/font56.png", audioUrl: "Musique/Musique56.mp3", genre: "" },
+  { id: 57, title: "Le stade", artist: "Artiste", album: "", duration: "2:35", cover: "Musique/Images/font57.png", audioUrl: "Musique/Musique57.mp3", genre: "" },
+  { id: 58, title: "Help me", artist: "Artiste", album: "", duration: "4:20", cover: "Musique/Images/font58.png", audioUrl: "Musique/Musique58.mp3", genre: "" },
+  { id: 59, title: "IDGAF", artist: "BoyWithUke", album: "", duration: "2:26", cover: "Musique/Images/font59.png", audioUrl: "Musique/Musique59.mp3", genre: "" },
+  { id: 60, title: "Ma Meilleure Ennemie", artist: "Artiste", album: "", duration: "2:28", cover: "Musique/Images/font60.png", audioUrl: "Musique/Musique60.mp3", genre: "" },
+  { id: 61, title: "Roi", artist: "Artiste", album: "", duration: "3:49", cover: "Musique/Images/font61.png", audioUrl: "Musique/Musique61.mp3", genre: "" },
+  { id: 62, title: "Futur", artist: "Artiste", album: "", duration: "3:22", cover: "Musique/Images/font62.png", audioUrl: "Musique/Musique62.mp3", genre: "" },
+  { id: 63, title: "God-Ish", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font63.png", audioUrl: "Musique/Musique63.mp3", genre: "" },
+  { id: 64, title: "Golden Hour", artist: "Artiste", album: "", duration: "3:51", cover: "Musique/Images/font64.png", audioUrl: "Musique/Musique64.mp3", genre: "" },
+  { id: 65, title: "Im Doing Fine", artist: "Artiste", album: "", duration: "1:39", cover: "Musique/Images/font65.png", audioUrl: "Musique/Musique65.mp3", genre: "" },
+  { id: 66, title: "Feel Good Inc.", artist: "Artiste", album: "", duration: "4:13", cover: "Musique/Images/font66.png", audioUrl: "Musique/Musique66.mp3", genre: "" },
+  { id: 67, title: "Give and Take", artist: "Poor Mans Poison", album: "", duration: "3:17", cover: "Musique/Images/font67.png", audioUrl: "Musique/Musique67.mp3", genre: "" },
+  { id: 68, title: "Je ne pense qu'à ça", artist: "Artiste", album: "", duration: "2:34", cover: "Musique/Images/font68.png", audioUrl: "Musique/Musique68.mp3", genre: "" },
+  { id: 69, title: "Crush", artist: "Artiste", album: "", duration: "3:12", cover: "Musique/Images/font69.png", audioUrl: "Musique/Musique69.mp3", genre: "" },
+  { id: 70, title: "Radioactive", artist: "Artiste", album: "", duration: "3:05", cover: "Musique/Images/font70.png", audioUrl: "Musique/Musique70.mp3", genre: "" },
+  { id: 71, title: "Mood", artist: "Artiste", album: "", duration: "2:30", cover: "Musique/Images/font71.png", audioUrl: "Musique/Musique71.mp3", genre: "" },
+  { id: 72, title: "Vampire", artist: "Artiste", album: "", duration: "2:17", cover: "Musique/Images/font72.png", audioUrl: "Musique/Musique72.mp3", genre: "" },
+  { id: 73, title: "Anxiety", artist: "Artiste", album: "", duration: "4:09", cover: "Musique/Images/font73.png", audioUrl: "Musique/Musique73.mp3", genre: "" },
+  { id: 74, title: "Handclap", artist: "Artiste", album: "", duration: "3:11", cover: "Musique/Images/font74.png", audioUrl: "Musique/Musique74.mp3", genre: "" },
+  { id: 75, title: "Hardware Store", artist: "Artiste", album: "", duration: "3:44", cover: "Musique/Images/font75.png", audioUrl: "Musique/Musique75.mp3", genre: "" },
+  { id: 76, title: "Hit The Road Jack", artist: "Artiste", album: "", duration: "2:02", cover: "Musique/Images/font76.png", audioUrl: "Musique/Musique76.mp3", genre: "" },
+  { id: 77, title: "I Wanna Be Like You", artist: "Artiste", album: "", duration: "2:01", cover: "Musique/Images/font77.png", audioUrl: "Musique/Musique77.mp3", genre: "" },
+  { id: 78, title: "Light up the night", artist: "Artiste", album: "", duration: "3:53", cover: "Musique/Images/font78.png", audioUrl: "Musique/Musique78.mp3", genre: "" },
+  { id: 79, title: "No Strings Attached", artist: "Artiste", album: "", duration: "4:07", cover: "Musique/Images/font79.png", audioUrl: "Musique/Musique79.mp3", genre: "" },
+  { id: 80, title: "Overwhelmed", artist: "Artiste", album: "", duration: "3:26", cover: "Musique/Images/font80.png", audioUrl: "Musique/Musique80.mp3", genre: "" },
+  { id: 81, title: "Party likes it's 1920", artist: "Artiste", album: "3:05", duration: "", cover: "Musique/Images/font81.png", audioUrl: "Musique/Musique81.mp3", genre: "" },
+  { id: 82, title: "Problematic", artist: "Artiste", album: "", duration: "3:33", cover: "Musique/Images/font82.png", audioUrl: "Musique/Musique82.mp3", genre: "" },
+  { id: 83, title: "Reflection", artist: "Artiste", album: "", duration: "3:19", cover: "Musique/Images/font83.png", audioUrl: "Musique/Musique83.mp3", genre: "" },
+  { id: 84, title: "Rockstar", artist: "BoyWithUke", album: "", duration: "4:32", cover: "Musique/Images/font84.png", audioUrl: "Musique/Musique84.mp3", genre: "" },
+  { id: 85, title: "Star Walkin", artist: "Artiste", album: "", duration: "3:27", cover: "Musique/Images/font85.png", audioUrl: "Musique/Musique85.mp3", genre: "" },
+  { id: 86, title: "Shiawase no Monosashi", artist: "Artiste", album: "", duration: "5:00", cover: "Musique/Images/font86.png", audioUrl: "Musique/Musique86.mp3", genre: "" },
+  { id: 87, title: "Sweater weather", artist: "Artiste", album: "", duration: "3:57", cover: "Musique/Images/font87.png", audioUrl: "Musique/Musique87.mp3", genre: "" },
   { id: 88, title: "Two moons", artist: "BoyWithUke", album: "", duration: "3:56", cover: "Musique/Images/font88.png", audioUrl: "Musique/Musique88.mp3", genre: "Rap" },
   { id: 89, title: "Understand", artist: "BoyWithUke", album: "", duration: "3:14", cover: "Musique/Images/font89.png", audioUrl: "Musique/Musique89.mp3", genre: "Rap" },
-  { id: 90, title: "Up & Down", artist: "Artiste", album: "", duration: "2:44", cover: "Musique/Images/font90.png", audioUrl: "Musique/Musique90.mp3", genre: "Electro" },
-  { id: 91, title: "Usseewa", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font91.png", audioUrl: "Musique/Musique91.mp3", genre: "Opening" },
+  { id: 90, title: "Up & Down", artist: "Artiste", album: "", duration: "2:44", cover: "Musique/Images/font90.png", audioUrl: "Musique/Musique90.mp3", genre: "" },
+  { id: 91, title: "Usseewa", artist: "Artiste", album: "", duration: "3:24", cover: "Musique/Images/font91.png", audioUrl: "Musique/Musique91.mp3", genre: "" },
   { id: 92, title: "Wild side", artist: "Beastars", album: "", duration: "2:38", cover: "Musique/Images/font92.png", audioUrl: "Musique/Musique92.mp3", genre: "Opening" },
-  { id: 93, title: "World's smallest violin", artist: "Artiste", album: "", duration: "3:07", cover: "Musique/Images/font93.png", audioUrl: "Musique/Musique93.mp3", genre: "Pop" },
+  { id: 93, title: "World's smallest violin", artist: "Artiste", album: "", duration: "3:07", cover: "Musique/Images/font93.png", audioUrl: "Musique/Musique93.mp3", genre: "" },
   { id: 94, title: "Veil", artist: "Fire Force", album: "", duration: "3:28", cover: "Musique/Images/font94.png", audioUrl: "Musique/Musique94.mp3", genre: "Opening" },
   { id: 95, title: "Star shopping", artist: "Artiste", album: "", duration: "2:22", cover: "Musique/Images/font95.png", audioUrl: "Musique/Musique95.mp3", genre: "Rap" },
 ];
@@ -123,11 +114,9 @@ const defaultPlaylists = [
 
 // Modal pour options de playlist
 const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
-  const { isDarkMode } = useTheme();
-  
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Options pour "{playlist.name}"</h2>
         <div className="playlist-options">
           <button
@@ -164,7 +153,6 @@ const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport })
 
 // Modal pour éditer une playlist
 const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
-  const { isDarkMode, currentTheme } = useTheme();
   const [name, setName] = useState(playlist.name || '');
   const [description, setDescription] = useState(playlist.description || '');
   const [cover, setCover] = useState(playlist.cover || '');
@@ -189,7 +177,7 @@ const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Modifier la playlist</h2>
         <form onSubmit={handleSubmit} className="modal-form">
           <div className="form-group">
@@ -223,7 +211,7 @@ const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
             />
           </div>
           <div className="modal-buttons">
-            <button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>
+            <button type="submit" className="btn btn-primary">
               Sauvegarder
             </button>
             <button type="button" onClick={onClose} className="btn btn-secondary">
@@ -238,7 +226,6 @@ const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
 
 // Modal pour créer une playlist
 const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
-  const { isDarkMode, currentTheme } = useTheme();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [cover, setCover] = useState('');
@@ -273,7 +260,7 @@ const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Créer une nouvelle playlist</h2>
         <form onSubmit={handleSubmit} className="modal-form">
           <div className="form-group">
@@ -308,7 +295,7 @@ const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
             />
           </div>
           <div className="modal-buttons">
-            <button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>
+            <button type="submit" className="btn btn-primary">
               Créer
             </button>
             <button type="button" onClick={onClose} className="btn btn-secondary">
@@ -341,11 +328,9 @@ const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
 
 // Modal pour ajouter à une playlist
 const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
-  const { isDarkMode, currentTheme } = useTheme();
-  
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Ajouter "{track.title}" à une playlist</h2>
         <div className="playlist-list">
           {playlists.length === 0 ? (
@@ -363,7 +348,7 @@ const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
                   <div className="playlist-option-tracks">{playlist.tracks.length} titres</div>
                 </div>
                 {playlist.tracks.find(t => t.id === track.id) && (
-                  <span className="already-added" style={{ color: currentTheme.primary }}>✓ Déjà ajouté</span>
+                  <span className="already-added">✓ Déjà ajouté</span>
                 )}
               </button>
             ))
@@ -379,65 +364,7 @@ const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
   );
 };
 
-// Modal pour sauvegarder la queue comme playlist
-const SaveQueueModal = ({ queue, onClose, onCreate }) => {
-  const { isDarkMode, currentTheme } = useTheme();
-  const [name, setName] = useState('Ma file d\'attente');
-  const [description, setDescription] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name.trim() && queue.length > 0) {
-      onCreate(name.trim(), description.trim(), queue);
-      onClose();
-    }
-  };
-
-  return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
-        <h2 className="modal-title">💾 Sauvegarder la file d'attente</h2>
-        <p className="modal-subtitle">{queue.length} musiques seront ajoutées</p>
-        <form onSubmit={handleSubmit} className="modal-form">
-          <div className="form-group">
-            <label className="form-label">Nom de la playlist *</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="form-input"
-              placeholder="Ma nouvelle playlist"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Description (optionnel)</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="form-textarea"
-              placeholder="Description de votre playlist"
-              rows="2"
-            />
-          </div>
-          <div className="modal-buttons">
-            <button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>
-              Sauvegarder
-            </button>
-            <button type="button" onClick={onClose} className="btn btn-secondary">
-              Annuler
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-function AppContent() {
-  const { isDarkMode, currentTheme } = useTheme();
-  const { addToHistory, addListeningTime, sleepTimerActive, sleepTimerRemaining } = useMusic();
-  
+function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [currentTrack, setCurrentTrack] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -445,11 +372,7 @@ function AppContent() {
   const [searchResults, setSearchResults] = useState([]);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(() => {
-  const saved = localStorage.getItem('spotizer-volume');
-  return saved !== null ? parseFloat(saved) : 0.5;
-});
-
+  const [volume, setVolume] = useState(0.7);
   const [isMuted, setIsMuted] = useState(false);
   const [playlists, setPlaylists] = useState([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
@@ -462,31 +385,9 @@ function AppContent() {
   const [showPlaylistEditModal, setShowPlaylistEditModal] = useState(false);
   const [isShuffleMode, setIsShuffleMode] = useState(false);
   const [currentQueue, setCurrentQueue] = useState([]);
-  const [originalQueue, setOriginalQueue] = useState([]);
   const [isRepeatMode, setIsRepeatMode] = useState(0);
-  
-  // Nouveaux états
-  const [showQueuePanel, setShowQueuePanel] = useState(false);
-  const [showSleepTimerModal, setShowSleepTimerModal] = useState(false);
-  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
-  const [showSaveQueueModal, setShowSaveQueueModal] = useState(false);
-  const [lastPlayTime, setLastPlayTime] = useState(0);
 
   const audioRef = useRef(null);
-
-useEffect(() => {
-  if (audioRef.current) {
-    audioRef.current.volume = isMuted ? 0 : volume;
-  }
-}, [audioRef, volume, isMuted]);
-
-// Mettre à jour le volume et sauvegarder quand il change
-useEffect(() => {
-  if (audioRef.current) {
-    audioRef.current.volume = isMuted ? 0 : volume;
-  }
-  localStorage.setItem('spotizer-volume', volume.toString());
-}, [volume, isMuted]);
 
   // Charger les playlists depuis localStorage au démarrage
   useEffect(() => {
@@ -505,27 +406,12 @@ useEffect(() => {
     }
   }, [playlists]);
 
-  useEffect(() => {
-  localStorage.setItem('spotizer-volume', volume.toString());
-}, [volume]);
-
-
   // Gestion du lecteur audio
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-      
-      // Tracking du temps d'écoute (toutes les 10 secondes)
-      const currentSec = Math.floor(audio.currentTime);
-      if (currentSec > 0 && currentSec % 10 === 0 && currentSec !== lastPlayTime) {
-        addListeningTime(10);
-        setLastPlayTime(currentSec);
-      }
-    };
-    
+    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handleDurationChange = () => setDuration(audio.duration);
     const handleEnded = () => {
       setIsPlaying(false);
@@ -549,7 +435,14 @@ useEffect(() => {
       audio.removeEventListener('durationchange', handleDurationChange);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [currentTrack, isRepeatMode, lastPlayTime, addListeningTime]);
+  }, [currentTrack, isRepeatMode]);
+
+  // Contrôle du volume
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
+  }, [volume, isMuted]);
 
   // Fonction pour mélanger un tableau
   const shuffleArray = (array) => {
@@ -561,13 +454,29 @@ useEffect(() => {
     return newArray;
   };
 
-  const playTrack = useCallback((track, playlist = null) => {
+  const playTrack = (track, playlist = null) => {
     setCurrentTrack(track);
     setIsPlaying(true);
-    setLastPlayTime(0);
-    
-    // Ajouter à l'historique
-    addToHistory(track);
+
+    let queue = [];
+    if (playlist && playlist.tracks.length > 0) {
+      queue = playlist.tracks;
+    } else if (selectedPlaylist && selectedPlaylist.tracks.length > 0) {
+      queue = selectedPlaylist.tracks;
+    } else {
+      queue = musicDatabase;
+    }
+
+    if (isShuffleMode) {
+      const shuffledQueue = shuffleArray(queue);
+      const currentIndex = shuffledQueue.findIndex(t => t.id === track.id);
+      if (currentIndex > 0) {
+        [shuffledQueue[0], shuffledQueue[currentIndex]] = [shuffledQueue[currentIndex], shuffledQueue[0]];
+      }
+      setCurrentQueue(shuffledQueue);
+    } else {
+      setCurrentQueue(queue);
+    }
 
     setTimeout(() => {
       if (audioRef.current) {
@@ -603,9 +512,9 @@ useEffect(() => {
         nextTrack();
       });
     }
-  }, [isShuffleMode, selectedPlaylist, addToHistory]);
+  };
 
-  const togglePlayPause = useCallback(() => {
+  const togglePlayPause = () => {
     if (!audioRef.current || !currentTrack) return;
 
     if (isPlaying) {
@@ -615,7 +524,7 @@ useEffect(() => {
       audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
       setIsPlaying(true);
     }
-  }, [isPlaying, currentTrack]);
+  };
 
   const handleProgressClick = (e) => {
     if (!audioRef.current || !duration) return;
@@ -635,7 +544,7 @@ useEffect(() => {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const nextTrack = useCallback(() => {
+  const nextTrack = () => {
     const queue = currentQueue.length > 0 ? currentQueue : musicDatabase;
     const currentIndex = queue.findIndex(track => track.id === currentTrack?.id);
 
@@ -649,9 +558,9 @@ useEffect(() => {
     if (queue[nextIndex]) {
       playTrack(queue[nextIndex]);
     }
-  }, [currentQueue, currentTrack, isRepeatMode, playTrack]);
+  };
 
-  const previousTrack = useCallback(() => {
+  const previousTrack = () => {
     const queue = currentQueue.length > 0 ? currentQueue : musicDatabase;
     const currentIndex = queue.findIndex(track => track.id === currentTrack?.id);
 
@@ -665,76 +574,32 @@ useEffect(() => {
     if (queue[prevIndex]) {
       playTrack(queue[prevIndex]);
     }
-  }, [currentQueue, currentTrack, isRepeatMode, playTrack]);
+  };
 
-  const toggleShuffle = useCallback(() => {
-  setIsShuffleMode(prev => {
-    const newMode = !prev;
+  const toggleShuffle = () => {
+    setIsShuffleMode(!isShuffleMode);
 
-    if (currentQueue.length === 0) {
-      // Queue vide : remplir avec playlist ou musique
-      const baseQueue = selectedPlaylist?.tracks || musicDatabase;
-      setCurrentQueue([...baseQueue]);
-      return newMode;
+    if (currentQueue.length > 0) {
+      if (!isShuffleMode) {
+        const shuffledQueue = shuffleArray(currentQueue);
+        const currentIndex = shuffledQueue.findIndex(t => t.id === currentTrack?.id);
+        if (currentIndex > 0) {
+          [shuffledQueue[0], shuffledQueue[currentIndex]] = [shuffledQueue[currentIndex], shuffledQueue[0]];
+        }
+        setCurrentQueue(shuffledQueue);
+      } else {
+        if (selectedPlaylist) {
+          setCurrentQueue(selectedPlaylist.tracks);
+        } else {
+          setCurrentQueue(musicDatabase);
+        }
+      }
     }
+  };
 
-    const currentIndex = currentQueue.findIndex(t => t.id === currentTrack?.id);
-    if (currentIndex === -1) return newMode;
-
-    const current = currentQueue[currentIndex];
-    const upcoming = currentQueue.slice(currentIndex + 1);
-
-    if (newMode) {
-      // Shuffle la queue à venir
-      const shuffledUpcoming = shuffleArray([...upcoming]);
-      setCurrentQueue([current, ...shuffledUpcoming]);
-    } else {
-      // Remet l’ordre normal à partir du tableau original
-      let baseQueue = selectedPlaylist?.tracks || musicDatabase;
-      const rest = baseQueue.filter(t => t.id !== current.id);
-      const currentPos = baseQueue.findIndex(t => t.id === current.id);
-      const nextTracks = rest.slice(currentPos).concat(rest.slice(0, currentPos));
-      setCurrentQueue([current, ...nextTracks]);
-    }
-
-    return newMode;
-  });
-}, [currentQueue, currentTrack, selectedPlaylist, musicDatabase]);
-
-
-  const toggleRepeat = useCallback(() => {
+  const toggleRepeat = () => {
     setIsRepeatMode((prev) => (prev + 1) % 3);
-  }, []);
-
-  const handleVolumeUp = useCallback(() => {
-    setVolume(prev => Math.min(1, prev + 0.05));
-  }, []);
-
-  const handleVolumeDown = useCallback(() => {
-    setVolume(prev => Math.max(0, prev - 0.05));
-  }, []);
-
-  const toggleMute = useCallback(() => {
-    setIsMuted(prev => !prev);
-  }, []);
-
-  const toggleQueue = useCallback(() => {
-    setShowQueuePanel(prev => !prev);
-  }, []);
-
-  // Raccourcis clavier
-  useKeyboardShortcuts({
-    onPlayPause: togglePlayPause,
-    onNext: nextTrack,
-    onPrevious: previousTrack,
-    onVolumeUp: handleVolumeUp,
-    onVolumeDown: handleVolumeDown,
-    onMute: toggleMute,
-    onShuffle: toggleShuffle,
-    onRepeat: toggleRepeat,
-    onToggleQueue: toggleQueue,
-    isEnabled: true
-  });
+  };
 
   const getRepeatIcon = () => {
     switch (isRepeatMode) {
@@ -783,18 +648,6 @@ useEffect(() => {
     setShowCreatePlaylistModal(false);
   };
 
-  const createPlaylistFromQueue = (name, description, tracks) => {
-    const newPlaylist = {
-      id: Date.now().toString(),
-      name,
-      description,
-      cover: tracks[0]?.cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless",
-      tracks: tracks,
-      isDefault: false
-    };
-    setPlaylists([...playlists, newPlaylist]);
-  };
-
   const deletePlaylist = (playlistId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cette playlist ?')) {
       setPlaylists(playlists.filter(p => p.id !== playlistId));
@@ -827,6 +680,7 @@ useEffect(() => {
     });
     setPlaylists(updatedPlaylists);
 
+    // Mise à jour immédiate de selectedPlaylist si c'est celle en cours
     if (selectedPlaylist?.id === playlistId) {
       const updatedPlaylist = updatedPlaylists.find(p => p.id === playlistId);
       setSelectedPlaylist(updatedPlaylist);
@@ -855,6 +709,7 @@ useEffect(() => {
     );
     setPlaylists(updatedPlaylists);
 
+    // Mise à jour immédiate de selectedPlaylist si c'est celle en cours
     if (selectedPlaylist?.id === updatedPlaylist.id) {
       setSelectedPlaylist(updatedPlaylist);
     }
@@ -903,60 +758,8 @@ useEffect(() => {
     setSelectedPlaylist(playlist);
   };
 
-  // Gestion de la queue
-  const handleQueueReorder = (sourceIndex, destinationIndex) => {
-    const currentIndex = currentQueue.findIndex(t => t.id === currentTrack?.id);
-    const actualSourceIndex = currentIndex + 1 + sourceIndex;
-    const actualDestIndex = currentIndex + 1 + destinationIndex;
-    
-    const newQueue = [...currentQueue];
-    const [removed] = newQueue.splice(actualSourceIndex, 1);
-    newQueue.splice(actualDestIndex, 0, removed);
-    setCurrentQueue(newQueue);
-  };
-
-  const handleQueueRemove = (index) => {
-    const newQueue = [...currentQueue];
-    newQueue.splice(index, 1);
-    setCurrentQueue(newQueue);
-  };
-
-  const addToQueue = (track) => {
-    if (!currentQueue.find(t => t.id === track.id)) {
-      setCurrentQueue([...currentQueue, track]);
-    }
-  };
-
-  const clearQueue = () => {
-    if (currentTrack) {
-      setCurrentQueue([currentTrack]);
-    } else {
-      setCurrentQueue([]);
-    }
-  };
-
-  // Drag & Drop pour les playlists
-  const handlePlaylistDragEnd = (result) => {
-    if (!result.destination || !selectedPlaylist) return;
-    
-    const newTracks = [...selectedPlaylist.tracks];
-    const [removed] = newTracks.splice(result.source.index, 1);
-    newTracks.splice(result.destination.index, 0, removed);
-    
-    const updatedPlaylist = { ...selectedPlaylist, tracks: newTracks };
-    updatePlaylist(updatedPlaylist);
-  };
-
-  // Style dynamique basé sur le thème
-  const themeStyle = {
-    '--theme-primary': currentTheme.primary,
-    '--theme-secondary': currentTheme.secondary,
-    '--theme-accent': currentTheme.accent,
-    '--theme-gradient': currentTheme.gradient
-  };
-
   return (
-    <div className={`App ${isDarkMode ? 'dark' : 'light'}`} style={themeStyle}>
+    <div className="App">
       {currentTrack && (
         <audio
           ref={audioRef}
@@ -969,14 +772,13 @@ useEffect(() => {
         {/* Sidebar */}
         <div className="sidebar">
           <div className="sidebar-logo">
-            <h1 style={{ background: currentTheme.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Spotizer</h1>
+            <h1>Spotizer</h1>
           </div>
 
           <nav className="sidebar-nav">
             <button
               className={`nav-item ${currentPage === 'home' ? 'active' : ''}`}
               onClick={() => setCurrentPage('home')}
-              style={currentPage === 'home' ? { background: currentTheme.gradient } : {}}
             >
               <span>🏠</span>
               <span>Accueil</span>
@@ -984,7 +786,6 @@ useEffect(() => {
             <button
               className={`nav-item ${currentPage === 'search' ? 'active' : ''}`}
               onClick={() => setCurrentPage('search')}
-              style={currentPage === 'search' ? { background: currentTheme.gradient } : {}}
             >
               <span>🔍</span>
               <span>Rechercher</span>
@@ -992,26 +793,9 @@ useEffect(() => {
             <button
               className={`nav-item ${currentPage === 'library' ? 'active' : ''}`}
               onClick={() => setCurrentPage('library')}
-              style={currentPage === 'library' ? { background: currentTheme.gradient } : {}}
             >
               <span>📚</span>
               <span>Ma musique</span>
-            </button>
-            <button
-              className={`nav-item ${currentPage === 'stats' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('stats')}
-              style={currentPage === 'stats' ? { background: currentTheme.gradient } : {}}
-            >
-              <span>📊</span>
-              <span>Statistiques</span>
-            </button>
-            <button
-              className={`nav-item ${currentPage === 'history' ? 'active' : ''}`}
-              onClick={() => setCurrentPage('history')}
-              style={currentPage === 'history' ? { background: currentTheme.gradient } : {}}
-            >
-              <span>📜</span>
-              <span>Historique</span>
             </button>
           </nav>
 
@@ -1032,7 +816,6 @@ useEffect(() => {
                   className={`playlist-item ${selectedPlaylist?.id === playlist.id ? 'active' : ''}`}
                   onClick={() => openPlaylist(playlist)}
                   title="Ouvrir la playlist"
-                  style={selectedPlaylist?.id === playlist.id ? { background: currentTheme.gradient } : {}}
                 >
                   <img
                     src={playlist.cover}
@@ -1058,15 +841,6 @@ useEffect(() => {
               </div>
             ))}
           </div>
-
-          {/* Bouton aide raccourcis */}
-          <button 
-            className="shortcuts-help-btn"
-            onClick={() => setShowShortcutsHelp(true)}
-            title="Raccourcis clavier"
-          >
-            ⌨️ Raccourcis
-          </button>
         </div>
 
         {/* Main Content */}
@@ -1089,30 +863,6 @@ useEffect(() => {
                   }}
                 />
               </div>
-              
-              <div className="top-bar-actions">
-                {sleepTimerActive && (
-                  <div className="sleep-timer-indicator" style={{ color: currentTheme.primary }}>
-                    ⏰ {Math.floor(sleepTimerRemaining / 60)}:{(sleepTimerRemaining % 60).toString().padStart(2, '0')}
-                  </div>
-                )}
-                <button 
-                  className="top-bar-btn"
-                  onClick={() => setShowSleepTimerModal(true)}
-                  title="Minuteur de sommeil"
-                >
-                  ⏰
-                </button>
-                <button 
-                  className="top-bar-btn"
-                  onClick={toggleQueue}
-                  title="File d'attente (Ctrl+Q)"
-                  style={showQueuePanel ? { color: currentTheme.primary } : {}}
-                >
-                  📋
-                </button>
-                <ThemeSelector />
-              </div>
             </div>
           </div>
 
@@ -1120,75 +870,39 @@ useEffect(() => {
           <div className="page-content">
             {currentPage === 'home' && (
               <div className="page-container">
-                <div
-  className="hero-section"
-  style={{ background: currentTheme.gradient }}
->
-  <h2 className="section-title2">
-    <a
-      href="https://twitch.tv/le_bisounours_"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        color: "white",
-        textDecoration: "none",
-        cursor: "pointer"
-      }}
-    >
-      Le_Bisounours_
-    </a>
-  </h2>
-</div>
-
+                <div className="hero-section"></div>
 
                 <div className="section">
                   <h2 className="section-title">Titres populaires</h2>
                   <div className="grid grid-cols-6">
                     {musicDatabase.slice(0, 95).map(track => (
                       <div
-  key={track.id}
-  className="card"
-  onClick={() => playTrack(track)}
-  style={{
-    background: isDarkMode
-      ? "linear-gradient(135deg, #374151, #4b5563)"
-      : currentTheme.gradient,
-    cursor: "pointer",
-    boxShadow: currentTrack?.id === track.id && isPlaying
-      ? `0 0 20px 10px ${currentTheme.primary}80`
-      : "none"
-  }}
-  title="Cliquer pour jouer"
->
-  <img src={track.cover} alt={track.title} className="card-image" />
-  <button
-    className="add-to-playlist-btn"
-    onClick={(e) => {
-      e.stopPropagation();
-      openAddToPlaylistModal(track);
-    }}
-    title="Ajouter à une playlist"
-  >
-    ➕
-  </button>
-
-  <button
-    className="add-to-queue-btn"
-    onClick={(e) => {
-      e.stopPropagation();
-      addToQueue(track);
-    }}
-    title="Ajouter à la file d'attente"
-    style={{ background: currentTheme.primary }}
-  >
-    📋
-  </button>
-
-  <h3 className="card-title">{track.title}</h3>
-  <p className="card-subtitle">{track.artist}</p>
-  <p className="card-info">{track.genre} • {track.duration}</p>
-</div>
-
+                        key={track.id}
+                        className="card"
+                        onClick={() => playTrack(track)}
+                        style={{
+                          cursor: "pointer",
+                          boxShadow: currentTrack?.id === track.id && isPlaying
+                            ? "0 0 20px 10px rgba(20, 116, 226, 0.7)"
+                            : "none"
+                        }}
+                        title="Cliquer pour jouer"
+                      >
+                        <img src={track.cover} alt={track.title} className="card-image" />
+                        <button
+                          className="add-to-playlist-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openAddToPlaylistModal(track);
+                          }}
+                          title="Ajouter à une playlist"
+                        >
+                          ➕
+                        </button>
+                        <h3 className="card-title">{track.title}</h3>
+                        <p className="card-subtitle">{track.artist}</p>
+                        <p className="card-info">{track.genre} • {track.duration}</p>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -1196,7 +910,7 @@ useEffect(() => {
                 <div className="section">
                   <h2 className="section-title">Rock & Alternative</h2>
                   <div className="grid grid-cols-6">
-                    {musicDatabase.filter(track => ['Rock', 'Indie Rock', 'Pop Rock', 'Alternative Rock', 'Alternative'].includes(track.genre)).slice(0, 6).map(track => (
+                    {musicDatabase.filter(track => ['Indie Rock', 'Pop Rock', 'Alternative Rock', 'Alternative'].includes(track.genre)).slice(0, 6).map(track => (
                       <div
                         key={track.id}
                         className="card"
@@ -1205,6 +919,11 @@ useEffect(() => {
                         title="Cliquer pour jouer"
                       >
                         <img src={track.cover} alt={track.title} className="card-image" />
+                        <button
+                          className="play-button"
+                          onClick={() => playTrack(track)}
+                        >
+                        </button>
                         <button
                           className="add-to-playlist-btn"
                           onClick={(e) => {
@@ -1222,7 +941,7 @@ useEffect(() => {
                 </div>
 
                 <div className="section">
-                  <h2 className="section-title">Rap & Hip-Hop</h2>
+                  <h2 className="section-title">Hip-Hop & Rap</h2>
                   <div className="grid grid-cols-6">
                     {musicDatabase.filter(track => ['Hip-Hop', 'Rap'].includes(track.genre)).slice(0, 6).map(track => (
                       <div
@@ -1234,33 +953,10 @@ useEffect(() => {
                       >
                         <img src={track.cover} alt={track.title} className="card-image" />
                         <button
-                          className="add-to-playlist-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openAddToPlaylistModal(track);
-                          }}
+                          className="play-button"
+                          onClick={() => playTrack(track)}
                         >
-                          ➕
                         </button>
-                        <h3 className="card-title">{track.title}</h3>
-                        <p className="card-subtitle">{track.artist}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="section">
-                  <h2 className="section-title">Openings Anime</h2>
-                  <div className="grid grid-cols-6">
-                    {musicDatabase.filter(track => track.genre === 'Opening').slice(0, 6).map(track => (
-                      <div
-                        key={track.id}
-                        className="card"
-                        onClick={() => playTrack(track)}
-                        style={{ cursor: "pointer" }}
-                        title="Cliquer pour jouer"
-                      >
-                        <img src={track.cover} alt={track.title} className="card-image" />
                         <button
                           className="add-to-playlist-btn"
                           onClick={(e) => {
@@ -1296,11 +992,11 @@ useEffect(() => {
                         <div className="genre-card genre-rock" onClick={() => handleSearch('Rock')}>
                           <h4 className="genre-name">Rock</h4>
                         </div>
-                        <div className="genre-card genre-hiphop" onClick={() => handleSearch('Opening')}>
-                          <h4 className="genre-name">Opening</h4>
+                        <div className="genre-card genre-hiphop" onClick={() => handleSearch('Hip-Hop')}>
+                          <h4 className="genre-name">Hip-Hop</h4>
                         </div>
-                        <div className="genre-card genre-electronic" onClick={() => handleSearch('Electro')}>
-                          <h4 className="genre-name">Electro</h4>
+                        <div className="genre-card genre-electronic" onClick={() => handleSearch('R&B')}>
+                          <h4 className="genre-name">R&B</h4>
                         </div>
                         <div className="genre-card genre-rap" onClick={() => handleSearch('Rap')}>
                           <h4 className="genre-name">Rap</h4>
@@ -1321,7 +1017,6 @@ useEffect(() => {
                             setCurrentQueue(shuffled);
                             playTrack(shuffled[0]);
                           }}
-                          style={{ background: currentTheme.gradient }}
                         >
                           🔀 Lecture aléatoire
                         </button>
@@ -1358,16 +1053,6 @@ useEffect(() => {
                             title="Ajouter à une playlist"
                           >
                             ➕
-                          </button>
-                          <button
-                            className="add-to-queue-btn-small"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              addToQueue(track);
-                            }}
-                            title="Ajouter à la file d'attente"
-                          >
-                            📋
                           </button>
                           <div className="track-duration">{track.duration}</div>
                         </div>
@@ -1406,7 +1091,6 @@ useEffect(() => {
                               className="play-playlist-btn"
                               onClick={() => playPlaylist(selectedPlaylist)}
                               disabled={selectedPlaylist.tracks.length === 0}
-                              style={{ background: currentTheme.primary }}
                             >
                               ▶️ Lecture
                             </button>
@@ -1414,7 +1098,6 @@ useEffect(() => {
                               className="shuffle-playlist-btn"
                               onClick={() => playPlaylistShuffle(selectedPlaylist)}
                               disabled={selectedPlaylist.tracks.length === 0}
-                              style={{ background: currentTheme.gradient }}
                             >
                               🔀 Aléatoire
                             </button>
@@ -1424,78 +1107,50 @@ useEffect(() => {
                     </div>
 
                     <div className="playlist-tracks">
-                      <p className="drag-hint">💡 Glissez-déposez pour réorganiser les musiques</p>
                       {selectedPlaylist.tracks.length === 0 ? (
                         <div className="empty-playlist">
                           <p>Cette playlist est vide</p>
                           <p>Ajoutez des musiques depuis la recherche ou l'accueil</p>
                         </div>
                       ) : (
-                        <DragDropContext onDragEnd={handlePlaylistDragEnd}>
-                          <Droppable droppableId="playlist-tracks">
-                            {(provided) => (
-                              <div 
-                                className="track-list"
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
+                        <div className="track-list">
+                          {selectedPlaylist.tracks.map((track, index) => (
+                            <div
+                              key={track.id}
+                              className="track-item"
+                              onClick={() => playTrack(track, selectedPlaylist)}
+                              style={{ cursor: "pointer" }}
+                              title="Cliquer pour jouer"
+                            >
+                              <div className="track-number">{index + 1}</div>
+                              <button
+                                className="track-play-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  playTrack(track, selectedPlaylist);
+                                }}
                               >
-                                {selectedPlaylist.tracks.map((track, index) => (
-                                  <Draggable
-                                    key={`${track.id}-${index}`}
-                                    draggableId={`${track.id}-${index}`}
-                                    index={index}
-                                  >
-                                    {(provided, snapshot) => (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        className={`track-item ${snapshot.isDragging ? 'dragging' : ''}`}
-                                        onClick={() => playTrack(track, selectedPlaylist)}
-                                        style={{
-                                          ...provided.draggableProps.style,
-                                          cursor: "pointer",
-                                          borderLeft: snapshot.isDragging ? `3px solid ${currentTheme.primary}` : 'none'
-                                        }}
-                                        title="Cliquer pour jouer, glisser pour réorganiser"
-                                      >
-                                        <span className="drag-handle">⋮⋮</span>
-                                        <div className="track-number">{index + 1}</div>
-                                        <button
-                                          className="track-play-btn"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            playTrack(track, selectedPlaylist);
-                                          }}
-                                        >
-                                          {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
-                                        </button>
-                                        <img src={track.cover} alt={track.title} className="track-cover" />
-                                        <div className="track-info">
-                                          <div className="track-title">{track.title}</div>
-                                          <div className="track-artist">{track.artist} • {track.album}</div>
-                                        </div>
-                                        <div className="track-genre">{track.genre}</div>
-                                        <button
-                                          className="remove-from-playlist-btn"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            removeTrackFromPlaylist(selectedPlaylist.id, track.id);
-                                          }}
-                                          title="Retirer de la playlist"
-                                        >
-                                          🗑️
-                                        </button>
-                                        <div className="track-duration">{track.duration}</div>
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                ))}
-                                {provided.placeholder}
+                              </button>
+                              <img src={track.cover} alt={track.title} className="track-cover" />
+                              <div className="track-info">
+                                <div className="track-title">{track.title}</div>
+                                <div className="track-artist">{track.artist} • {track.album}</div>
                               </div>
-                            )}
-                          </Droppable>
-                        </DragDropContext>
+                              <div className="track-genre">{track.genre}</div>
+                              <button
+                                className="remove-from-playlist-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  removeTrackFromPlaylist(selectedPlaylist.id, track.id);
+                                }}
+                                title="Retirer de la playlist"
+                              >
+                                🗑️
+                              </button>
+                              <div className="track-duration">{track.duration}</div>
+                            </div>
+                          ))}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -1506,7 +1161,6 @@ useEffect(() => {
                       <button
                         className="create-playlist-btn"
                         onClick={() => setShowCreatePlaylistModal(true)}
-                        style={{ background: currentTheme.gradient }}
                       >
                         ➕ Créer une playlist
                       </button>
@@ -1566,7 +1220,6 @@ useEffect(() => {
                             setCurrentQueue(shuffled);
                             playTrack(shuffled[0]);
                           }}
-                          style={{ background: currentTheme.gradient }}
                         >
                           🔀 Tout écouter en aléatoire
                         </button>
@@ -1585,7 +1238,6 @@ useEffect(() => {
                               className="track-play-btn"
                               onClick={() => playTrack(track)}
                             >
-                              {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
                             </button>
                             <img src={track.cover} alt={track.title} className="track-cover" />
                             <div className="track-info">
@@ -1603,16 +1255,6 @@ useEffect(() => {
                             >
                               ➕
                             </button>
-                            <button
-                              className="add-to-queue-btn-small"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                addToQueue(track);
-                              }}
-                              title="Ajouter à la file d'attente"
-                            >
-                              📋
-                            </button>
                             <div className="track-duration">{track.duration}</div>
                           </div>
                         ))}
@@ -1622,36 +1264,8 @@ useEffect(() => {
                 )}
               </div>
             )}
-
-            {currentPage === 'stats' && (
-              <StatsPage 
-                musicDatabase={musicDatabase}
-                onPlayTrack={playTrack}
-              />
-            )}
-
-            {currentPage === 'history' && (
-              <HistoryPage 
-                musicDatabase={musicDatabase}
-                onPlayTrack={playTrack}
-                onAddToPlaylist={openAddToPlaylistModal}
-              />
-            )}
           </div>
         </div>
-
-        {/* Queue Panel */}
-        <QueuePanel
-          isOpen={showQueuePanel}
-          onClose={() => setShowQueuePanel(false)}
-          queue={currentQueue}
-          currentTrack={currentTrack}
-          onReorder={handleQueueReorder}
-          onRemove={handleQueueRemove}
-          onPlay={playTrack}
-          onSaveAsPlaylist={() => setShowSaveQueueModal(true)}
-          onClearQueue={clearQueue}
-        />
       </div>
 
       {/* Music Player */}
@@ -1682,21 +1296,19 @@ useEffect(() => {
                 <button
                   className={`player-btn ${isShuffleMode ? 'active' : ''}`}
                   onClick={toggleShuffle}
-                  title={isShuffleMode ? 'Désactiver le mode aléatoire (Ctrl+S)' : 'Activer le mode aléatoire (Ctrl+S)'}
-                  style={isShuffleMode ? { color: currentTheme.primary } : {}}
+                  title={isShuffleMode ? 'Désactiver le mode aléatoire' : 'Activer le mode aléatoire'}
                 >
                   🔀
                 </button>
-                <button className="player-btn" onClick={previousTrack} title="Précédent (←)">⏮️</button>
-                <button className="player-play-btn" onClick={togglePlayPause} title="Lecture/Pause (Espace)">
+                <button className="player-btn" onClick={previousTrack}>⏮️</button>
+                <button className="player-play-btn" onClick={togglePlayPause}>
                   {isPlaying ? '⏸️' : '▶️'}
                 </button>
-                <button className="player-btn" onClick={nextTrack} title="Suivant (→)">⏭️</button>
+                <button className="player-btn" onClick={nextTrack}>⏭️</button>
                 <button
                   className={`player-btn ${isRepeatMode > 0 ? 'active' : ''}`}
                   onClick={toggleRepeat}
-                  title={`${getRepeatTitle()} (Ctrl+R)`}
-                  style={isRepeatMode > 0 ? { color: currentTheme.primary } : {}}
+                  title={getRepeatTitle()}
                 >
                   {getRepeatIcon()}
                 </button>
@@ -1707,10 +1319,7 @@ useEffect(() => {
                 <div className="progress-bar" onClick={handleProgressClick}>
                   <div
                     className="progress-fill"
-                    style={{ 
-                      width: duration ? `${(currentTime / duration) * 100}%` : '0%',
-                      background: currentTheme.gradient
-                    }}
+                    style={{ width: duration ? `${(currentTime / duration) * 100}%` : '0%' }}
                   ></div>
                 </div>
                 <span className="player-time">{formatTime(duration)}</span>
@@ -1719,25 +1328,16 @@ useEffect(() => {
 
             <div className="player-right-controls">
               <div className="now-playing-indicator">
-                {isPlaying && <span className="playing-animation" style={{ color: currentTheme.primary }}>🎵</span>}
+                {isPlaying && <span className="playing-animation">🎵</span>}
                 <div className="playback-mode">
-                  {isShuffleMode && <span className="mode-indicator" style={{ color: currentTheme.primary }}>🔀</span>}
-                  {isRepeatMode === 1 && <span className="mode-indicator" style={{ color: currentTheme.primary }}>🔁</span>}
-                  {isRepeatMode === 2 && <span className="mode-indicator" style={{ color: currentTheme.primary }}>🔂</span>}
+                  {isShuffleMode && <span className="mode-indicator">🔀</span>}
+                  {isRepeatMode === 1 && <span className="mode-indicator">🔁</span>}
+                  {isRepeatMode === 2 && <span className="mode-indicator">🔂</span>}
                 </div>
               </div>
               <button
                 className="player-btn"
-                onClick={toggleQueue}
-                title="File d'attente (Ctrl+Q)"
-                style={showQueuePanel ? { color: currentTheme.primary } : {}}
-              >
-                📋
-              </button>
-              <button
-                className="player-btn"
-                onClick={toggleMute}
-                title="Muet (Ctrl+M)"
+                onClick={() => setIsMuted(!isMuted)}
               >
                 {isMuted ? '🔇' : '🔊'}
               </button>
@@ -1746,10 +1346,9 @@ useEffect(() => {
                 className="volume-slider"
                 min="0"
                 max="1"
-                step="0.01"
+                step="0.1"
                 value={isMuted ? 0 : volume}
                 onChange={(e) => setVolume(parseFloat(e.target.value))}
-                title="Volume (↑/↓)"
               />
               <button className="close-btn" onClick={() => setCurrentTrack(null)}>✕</button>
             </div>
@@ -1792,101 +1391,7 @@ useEffect(() => {
           onSave={updatePlaylist}
         />
       )}
-
-      {showSleepTimerModal && (
-        <SleepTimerModal
-          isOpen={showSleepTimerModal}
-          onClose={() => setShowSleepTimerModal(false)}
-          audioRef={audioRef}
-          onStop={() => setIsPlaying(false)}
-        />
-      )}
-
-      {showShortcutsHelp && (
-        <KeyboardShortcutsHelp
-          isOpen={showShortcutsHelp}
-          onClose={() => setShowShortcutsHelp(false)}
-        />
-      )}
-
-      {showSaveQueueModal && (
-        <SaveQueueModal
-          queue={currentQueue}
-          onClose={() => setShowSaveQueueModal(false)}
-          onCreate={createPlaylistFromQueue}
-        />
-      )}
     </div>
-  );
-}
-
-// Composant HistoryPage
-const HistoryPage = ({ musicDatabase, onPlayTrack, onAddToPlaylist }) => {
-  const { isDarkMode, currentTheme } = useTheme();
-  const { listeningHistory, playStats } = useMusic();
-
-  return (
-    <div className={`page-container ${isDarkMode ? 'dark' : 'light'}`}>
-      <h1 className="page-title">📜 Historique d'écoute</h1>
-      <p className="page-subtitle">Vos 50 dernières musiques écoutées</p>
-
-      {listeningHistory.length === 0 ? (
-        <div className="empty-state">
-          <p>Aucune musique écoutée pour le moment.</p>
-          <p>Commencez à écouter de la musique pour voir votre historique !</p>
-        </div>
-      ) : (
-        <div className="history-full-list">
-          {listeningHistory.map((entry, index) => (
-            <div 
-              key={entry.playId} 
-              className="track-item history-track-item"
-              onClick={() => onPlayTrack(entry)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="track-number">{index + 1}</div>
-              <img src={entry.cover} alt={entry.title} className="track-cover" />
-              <div className="track-info">
-                <div className="track-title">{entry.title}</div>
-                <div className="track-artist">{entry.artist}</div>
-              </div>
-              <div className="track-genre">{entry.genre}</div>
-              <div className="history-meta">
-                <span className="history-date">
-                  {new Date(entry.playedAt).toLocaleDateString('fr-FR')}
-                </span>
-                <span className="history-time">
-                  {new Date(entry.playedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
-              <div className="play-count-badge" style={{ background: currentTheme.gradient }}>
-                {playStats[entry.id] || 1}x
-              </div>
-              <button
-                className="add-to-playlist-btn-small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onAddToPlaylist(entry);
-                }}
-                title="Ajouter à une playlist"
-              >
-                ➕
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <ThemeProvider>
-      <MusicProvider>
-        <AppContent />
-      </MusicProvider>
-    </ThemeProvider>
   );
 }
 
