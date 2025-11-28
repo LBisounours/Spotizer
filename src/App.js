@@ -440,7 +440,29 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
     if (playlists.length > 0) {
       localStorage.setItem('deezer-playlists', JSON.stringify(playlists));
     }
-  }, [playlists]);    useEffect(() => {
+  }, 
+  
+  [playlists]);    
+  // 📌 Mise à jour des informations du lockscreen (Media Session)
+useEffect(() => {
+  if (!currentTrack) return;
+  if ("mediaSession" in navigator) {
+    navigator.mediaSession.metadata = new window.MediaMetadata({
+      title: currentTrack.title,
+      artist: currentTrack.artist,
+      album: currentTrack.album || "",
+      artwork: [
+        {
+          src: currentTrack.cover,
+          sizes: "512x512",
+          type: "image/png"
+        }
+      ]
+    });
+  }
+}, [currentTrack]);
+
+  useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;    const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
@@ -507,23 +529,7 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
       if (audioRef.current) {
         audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
       }
-    }, 100);        if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new window.MediaMetadata({
-        title: track.title,
-        artist: track.artist,
-        album: track.album || '',
-        artwork: [
-          { src: track.cover, sizes: '512x512', type: 'image/png' }
-        ]
-      });      navigator.mediaSession.setActionHandler('play', () => {
-        audioRef.current?.play();
-        setIsPlaying(true);
-      });      navigator.mediaSession.setActionHandler('pause', () => {
-        audioRef.current?.pause();
-        setIsPlaying(false);
-      });      navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
-      navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
-    }
+    }, 100);
   }, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue]);  const togglePlayPause = useCallback(() => {
     if (!audioRef.current || !currentTrack) return;    if (isPlaying) {
       audioRef.current.pause();
@@ -777,7 +783,46 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
     } else {
       setCurrentQueue([]);
     }
-  };    const handlePlaylistDragEnd = (result) => {
+  };    
+  
+  useEffect(() => {
+  if (!audioRef.current) return;
+
+  if ("mediaSession" in navigator) {
+    navigator.mediaSession.setActionHandler("play", () => {
+      audioRef.current.play();
+      setIsPlaying(true);
+    });
+
+    navigator.mediaSession.setActionHandler("pause", () => {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    });
+
+    navigator.mediaSession.setActionHandler("previoustrack", previousTrack);
+    navigator.mediaSession.setActionHandler("nexttrack", nextTrack);
+
+    navigator.mediaSession.setActionHandler("seekto", (details) => {
+      if (details.fastSeek && "fastSeek" in audioRef.current) {
+        audioRef.current.fastSeek(details.seekTime);
+      } else {
+        audioRef.current.currentTime = details.seekTime;
+      }
+    });
+
+    navigator.mediaSession.setActionHandler("seekforward", (details) => {
+      const offset = details.seekOffset || 10;
+      audioRef.current.currentTime += offset;
+    });
+
+    navigator.mediaSession.setActionHandler("seekbackward", (details) => {
+      const offset = details.seekOffset || 10;
+      audioRef.current.currentTime -= offset;
+    });
+  }
+}, [audioRef, nextTrack, previousTrack, setIsPlaying]);
+  
+  const handlePlaylistDragEnd = (result) => {
     if (!result.destination || !selectedPlaylist) return;
     
     const newTracks = [...selectedPlaylist.tracks];
