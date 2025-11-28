@@ -8,13 +8,13 @@ gradient: 'linear-gradient(135deg, #9333ea, #ec4899)'
 },
 blue: {
 name: 'Bleu',
-primary: '#3b82f6',
+primary: '#0758dbff',
 secondary: '#06b6d4',
 accent: '#0ea5e9',
-gradient: 'linear-gradient(135deg, #3b82f6, #06b6d4)'
+gradient: 'linear-gradient(135deg, #0758dbff, #06b6d4)'
 },
-red: {
-name: 'Rouge',
+orange: {
+name: 'Orange',
 primary: '#ef4444',
 secondary: '#f97316',
 accent: '#dc2626',
@@ -27,8 +27,8 @@ secondary: '#10b981',
 accent: '#34d399',
 gradient: 'linear-gradient(135deg, #22c55e, #10b981)'
 },
-orange: {
-name: 'Orange',
+jaune: {
+name: 'Jaune',
 primary: '#f97316',
 secondary: '#eab308',
 accent: '#fb923c',
@@ -47,6 +47,13 @@ primary: '#06b6d4',
 secondary: '#22d3ee',
 accent: '#0891b2',
 gradient: 'linear-gradient(135deg, #06b6d4, #22d3ee)'
+},
+red: {
+name: 'Rouge',
+primary: '#ff0000ff',
+secondary: '#af3838ff',
+accent: '#dc2626',
+gradient: 'linear-gradient(135deg, #ff0000ff, #af3838ff)'
 }
 };export const ThemeProvider = ({ children }) => {
 const [isDarkMode, setIsDarkMode] = useState(() => {

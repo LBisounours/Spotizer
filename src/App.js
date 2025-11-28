@@ -1110,20 +1110,23 @@ openAddToPlaylistModal(track);
 <p className="search-empty-subtitle">Trouvez vos artistes, albums et titres préférés</p><div className="genres-section">
 <h3 className="genres-title">Rechercher par genre</h3>
 <div className="genres-grid">
+<div className="genre-card genre-rap" onClick={() => handleSearch('Rap')}>
+<h4 className="genre-name">Rap</h4>
+</div>
 <div className="genre-card genre-pop" onClick={() => handleSearch('Pop')}>
 <h4 className="genre-name">Pop</h4>
 </div>
 <div className="genre-card genre-rock" onClick={() => handleSearch('Rock')}>
 <h4 className="genre-name">Rock</h4>
 </div>
-<div className="genre-card genre-hiphop" onClick={() => handleSearch('Opening')}>
-<h4 className="genre-name">Opening</h4>
-</div>
 <div className="genre-card genre-electronic" onClick={() => handleSearch('Electro')}>
 <h4 className="genre-name">Electro</h4>
 </div>
-<div className="genre-card genre-rap" onClick={() => handleSearch('Rap')}>
-<h4 className="genre-name">Rap</h4>
+<div className="genre-card genre-hiphop" onClick={() => handleSearch('Opening')}>
+<h4 className="genre-name">Opening</h4>
+</div>
+<div className="genre-card genre-altr" onClick={() => handleSearch('Alternative')}>
+<h4 className="genre-name">Alternative</h4>
 </div>
 </div>
 </div>
