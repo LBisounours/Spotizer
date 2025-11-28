@@ -4,7 +4,7 @@ import './App.css';
 // Grande base de données de musiques (même que précédemment)
 const musicDatabase = [
   { id: 1, title: "Un quart d'heure", artist: "Satine", album: "", duration: "2.36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
-  { id: 2, title: "Tesrtt", artist: "47Ter", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
+  { id: 2, title: "Côte Ouest", artist: "47Ter", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
   { id: 3, title: "Harakiri", artist: "47Ter", album: "", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
   { id: 4, title: "Bloody Stream", artist: "Jojo's Bizzare Adventure", album: "", duration: "4:21", cover: "Musique/Images/font4.png", audioUrl: "Musique/Musique4.mp3", genre: "Opening" },
   { id: 5, title: "Bad Hatter", artist: "Artiste", album: "", duration: "2:57", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "" },
