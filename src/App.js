@@ -496,6 +496,53 @@ function AppContent() {
       localStorage.setItem('deezer-playlists', JSON.stringify(playlists));
     }
   }, [playlists]);
+  
+  // --- NOUVELLE FONCTION : Mise à jour de la Media Session API ---
+  const updateMediaSessionMetadata = useCallback((track) => {
+    if (!track) return;
+    
+    if ('mediaSession' in navigator) {
+      // 1. Mise à jour des métadonnées (titre, artiste, pochette)
+      navigator.mediaSession.metadata = new window.MediaMetadata({
+        title: track.title,
+        artist: track.artist,
+        album: track.album || '',
+        artwork: [
+          { src: track.cover, sizes: '512x512', type: 'image/png' }
+        ]
+      });
+
+      // 2. Définition des handlers d'actions (à ne faire qu'une seule fois)
+      if (!navigator.mediaSession._handlersSet) {
+        navigator.mediaSession.setActionHandler('play', () => {
+          audioRef.current?.play();
+          setIsPlaying(true);
+        });
+
+        navigator.mediaSession.setActionHandler('pause', () => {
+          audioRef.current?.pause();
+          setIsPlaying(false);
+        });
+
+        navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
+        navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+        
+        // --- MODIFICATION POUR CONTRÔLE AVANCÉ/RECULÉ SUR MOBILE (10000s = next/prev) ---
+        navigator.mediaSession.setActionHandler('seekforward', (details) => {
+          console.log(`Media Session: seekforward (+${details.seekOffset || 10}s) -> Next Track via large seek`);
+          audioRef.current.currentTime += 10000; // Un grand saut pour forcer l'événement 'ended' ou passer à la piste suivante
+        });
+        
+        navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+          console.log(`Media Session: seekbackward (-${details.seekOffset || 10}s) -> Previous Track via large seek`);
+          audioRef.current.currentTime -= 10000; // Un grand saut pour forcer l'événement 'ended' ou passer à la piste précédente
+        });
+        
+        // Marquer les handlers comme définis
+        navigator.mediaSession._handlersSet = true;
+      }
+    }
+  }, []); // Dépendances vides car on utilise les fonctions nextTrack/previousTrack définies plus bas
 
   // Gestion du lecteur audio
   useEffect(() => {
@@ -588,6 +635,9 @@ function AppContent() {
       const orderedQueue = initializeQueue(track, sourceList);
       setCurrentQueue(orderedQueue);
     }
+    
+    // --- APPEL DE LA FONCTION DE MISE À JOUR DE LA MEDIA SESSION ---
+    updateMediaSessionMetadata(track);
 
     setTimeout(() => {
       if (audioRef.current) {
@@ -595,31 +645,7 @@ function AppContent() {
       }
     }, 100);
 
-    // Media Session API
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new window.MediaMetadata({
-        title: track.title,
-        artist: track.artist,
-        album: track.album || '',
-        artwork: [
-          { src: track.cover, sizes: '512x512', type: 'image/png' }
-        ]
-      });
-
-      navigator.mediaSession.setActionHandler('play', () => {
-        audioRef.current?.play();
-        setIsPlaying(true);
-      });
-
-      navigator.mediaSession.setActionHandler('pause', () => {
-        audioRef.current?.pause();
-        setIsPlaying(false);
-      });
-
-      navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
-      navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
-    }
-  }, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue]);
+  }, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue, updateMediaSessionMetadata]);
 
   const togglePlayPause = useCallback(() => {
     if (!audioRef.current || !currentTrack) return;
@@ -627,9 +653,13 @@ function AppContent() {
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
+      // Mise à jour pour le lockscreen
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
     } else {
       audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
       setIsPlaying(true);
+      // Mise à jour pour le lockscreen
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
     }
   }, [isPlaying, currentTrack]);
 
@@ -675,13 +705,16 @@ function AppContent() {
       setLastPlayTime(0);
       addToHistory(nextTrack);
       
+      // --- MISE À JOUR DE LA MEDIA SESSION ---
+      updateMediaSessionMetadata(nextTrack);
+
       setTimeout(() => {
         if (audioRef.current) {
           audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
         }
       }, 100);
     }
-  }, [currentQueue, currentTrack, isRepeatMode, addToHistory]);
+  }, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata]);
 
   const previousTrack = useCallback(() => {
     if (currentQueue.length === 0) return;
@@ -704,13 +737,16 @@ function AppContent() {
       setLastPlayTime(0);
       addToHistory(prevTrack);
       
+      // --- MISE À JOUR DE LA MEDIA SESSION ---
+      updateMediaSessionMetadata(prevTrack);
+
       setTimeout(() => {
         if (audioRef.current) {
           audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
         }
       }, 100);
     }
-  }, [currentQueue, currentTrack, isRepeatMode, addToHistory]);
+  }, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata]);
 
   const toggleShuffle = useCallback(() => {
     setIsShuffleMode(prev => {
