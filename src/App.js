@@ -10,7 +10,6 @@ import SleepTimerModal from './components/SleepTimerModal';
 import StatsPage from './components/StatsPage';
 import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';
 
-// Base de données de musiques complète avec métadonnées améliorées
 const musicDatabase = [
   { id: 1, title: "Un quart d'heure", artist: "Satine", album: "", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
   { id: 2, title: "Côte Ouest", artist: "47Ter", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
@@ -48,11 +47,11 @@ const musicDatabase = [
   { id: 34, title: "La Quête", artist: "Orelsan", album: "", duration: "3:54", cover: "Musique/Images/font34.png", audioUrl: "Musique/Musique34.mp3", genre: "Rap" },
   { id: 35, title: "Déprime", artist: "Disiz", album: "", duration: "3:19", cover: "Musique/Images/font35.png", audioUrl: "Musique/Musique35.mp3", genre: "Rap" },
   { id: 36, title: "Tchin Tchin", artist: "Rilès", album: "", duration: "2:36", cover: "Musique/Images/font36.png", audioUrl: "Musique/Musique36.mp3", genre: "Rap" },
-  { id: 37, title: "Decrescendo", artist: "Zaho de Sagazan", album: "", duration: "3:41", cover: "Musique/Images/font37.png", audioUrl: "Musique/Musique37.mp3", genre: "Pop" },
+  { id: 37, title: "Decrescendo", artist: "Lomepal", album: "", duration: "3:41", cover: "Musique/Images/font37.png", audioUrl: "Musique/Musique37.mp3", genre: "Pop" },
   { id: 38, title: "Astronaute", artist: "Nekfeu", album: "", duration: "6:58", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "Rap" },
-  { id: 39, title: "Dépassé", artist: "Maître Gims", album: "", duration: "2:52", cover: "Musique/Images/font39.png", audioUrl: "Musique/Musique39.mp3", genre: "Pop" },
-  { id: 40, title: "Hit Sale", artist: "SCH", album: "", duration: "3:19", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "Rap" },
-  { id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Ycare", album: "", duration: "3:45", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "Pop" },
+  { id: 39, title: "Nuit Incolore ", artist: "Maître Gims", album: "", duration: "2:52", cover: "Musique/Images/font39.png", audioUrl: "Musique/Musique39.mp3", genre: "Pop" },
+  { id: 40, title: "Hit Sale", artist: "Therapie Taxi", album: "", duration: "3:19", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "Rap" },
+  { id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Columbine et Lujipeka", album: "", duration: "3:45", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "Pop" },
   { id: 42, title: "THE LONELIEST", artist: "Måneskin", album: "", duration: "4:47", cover: "Musique/Images/font42.png", audioUrl: "Musique/Musique42.mp3", genre: "Rock" },
   { id: 43, title: "Daylight", artist: "David Kushner", album: "", duration: "3:49", cover: "Musique/Images/font43.png", audioUrl: "Musique/Musique43.mp3", genre: "Pop" },
   { id: 44, title: "Ceux qui rêvent", artist: "Pomme", album: "", duration: "1:58", cover: "Musique/Images/font44.png", audioUrl: "Musique/Musique44.mp3", genre: "Pop" },
