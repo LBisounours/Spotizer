@@ -11,51 +11,41 @@ import { useEffect, useCallback } from 'react';export const useKeyboardShortcuts
   isEnabled = true
 }) => {
   const handleKeyDown = useCallback((e) => {
-    // Ne pas intercepter si on est dans un input
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
       return;
-    }    // Espace - Play/Pause
-    if (e.code === 'Space' && !e.ctrlKey && !e.metaKey) {
+    }        if (e.code === 'Space' && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       onPlayPause?.();
       return;
-    }    // Flèche droite - Suivant
-    if (e.code === 'ArrowRight' && !e.ctrlKey && !e.metaKey) {
+    }        if (e.code === 'ArrowRight' && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       onNext?.();
       return;
-    }    // Flèche gauche - Précédent
-    if (e.code === 'ArrowLeft' && !e.ctrlKey && !e.metaKey) {
+    }        if (e.code === 'ArrowLeft' && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       onPrevious?.();
       return;
-    }    // Flèche haut ou + - Volume +
-    if ((e.code === 'ArrowUp' || e.code === 'Equal' || e.code === 'NumpadAdd') && !e.ctrlKey && !e.metaKey) {
+    }        if ((e.code === 'ArrowUp' || e.code === 'Equal' || e.code === 'NumpadAdd') && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       onVolumeUp?.();
       return;
-    }    // Flèche bas ou - - Volume -
-    if ((e.code === 'ArrowDown' || e.code === 'Minus' || e.code === 'NumpadSubtract') && !e.ctrlKey && !e.metaKey) {
+    }        if ((e.code === 'ArrowDown' || e.code === 'Minus' || e.code === 'NumpadSubtract') && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       onVolumeDown?.();
       return;
-    }    // Ctrl+M - Muet
-    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyM') {
+    }        if ((e.ctrlKey || e.metaKey) && e.code === 'KeyM') {
       e.preventDefault();
       onMute?.();
       return;
-    }    // Ctrl+S - Shuffle
-    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
+    }        if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
       e.preventDefault();
       onShuffle?.();
       return;
-    }    // Ctrl+R - Repeat
-    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyR') {
+    }        if ((e.ctrlKey || e.metaKey) && e.code === 'KeyR') {
       e.preventDefault();
       onRepeat?.();
       return;
-    }    // Ctrl+Q - Toggle Queue
-    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyQ') {
+    }        if ((e.ctrlKey || e.metaKey) && e.code === 'KeyQ') {
       e.preventDefault();
       onToggleQueue?.();
       return;
