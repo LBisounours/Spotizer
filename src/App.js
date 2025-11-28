@@ -694,31 +694,51 @@ function AppContent() {
       // Mode normal
       nextIndex = currentIndex + 1;
       if (nextIndex >= currentQueue.length) {
-        nextIndex = 0;
+        // Arrêter la lecture si on arrive à la fin et que la répétition est désactivée (mode 0)
+        if (isRepeatMode === 0) {
+          setIsPlaying(false);
+          setCurrentTrack(null);
+          setCurrentTime(0);
+          return; // Arrêter ici
+        }
+        nextIndex = 0; // Revenir au début en mode 1
       }
     }
 
     if (currentQueue[nextIndex]) {
       const nextTrack = currentQueue[nextIndex];
+      
+      // 1. Mettre à jour l'état de la piste
       setCurrentTrack(nextTrack);
       setIsPlaying(true);
       setLastPlayTime(0);
       addToHistory(nextTrack);
-      
-      // --- MISE À JOUR DE LA MEDIA SESSION ---
       updateMediaSessionMetadata(nextTrack);
 
-      setTimeout(() => {
-        if (audioRef.current) {
-          audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
-        }
-      }, 100);
+      // 2. Tenter de lire immédiatement
+      // L'élément <audio> changera sa source grâce à l'effet de bord de setCurrentTrack
+      // On utilise un petit délai pour donner le temps à React de mettre à jour le DOM
+      // Mais on s'assure que le .play() soit appelé.
+      const audio = audioRef.current;
+      if (audio) {
+          audio.pause(); // S'assurer que la piste précédente est arrêtée
+          audio.load(); // Forcer le rechargement de la nouvelle source
+          audio.oncanplaythrough = () => { // Jouer dès que la nouvelle piste est chargée
+              audio.play().catch(e => console.log('Erreur de lecture de la piste suivante:', e));
+          };
+      }
     }
   }, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata]);
 
   const previousTrack = useCallback(() => {
     if (currentQueue.length === 0) return;
     
+    // Si la musique a commencé il y a plus de 3 secondes, on recommence la piste actuelle
+    if (audioRef.current && currentTime > 3) {
+      audioRef.current.currentTime = 0;
+      return;
+    }
+
     const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
     let prevIndex;
 
@@ -732,21 +752,25 @@ function AppContent() {
 
     if (currentQueue[prevIndex]) {
       const prevTrack = currentQueue[prevIndex];
+      
+      // 1. Mettre à jour l'état de la piste
       setCurrentTrack(prevTrack);
       setIsPlaying(true);
       setLastPlayTime(0);
       addToHistory(prevTrack);
-      
-      // --- MISE À JOUR DE LA MEDIA SESSION ---
       updateMediaSessionMetadata(prevTrack);
 
-      setTimeout(() => {
-        if (audioRef.current) {
-          audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
-        }
-      }, 100);
+      // 2. Tenter de lire immédiatement
+      const audio = audioRef.current;
+      if (audio) {
+          audio.pause(); // S'assurer que la piste précédente est arrêtée
+          audio.load(); // Forcer le rechargement de la nouvelle source
+          audio.oncanplaythrough = () => { // Jouer dès que la nouvelle piste est chargée
+              audio.play().catch(e => console.log('Erreur de lecture de la piste précédente:', e));
+          };
+      }
     }
-  }, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata]);
+  }, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata, currentTime]);
 
   const toggleShuffle = useCallback(() => {
     setIsShuffleMode(prev => {
