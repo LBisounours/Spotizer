@@ -1,8 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-const ThemeContext = createContext();
-
-export const themes = {
+import React, { createContext, useContext, useState, useEffect } from 'react';const ThemeContext = createContext();export const themes = {
   violet: {
     name: 'Violet',
     primary: '#9333ea',
@@ -52,32 +48,18 @@ export const themes = {
     accent: '#0891b2',
     gradient: 'linear-gradient(135deg, #06b6d4, #22d3ee)'
   }
-};
-
-export const ThemeProvider = ({ children }) => {
+};export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('spotizer-dark-mode');
     return saved !== null ? JSON.parse(saved) : true;
-  });
-
-  const [colorTheme, setColorTheme] = useState(() => {
+  });  const [colorTheme, setColorTheme] = useState(() => {
     const saved = localStorage.getItem('spotizer-color-theme');
     return saved || 'violet';
-  });
-
-  useEffect(() => {
+  });  useEffect(() => {
     localStorage.setItem('spotizer-dark-mode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
-
-  useEffect(() => {
+  }, [isDarkMode]);  useEffect(() => {
     localStorage.setItem('spotizer-color-theme', colorTheme);
-  }, [colorTheme]);
-
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
-
-  const currentTheme = themes[colorTheme] || themes.violet;
-
-  return (
+  }, [colorTheme]);  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);  const currentTheme = themes[colorTheme] || themes.violet;  return (
     <ThemeContext.Provider value={{
       isDarkMode,
       toggleDarkMode,
@@ -89,6 +71,4 @@ export const ThemeProvider = ({ children }) => {
       {children}
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = () => useContext(ThemeContext);
+};export const useTheme = () => useContext(ThemeContext);

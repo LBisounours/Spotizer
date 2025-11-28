@@ -1,44 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useTheme, themes } from '../contexts/ThemeContext';
-import '../App.css';
-
-const ThemeSelector = () => {
+import '../App.css';const ThemeSelector = () => {
   const { isDarkMode, toggleDarkMode, colorTheme, setColorTheme, currentTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-
-  const btnRef = useRef();
-  const dropdownRef = useRef();
-
-  useEffect(() => {
+  const [coords, setCoords] = useState({ x: 0, y: 0 });  const btnRef = useRef();
+  const dropdownRef = useRef();  useEffect(() => {
     if (isOpen && btnRef.current) {
-      const rect = btnRef.current.getBoundingClientRect();
-
-      const dropdownWidth = dropdownRef.current?.offsetWidth || 220;
-      const dropdownHeight = dropdownRef.current?.offsetHeight || 260;
-
-      let x = rect.left;
-      let y = rect.top - dropdownHeight - 10;
-
-      // Si dépasse en haut → on place en bas
+      const rect = btnRef.current.getBoundingClientRect();      const dropdownWidth = dropdownRef.current?.offsetWidth || 220;
+      const dropdownHeight = dropdownRef.current?.offsetHeight || 260;      let x = rect.left;
+      let y = rect.top - dropdownHeight - 10;      
       if (y < 0) {
         y = rect.bottom + 10;
-      }
-
-      // Si dépasse à droite → on décale à gauche
+      }      
       if (x + dropdownWidth > window.innerWidth) {
         x = window.innerWidth - dropdownWidth - 10;
-      }
-
-      // Si dépasse à gauche → on force à 10px du bord
-      if (x < 0) x = 10;
-
-      setCoords({ x, y });
+      }      
+      if (x < 0) x = 10;      setCoords({ x, y });
     }
-  }, [isOpen]);
-
-  return (
+  }, [isOpen]);  return (
     <div className="theme-selector">
       <button 
         ref={btnRef}
@@ -48,9 +28,7 @@ const ThemeSelector = () => {
         title="Personnaliser le thème"
       >
         🎨
-      </button>
-
-      {isOpen && ReactDOM.createPortal(
+      </button>      {isOpen && ReactDOM.createPortal(
         <div
           ref={dropdownRef}
           className={`theme-dropdown ${isDarkMode ? 'dark' : 'light'}`}
@@ -74,9 +52,7 @@ const ThemeSelector = () => {
                 ☀️ Clair
               </button>
             </div>
-          </div>
-
-          <div className="theme-section">
+          </div>          <div className="theme-section">
             <h4>Couleur du thème</h4>
             <div className="color-options">
               {Object.entries(themes).map(([key, theme]) => (
@@ -91,9 +67,7 @@ const ThemeSelector = () => {
                 </button>
               ))}
             </div>
-          </div>
-
-          <button className="theme-close-btn" onClick={() => setIsOpen(false)}>
+          </div>          <button className="theme-close-btn" onClick={() => setIsOpen(false)}>
             Fermer
           </button>
         </div>,
@@ -101,6 +75,4 @@ const ThemeSelector = () => {
       )}
     </div>
   );
-};
-
-export default ThemeSelector;
+};export default ThemeSelector;

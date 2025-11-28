@@ -1,8 +1,6 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { useTheme } from '../contexts/ThemeContext';
-
-const QueuePanel = ({
+import { useTheme } from '../contexts/ThemeContext';const QueuePanel = ({
   isOpen,
   onClose,
   queue,
@@ -13,19 +11,11 @@ const QueuePanel = ({
   onSaveAsPlaylist,
   onClearQueue
 }) => {
-  const { isDarkMode, currentTheme } = useTheme();
-
-  const handleDragEnd = (result) => {
+  const { isDarkMode, currentTheme } = useTheme();  const handleDragEnd = (result) => {
     if (!result.destination) return;
     onReorder(result.source.index, result.destination.index);
-  };
-
-  if (!isOpen) return null;
-
-  const currentIndex = queue.findIndex(t => t.id === currentTrack?.id);
-  const upcomingTracks = queue.slice(currentIndex + 1);
-
-  return (
+  };  if (!isOpen) return null;  const currentIndex = queue.findIndex(t => t.id === currentTrack?.id);
+  const upcomingTracks = queue.slice(currentIndex + 1);  return (
     <div className={`queue-panel ${isDarkMode ? 'dark' : 'light'}`}>
       <div className="queue-header">
         <h3>File d'attente</h3>
@@ -39,9 +29,7 @@ const QueuePanel = ({
           </button>
           <button className="queue-close-btn" onClick={onClose}>✕</button>
         </div>
-      </div>
-
-      {currentTrack && (
+      </div>      {currentTrack && (
         <div className="queue-now-playing">
           <h4>En cours de lecture</h4>
           <div className="queue-current-track" style={{ borderColor: currentTheme.primary }}>
@@ -53,9 +41,7 @@ const QueuePanel = ({
             <span className="now-playing-icon" style={{ color: currentTheme.primary }}>🎵</span>
           </div>
         </div>
-      )}
-
-      <div className="queue-upcoming">
+      )}      <div className="queue-upcoming">
         <h4>À suivre ({upcomingTracks.length})</h4>
         
         {upcomingTracks.length === 0 ? (
@@ -119,6 +105,4 @@ const QueuePanel = ({
       </div>
     </div>
   );
-};
-
-export default QueuePanel;
+};export default QueuePanel;

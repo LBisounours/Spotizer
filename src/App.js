@@ -8,9 +8,7 @@ import QueuePanel from './components/QueuePanel';
 import ThemeSelector from './components/ThemeSelector';
 import SleepTimerModal from './components/SleepTimerModal';
 import StatsPage from './components/StatsPage';
-import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';
-
-const musicDatabase = [
+import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const musicDatabase = [
   { id: 1, title: "Un quart d'heure", artist: "Satine", album: "", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
   { id: 2, title: "Côte Ouest", artist: "47Ter", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
   { id: 3, title: "Harakiri", artist: "47Ter", album: "", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
@@ -20,8 +18,8 @@ const musicDatabase = [
   { id: 7, title: "Un air qui fait", artist: "47Ter", album: "", duration: "3:46", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "Rap" },
   { id: 8, title: "1000°C", artist: "Lomepal", album: "", duration: "4:41", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "Rap" },
   { id: 9, title: "Wellerman (Sea Shanty)", artist: "Nathan Evans", album: "", duration: "2:35", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "Folk" },
-  { id: 10, title: "I Can't Fit In", artist: "SYML", album: "", duration: "2:09", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "Indie" },
-  { id: 11, title: "C'est pas grave", artist: "Julien Doré", album: "", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "Pop" },
+  { id: 10, title: "I Can't Fit In", artist: "Marino", album: "", duration: "2:09", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "Indie" },
+  { id: 11, title: "C'est pas grave", artist: "Columbine", album: "", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "Pop" },
   { id: 12, title: "Chaque soir", artist: "47Ter", album: "", duration: "3:14", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "Rap" },
   { id: 13, title: "Sur tes pas", artist: "Wakfu", album: "", duration: "4:01", cover: "Musique/Images/font13.png", audioUrl: "Musique/Musique13.mp3", genre: "Opening" },
   { id: 14, title: "Fairytale", artist: "Alexandre Rybak", album: "", duration: "3:02", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "Pop" },
@@ -106,10 +104,7 @@ const musicDatabase = [
   { id: 93, title: "World's smallest violin", artist: "AJR", album: "", duration: "3:07", cover: "Musique/Images/font93.png", audioUrl: "Musique/Musique93.mp3", genre: "Pop" },
   { id: 94, title: "Veil", artist: "Fire Force", album: "", duration: "3:28", cover: "Musique/Images/font94.png", audioUrl: "Musique/Musique94.mp3", genre: "Opening" },
   { id: 95, title: "Star shopping", artist: "Lil Peep", album: "", duration: "2:22", cover: "Musique/Images/font95.png", audioUrl: "Musique/Musique95.mp3", genre: "Rap" },
-];
-
-// Playlists par défaut
-const defaultPlaylists = [
+];const defaultPlaylists = [
   {
     id: 'default-1',
     name: "Mes favoris",
@@ -118,10 +113,7 @@ const defaultPlaylists = [
     tracks: [],
     isDefault: true
   }
-];
-
-// Modal pour options de playlist
-const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
+];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
   const { isDarkMode } = useTheme();
   
   return (
@@ -159,34 +151,21 @@ const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport })
       </div>
     </div>
   );
-};
-
-// Modal pour éditer une playlist
-const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
+};const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
   const { isDarkMode, currentTheme } = useTheme();
   const [name, setName] = useState(playlist.name || '');
   const [description, setDescription] = useState(playlist.description || '');
-  const [cover, setCover] = useState(playlist.cover || '');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!name.trim()) {
+  const [cover, setCover] = useState(playlist.cover || '');  const handleSubmit = (e) => {
+    e.preventDefault();    if (!name.trim()) {
       alert("Le nom de la playlist est obligatoire !");
       return;
-    }
-
-    onSave({
+    }    onSave({
       ...playlist,
       name: name.trim(),
       description: description.trim(),
       cover: cover.trim() || playlist.cover,
-    });
-
-    onClose();
-  };
-
-  return (
+    });    onClose();
+  };  return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Modifier la playlist</h2>
@@ -233,17 +212,12 @@ const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
       </div>
     </div>
   );
-};
-
-// Modal pour créer une playlist
-const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
+};const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
   const { isDarkMode, currentTheme } = useTheme();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [cover, setCover] = useState('');
-  const fileInputRef = useRef(null);
-
-  const handleSubmit = (e) => {
+  const fileInputRef = useRef(null);  const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim()) {
       onCreate(name.trim(), description.trim(), cover.trim());
@@ -251,9 +225,7 @@ const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
       setDescription('');
       setCover('');
     }
-  };
-
-  const handleImport = (e) => {
+  };  const handleImport = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -268,9 +240,7 @@ const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
       };
       reader.readAsText(file);
     }
-  };
-
-  return (
+  };  return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Créer une nouvelle playlist</h2>
@@ -336,10 +306,7 @@ const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
       </div>
     </div>
   );
-};
-
-// Modal pour ajouter à une playlist
-const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
+};const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
   const { isDarkMode, currentTheme } = useTheme();
   
   return (
@@ -376,23 +343,16 @@ const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
       </div>
     </div>
   );
-};
-
-// Modal pour sauvegarder la queue comme playlist
-const SaveQueueModal = ({ queue, onClose, onCreate }) => {
+};const SaveQueueModal = ({ queue, onClose, onCreate }) => {
   const { isDarkMode, currentTheme } = useTheme();
   const [name, setName] = useState('Ma file d\'attente');
-  const [description, setDescription] = useState('');
-
-  const handleSubmit = (e) => {
+  const [description, setDescription] = useState('');  const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim() && queue.length > 0) {
       onCreate(name.trim(), description.trim(), queue);
       onClose();
     }
-  };
-
-  return (
+  };  return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">💾 Sauvegarder la file d'attente</h2>
@@ -431,9 +391,7 @@ const SaveQueueModal = ({ queue, onClose, onCreate }) => {
       </div>
     </div>
   );
-};
-
-function AppContent() {
+};function AppContent() {
   const { isDarkMode, currentTheme } = useTheme();
   const { addToHistory, addListeningTime, sleepTimerActive, sleepTimerRemaining } = useMusic();
   
@@ -462,50 +420,32 @@ function AppContent() {
   const [currentQueue, setCurrentQueue] = useState([]);
   const [isRepeatMode, setIsRepeatMode] = useState(0);
   
-  // Nouveaux états
-  const [showQueuePanel, setShowQueuePanel] = useState(false);
+    const [showQueuePanel, setShowQueuePanel] = useState(false);
   const [showSleepTimerModal, setShowSleepTimerModal] = useState(false);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [showSaveQueueModal, setShowSaveQueueModal] = useState(false);
-  const [lastPlayTime, setLastPlayTime] = useState(0);
-
-  const audioRef = useRef(null);
-
-  // Mettre à jour le volume
-  useEffect(() => {
+  const [lastPlayTime, setLastPlayTime] = useState(0);  const audioRef = useRef(null);    useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = isMuted ? 0 : volume;
     }
     localStorage.setItem('spotizer-volume', volume.toString());
-  }, [volume, isMuted]);
-
-  // Charger les playlists depuis localStorage au démarrage
-  useEffect(() => {
+  }, [volume, isMuted]);    useEffect(() => {
     const savedPlaylists = localStorage.getItem('deezer-playlists');
     if (savedPlaylists) {
       setPlaylists(JSON.parse(savedPlaylists));
     } else {
       setPlaylists(defaultPlaylists);
     }
-  }, []);
-
-  // Sauvegarder les playlists dans localStorage à chaque modification
-  useEffect(() => {
+  }, []);    useEffect(() => {
     if (playlists.length > 0) {
       localStorage.setItem('deezer-playlists', JSON.stringify(playlists));
     }
-  }, [playlists]);
-
-  // Gestion du lecteur audio
-  useEffect(() => {
+  }, [playlists]);    useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleTimeUpdate = () => {
+    if (!audio) return;    const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
       
-      // Tracking du temps d'écoute (toutes les 10 secondes)
-      const currentSec = Math.floor(audio.currentTime);
+            const currentSec = Math.floor(audio.currentTime);
       if (currentSec > 0 && currentSec % 10 === 0 && currentSec !== lastPlayTime) {
         addListeningTime(10);
         setLastPlayTime(currentSec);
@@ -515,87 +455,59 @@ function AppContent() {
     const handleDurationChange = () => setDuration(audio.duration);
     const handleEnded = () => {
       setIsPlaying(false);
-      setCurrentTime(0);
-
-      if (isRepeatMode === 2) {
+      setCurrentTime(0);      if (isRepeatMode === 2) {
         audio.currentTime = 0;
         audio.play();
         setIsPlaying(true);
       } else {
         nextTrack();
       }
-    };
-
-    audio.addEventListener('timeupdate', handleTimeUpdate);
+    };    audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('durationchange', handleDurationChange);
-    audio.addEventListener('ended', handleEnded);
-
-    return () => {
+    audio.addEventListener('ended', handleEnded);    return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('durationchange', handleDurationChange);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [currentTrack, isRepeatMode, lastPlayTime, addListeningTime]);
-
-  // Fonction pour mélanger un tableau (Fisher-Yates shuffle optimisé)
-  const shuffleArray = useCallback((array) => {
+  }, [currentTrack, isRepeatMode, lastPlayTime, addListeningTime]);    const shuffleArray = useCallback((array) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
-  }, []);
-
-  // Fonction pour initialiser la queue en mode normal
-  const initializeQueue = useCallback((startTrack, sourceList) => {
+  }, []);    const initializeQueue = useCallback((startTrack, sourceList) => {
     const startIndex = sourceList.findIndex(t => t.id === startTrack.id);
     if (startIndex === -1) return [startTrack];
     
-    // Créer la queue : musique actuelle + tout ce qui suit + tout ce qui précède
-    const queue = [
+        const queue = [
       ...sourceList.slice(startIndex),
       ...sourceList.slice(0, startIndex)
     ];
     return queue;
-  }, []);
-
-  // Fonction playTrack améliorée qui remplit automatiquement la queue
-  const playTrack = useCallback((track, playlist = null) => {
+  }, []);    const playTrack = useCallback((track, playlist = null) => {
     setCurrentTrack(track);
     setIsPlaying(true);
     setLastPlayTime(0);
     
-    // Ajouter à l'historique
-    addToHistory(track);
-
-    // Remplir la queue automatiquement si elle est vide ou si on change de contexte
-    const sourceList = playlist?.tracks || selectedPlaylist?.tracks || musicDatabase;
+        addToHistory(track);        const sourceList = playlist?.tracks || selectedPlaylist?.tracks || musicDatabase;
     
     if (isShuffleMode) {
-      // En mode shuffle, créer une nouvelle queue mélangée
-      const shuffledList = shuffleArray(sourceList);
+            const shuffledList = shuffleArray(sourceList);
       const trackIndex = shuffledList.findIndex(t => t.id === track.id);
       if (trackIndex > 0) {
-        // Mettre la piste actuelle en premier
-        shuffledList.splice(trackIndex, 1);
+                shuffledList.splice(trackIndex, 1);
         shuffledList.unshift(track);
       }
       setCurrentQueue(shuffledList);
     } else {
-      // En mode normal, créer une queue ordonnée
-      const orderedQueue = initializeQueue(track, sourceList);
+            const orderedQueue = initializeQueue(track, sourceList);
       setCurrentQueue(orderedQueue);
-    }
-
-    setTimeout(() => {
+    }    setTimeout(() => {
       if (audioRef.current) {
         audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
       }
-    }, 100);
-
-    // Media Session API
-    if ('mediaSession' in navigator) {
+    }, 100);        if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new window.MediaMetadata({
         title: track.title,
         artist: track.artist,
@@ -603,71 +515,45 @@ function AppContent() {
         artwork: [
           { src: track.cover, sizes: '512x512', type: 'image/png' }
         ]
-      });
-
-      navigator.mediaSession.setActionHandler('play', () => {
+      });      navigator.mediaSession.setActionHandler('play', () => {
         audioRef.current?.play();
         setIsPlaying(true);
-      });
-
-      navigator.mediaSession.setActionHandler('pause', () => {
+      });      navigator.mediaSession.setActionHandler('pause', () => {
         audioRef.current?.pause();
         setIsPlaying(false);
-      });
-
-      navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
+      });      navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
       navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
     }
-  }, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue]);
-
-  const togglePlayPause = useCallback(() => {
-    if (!audioRef.current || !currentTrack) return;
-
-    if (isPlaying) {
+  }, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue]);  const togglePlayPause = useCallback(() => {
+    if (!audioRef.current || !currentTrack) return;    if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
       audioRef.current.play().catch(e => console.log('Erreur de lecture:', e));
       setIsPlaying(true);
     }
-  }, [isPlaying, currentTrack]);
-
-  const handleProgressClick = (e) => {
-    if (!audioRef.current || !duration) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
+  }, [isPlaying, currentTrack]);  const handleProgressClick = (e) => {
+    if (!audioRef.current || !duration) return;    const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
-    const newTime = (clickX / rect.width) * duration;
-
-    audioRef.current.currentTime = newTime;
+    const newTime = (clickX / rect.width) * duration;    audioRef.current.currentTime = newTime;
     setCurrentTime(newTime);
-  };
-
-  const formatTime = (time) => {
+  };  const formatTime = (time) => {
     if (isNaN(time)) return '0:00';
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
-
-  const nextTrack = useCallback(() => {
+  };  const nextTrack = useCallback(() => {
     if (currentQueue.length === 0) return;
     
     const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
-    let nextIndex;
-
-    if (isRepeatMode === 1) {
-      // Mode repeat all
-      nextIndex = (currentIndex + 1) % currentQueue.length;
+    let nextIndex;    if (isRepeatMode === 1) {
+            nextIndex = (currentIndex + 1) % currentQueue.length;
     } else {
-      // Mode normal
-      nextIndex = currentIndex + 1;
+            nextIndex = currentIndex + 1;
       if (nextIndex >= currentQueue.length) {
         nextIndex = 0;
       }
-    }
-
-    if (currentQueue[nextIndex]) {
+    }    if (currentQueue[nextIndex]) {
       const nextTrack = currentQueue[nextIndex];
       setCurrentTrack(nextTrack);
       setIsPlaying(true);
@@ -680,23 +566,15 @@ function AppContent() {
         }
       }, 100);
     }
-  }, [currentQueue, currentTrack, isRepeatMode, addToHistory]);
-
-  const previousTrack = useCallback(() => {
+  }, [currentQueue, currentTrack, isRepeatMode, addToHistory]);  const previousTrack = useCallback(() => {
     if (currentQueue.length === 0) return;
     
     const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
-    let prevIndex;
-
-    if (isRepeatMode === 1) {
-      // Mode repeat all
-      prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1;
+    let prevIndex;    if (isRepeatMode === 1) {
+            prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1;
     } else {
-      // Mode normal
-      prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1;
-    }
-
-    if (currentQueue[prevIndex]) {
+            prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1;
+    }    if (currentQueue[prevIndex]) {
       const prevTrack = currentQueue[prevIndex];
       setCurrentTrack(prevTrack);
       setIsPlaying(true);
@@ -709,58 +587,33 @@ function AppContent() {
         }
       }, 100);
     }
-  }, [currentQueue, currentTrack, isRepeatMode, addToHistory]);
-
-  const toggleShuffle = useCallback(() => {
+  }, [currentQueue, currentTrack, isRepeatMode, addToHistory]);  const toggleShuffle = useCallback(() => {
     setIsShuffleMode(prev => {
-      const newMode = !prev;
-
-      if (currentQueue.length === 0 || !currentTrack) {
+      const newMode = !prev;      if (currentQueue.length === 0 || !currentTrack) {
         return newMode;
-      }
-
-      const currentIndex = currentQueue.findIndex(t => t.id === currentTrack.id);
-      if (currentIndex === -1) return newMode;
-
-      if (newMode) {
-        // Activer le shuffle : mélanger uniquement les pistes à venir
-        const upcoming = currentQueue.slice(currentIndex + 1);
+      }      const currentIndex = currentQueue.findIndex(t => t.id === currentTrack.id);
+      if (currentIndex === -1) return newMode;      if (newMode) {
+                const upcoming = currentQueue.slice(currentIndex + 1);
         const shuffledUpcoming = shuffleArray(upcoming);
         const alreadyPlayed = currentQueue.slice(0, currentIndex + 1);
         setCurrentQueue([...alreadyPlayed, ...shuffledUpcoming]);
       } else {
-        // Désactiver le shuffle : remettre dans l'ordre original
-        const sourceList = selectedPlaylist?.tracks || musicDatabase;
+                const sourceList = selectedPlaylist?.tracks || musicDatabase;
         const newQueue = initializeQueue(currentTrack, sourceList);
         setCurrentQueue(newQueue);
-      }
-
-      return newMode;
+      }      return newMode;
     });
-  }, [currentQueue, currentTrack, selectedPlaylist, shuffleArray, initializeQueue]);
-
-  const toggleRepeat = useCallback(() => {
+  }, [currentQueue, currentTrack, selectedPlaylist, shuffleArray, initializeQueue]);  const toggleRepeat = useCallback(() => {
     setIsRepeatMode((prev) => (prev + 1) % 3);
-  }, []);
-
-  const handleVolumeUp = useCallback(() => {
+  }, []);  const handleVolumeUp = useCallback(() => {
     setVolume(prev => Math.min(1, prev + 0.05));
-  }, []);
-
-  const handleVolumeDown = useCallback(() => {
+  }, []);  const handleVolumeDown = useCallback(() => {
     setVolume(prev => Math.max(0, prev - 0.05));
-  }, []);
-
-  const toggleMute = useCallback(() => {
+  }, []);  const toggleMute = useCallback(() => {
     setIsMuted(prev => !prev);
-  }, []);
-
-  const toggleQueue = useCallback(() => {
+  }, []);  const toggleQueue = useCallback(() => {
     setShowQueuePanel(prev => !prev);
-  }, []);
-
-  // Raccourcis clavier
-  useKeyboardShortcuts({
+  }, []);    useKeyboardShortcuts({
     onPlayPause: togglePlayPause,
     onNext: nextTrack,
     onPrevious: previousTrack,
@@ -771,27 +624,21 @@ function AppContent() {
     onRepeat: toggleRepeat,
     onToggleQueue: toggleQueue,
     isEnabled: true
-  });
-
-  const getRepeatIcon = () => {
+  });  const getRepeatIcon = () => {
     switch (isRepeatMode) {
       case 0: return '🔁';
       case 1: return '🔁';
       case 2: return '🔂';
       default: return '🔁';
     }
-  };
-
-  const getRepeatTitle = () => {
+  };  const getRepeatTitle = () => {
     switch (isRepeatMode) {
       case 0: return 'Répétition désactivée';
       case 1: return 'Répéter toute la playlist';
       case 2: return 'Répéter la chanson actuelle';
       default: return 'Répétition désactivée';
     }
-  };
-
-  const handleSearch = (query) => {
+  };  const handleSearch = (query) => {
     setSearchQuery(query);
     if (query.trim()) {
       const results = musicDatabase.filter(track =>
@@ -804,10 +651,7 @@ function AppContent() {
     } else {
       setSearchResults([]);
     }
-  };
-
-  // Gestion des playlists
-  const createPlaylist = (name, description, cover) => {
+  };    const createPlaylist = (name, description, cover) => {
     const newPlaylist = {
       id: Date.now().toString(),
       name,
@@ -818,9 +662,7 @@ function AppContent() {
     };
     setPlaylists([...playlists, newPlaylist]);
     setShowCreatePlaylistModal(false);
-  };
-
-  const createPlaylistFromQueue = (name, description, tracks) => {
+  };  const createPlaylistFromQueue = (name, description, tracks) => {
     const newPlaylist = {
       id: Date.now().toString(),
       name,
@@ -830,9 +672,7 @@ function AppContent() {
       isDefault: false
     };
     setPlaylists([...playlists, newPlaylist]);
-  };
-
-  const deletePlaylist = (playlistId) => {
+  };  const deletePlaylist = (playlistId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cette playlist ?')) {
       setPlaylists(playlists.filter(p => p.id !== playlistId));
       if (selectedPlaylist?.id === playlistId) {
@@ -840,9 +680,7 @@ function AppContent() {
       }
       setShowPlaylistOptionsModal(false);
     }
-  };
-
-  const addTrackToPlaylist = (playlistId, track) => {
+  };  const addTrackToPlaylist = (playlistId, track) => {
     setPlaylists(playlists.map(playlist => {
       if (playlist.id === playlistId) {
         if (!playlist.tracks.find(t => t.id === track.id)) {
@@ -853,52 +691,36 @@ function AppContent() {
     }));
     setShowAddToPlaylistModal(false);
     setTrackToAdd(null);
-  };
-
-  const removeTrackFromPlaylist = (playlistId, trackId) => {
+  };  const removeTrackFromPlaylist = (playlistId, trackId) => {
     const updatedPlaylists = playlists.map(playlist => {
       if (playlist.id === playlistId) {
         return { ...playlist, tracks: playlist.tracks.filter(t => t.id !== trackId) };
       }
       return playlist;
     });
-    setPlaylists(updatedPlaylists);
-
-    if (selectedPlaylist?.id === playlistId) {
+    setPlaylists(updatedPlaylists);    if (selectedPlaylist?.id === playlistId) {
       const updatedPlaylist = updatedPlaylists.find(p => p.id === playlistId);
       setSelectedPlaylist(updatedPlaylist);
     }
-  };
-
-  const openAddToPlaylistModal = (track) => {
+  };  const openAddToPlaylistModal = (track) => {
     setTrackToAdd(track);
     setShowAddToPlaylistModal(true);
-  };
-
-  const openPlaylistOptionsModal = (playlist) => {
+  };  const openPlaylistOptionsModal = (playlist) => {
     setPlaylistForOptions(playlist);
     setShowPlaylistOptionsModal(true);
-  };
-
-  const handleEditPlaylist = (playlist) => {
+  };  const handleEditPlaylist = (playlist) => {
     setPlaylistToEdit(playlist);
     setShowPlaylistEditModal(true);
     setShowPlaylistOptionsModal(false);
-  };
-
-  const updatePlaylist = (updatedPlaylist) => {
+  };  const updatePlaylist = (updatedPlaylist) => {
     const updatedPlaylists = playlists.map((p) =>
       p.id === updatedPlaylist.id ? updatedPlaylist : p
     );
-    setPlaylists(updatedPlaylists);
-
-    if (selectedPlaylist?.id === updatedPlaylist.id) {
+    setPlaylists(updatedPlaylists);    if (selectedPlaylist?.id === updatedPlaylist.id) {
       setSelectedPlaylist(updatedPlaylist);
     }
     setShowPlaylistEditModal(false);
-  };
-
-  const exportPlaylist = (playlist) => {
+  };  const exportPlaylist = (playlist) => {
     const dataStr = JSON.stringify(playlist, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
@@ -908,9 +730,7 @@ function AppContent() {
     link.click();
     URL.revokeObjectURL(url);
     setShowPlaylistOptionsModal(false);
-  };
-
-  const importPlaylist = (importedPlaylist) => {
+  };  const importPlaylist = (importedPlaylist) => {
     const newPlaylist = {
       ...importedPlaylist,
       id: Date.now().toString(),
@@ -918,16 +738,12 @@ function AppContent() {
     };
     setPlaylists([...playlists, newPlaylist]);
     alert(`Playlist "${newPlaylist.name}" importée avec succès!`);
-  };
-
-  const playPlaylist = (playlist) => {
+  };  const playPlaylist = (playlist) => {
     if (playlist.tracks.length > 0) {
       setSelectedPlaylist(playlist);
       playTrack(playlist.tracks[0], playlist);
     }
-  };
-
-  const playPlaylistShuffle = (playlist) => {
+  };  const playPlaylistShuffle = (playlist) => {
     if (playlist.tracks.length > 0) {
       setSelectedPlaylist(playlist);
       setIsShuffleMode(true);
@@ -935,15 +751,10 @@ function AppContent() {
       setCurrentQueue(shuffledTracks);
       playTrack(shuffledTracks[0], playlist);
     }
-  };
-
-  const openPlaylist = (playlist) => {
+  };  const openPlaylist = (playlist) => {
     setCurrentPage('library');
     setSelectedPlaylist(playlist);
-  };
-
-  // Gestion de la queue
-  const handleQueueReorder = (sourceIndex, destinationIndex) => {
+  };    const handleQueueReorder = (sourceIndex, destinationIndex) => {
     const currentIndex = currentQueue.findIndex(t => t.id === currentTrack?.id);
     const actualSourceIndex = currentIndex + 1 + sourceIndex;
     const actualDestIndex = currentIndex + 1 + destinationIndex;
@@ -952,30 +763,21 @@ function AppContent() {
     const [removed] = newQueue.splice(actualSourceIndex, 1);
     newQueue.splice(actualDestIndex, 0, removed);
     setCurrentQueue(newQueue);
-  };
-
-  const handleQueueRemove = (index) => {
+  };  const handleQueueRemove = (index) => {
     const newQueue = [...currentQueue];
     newQueue.splice(index, 1);
     setCurrentQueue(newQueue);
-  };
-
-  const addToQueue = (track) => {
+  };  const addToQueue = (track) => {
     if (!currentQueue.find(t => t.id === track.id)) {
       setCurrentQueue([...currentQueue, track]);
     }
-  };
-
-  const clearQueue = () => {
+  };  const clearQueue = () => {
     if (currentTrack) {
       setCurrentQueue([currentTrack]);
     } else {
       setCurrentQueue([]);
     }
-  };
-
-  // Drag & Drop pour les playlists
-  const handlePlaylistDragEnd = (result) => {
+  };    const handlePlaylistDragEnd = (result) => {
     if (!result.destination || !selectedPlaylist) return;
     
     const newTracks = [...selectedPlaylist.tracks];
@@ -984,17 +786,12 @@ function AppContent() {
     
     const updatedPlaylist = { ...selectedPlaylist, tracks: newTracks };
     updatePlaylist(updatedPlaylist);
-  };
-
-  // Style dynamique basé sur le thème
-  const themeStyle = {
+  };    const themeStyle = {
     '--theme-primary': currentTheme.primary,
     '--theme-secondary': currentTheme.secondary,
     '--theme-accent': currentTheme.accent,
     '--theme-gradient': currentTheme.gradient
-  };
-
-  return (
+  };  return (
     <div className={`App ${isDarkMode ? 'dark' : 'light'}`} style={themeStyle}>
       {currentTrack && (
         <audio
@@ -1002,16 +799,12 @@ function AppContent() {
           src={currentTrack.audioUrl}
           preload="auto"
         />
-      )}
-
-      <div className="main-layout">
+      )}      <div className="main-layout">
         {/* Sidebar */}
         <div className="sidebar">
           <div className="sidebar-logo">
             <h1 style={{ background: currentTheme.gradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Spotizer</h1>
-          </div>
-
-          <nav className="sidebar-nav">
+          </div>          <nav className="sidebar-nav">
             <button
               className={`nav-item ${currentPage === 'home' ? 'active' : ''}`}
               onClick={() => setCurrentPage('home')}
@@ -1052,9 +845,7 @@ function AppContent() {
               <span>📜</span>
               <span>Historique</span>
             </button>
-          </nav>
-
-          <div className="playlists-section">
+          </nav>          <div className="playlists-section">
             <div className="playlists-header">
               <h3 className="playlists-title">Playlists</h3>
               <button
@@ -1096,9 +887,7 @@ function AppContent() {
                 )}
               </div>
             ))}
-          </div>
-
-          {/* Bouton aide raccourcis */}
+          </div>          {/* Bouton aide raccourcis */}
           <button 
             className="shortcuts-help-btn"
             onClick={() => setShowShortcutsHelp(true)}
@@ -1106,9 +895,7 @@ function AppContent() {
           >
             ⌨️ Raccourcis
           </button>
-        </div>
-
-        {/* Main Content */}
+        </div>        {/* Main Content */}
         <div className="content-area">
           {/* Top Bar */}
           <div className="top-bar">
@@ -1153,9 +940,7 @@ function AppContent() {
                 <ThemeSelector />
               </div>
             </div>
-          </div>
-
-          {/* Page Content */}
+          </div>          {/* Page Content */}
           <div className="page-content">
             {currentPage === 'home' && (
               <div className="page-container">
@@ -1177,9 +962,7 @@ function AppContent() {
                       Le_Bisounours_
                     </a>
                   </h2>
-                </div>
-
-                <div className="section">
+                </div>                <div className="section">
                   <h2 className="section-title">Titres populaires</h2>
                   <div className="grid grid-cols-6">
                     {musicDatabase.slice(0, 95).map(track => (
@@ -1208,9 +991,7 @@ function AppContent() {
                           title="Ajouter à une playlist"
                         >
                           ➕
-                        </button>
-
-                        <button
+                        </button>                        <button
                           className="add-to-queue-btn"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -1220,17 +1001,13 @@ function AppContent() {
                           style={{ background: currentTheme.primary }}
                         >
                           📋
-                        </button>
-
-                        <h3 className="card-title">{track.title}</h3>
+                        </button>                        <h3 className="card-title">{track.title}</h3>
                         <p className="card-subtitle">{track.artist}</p>
                         <p className="card-info">{track.genre} • {track.duration}</p>
                       </div>
                     ))}
                   </div>
-                </div>
-
-                <div className="section">
+                </div>                <div className="section">
                   <h2 className="section-title">Rock & Alternative</h2>
                   <div className="grid grid-cols-6">
                     {musicDatabase.filter(track => ['Rock', 'Indie Rock', 'Pop Rock', 'Alternative Rock', 'Alternative', 'Indie'].includes(track.genre)).slice(0, 6).map(track => (
@@ -1256,9 +1033,7 @@ function AppContent() {
                       </div>
                     ))}
                   </div>
-                </div>
-
-                <div className="section">
+                </div>                <div className="section">
                   <h2 className="section-title">Rap & Hip-Hop</h2>
                   <div className="grid grid-cols-6">
                     {musicDatabase.filter(track => ['Hip-Hop', 'Rap'].includes(track.genre)).slice(0, 6).map(track => (
@@ -1284,9 +1059,7 @@ function AppContent() {
                       </div>
                     ))}
                   </div>
-                </div>
-
-                <div className="section">
+                </div>                <div className="section">
                   <h2 className="section-title">Openings Anime</h2>
                   <div className="grid grid-cols-6">
                     {musicDatabase.filter(track => track.genre === 'Opening').slice(0, 6).map(track => (
@@ -1314,17 +1087,13 @@ function AppContent() {
                   </div>
                 </div>
               </div>
-            )}
-
-            {currentPage === 'search' && (
+            )}            {currentPage === 'search' && (
               <div className="page-container">
                 {!searchQuery ? (
                   <div className="search-empty">
                     <div className="search-empty-icon"></div>
                     <h2 className="search-empty-title">Rechercher dans {musicDatabase.length} musiques</h2>
-                    <p className="search-empty-subtitle">Trouvez vos artistes, albums et titres préférés</p>
-
-                    <div className="genres-section">
+                    <p className="search-empty-subtitle">Trouvez vos artistes, albums et titres préférés</p>                    <div className="genres-section">
                       <h3 className="genres-title">Rechercher par genre</h3>
                       <div className="genres-grid">
                         <div className="genre-card genre-pop" onClick={() => handleSearch('Pop')}>
@@ -1418,9 +1187,7 @@ function AppContent() {
                   </div>
                 )}
               </div>
-            )}
-
-            {currentPage === 'library' && (
+            )}            {currentPage === 'library' && (
               <div className="page-container">
                 {selectedPlaylist ? (
                   <div>
@@ -1458,9 +1225,7 @@ function AppContent() {
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="playlist-tracks">
+                    </div>                    <div className="playlist-tracks">
                       <p className="drag-hint">💡 Glissez-déposez pour réorganiser les musiques</p>
                       {selectedPlaylist.tracks.length === 0 ? (
                         <div className="empty-playlist">
@@ -1547,9 +1312,7 @@ function AppContent() {
                       >
                         ➕ Créer une playlist
                       </button>
-                    </div>
-
-                    <div className="section">
+                    </div>                    <div className="section">
                       <h2 className="section-title">Mes playlists ({playlists.length})</h2>
                       <div className="grid grid-cols-4">
                         {playlists.map(playlist => (
@@ -1560,9 +1323,7 @@ function AppContent() {
                             style={{ cursor: "pointer" }}
                             title="Cliquer pour écouter"
                           >
-                            <img src={playlist.cover} alt={playlist.name} className="card-image" />
-
-                            <button
+                            <img src={playlist.cover} alt={playlist.name} className="card-image" />                            <button
                               className="shuffle-card-btn"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -1572,13 +1333,9 @@ function AppContent() {
                               title="Écouter en mode aléatoire"
                             >
                               🔀
-                            </button>
-
-                            <h3 className="card-title">{playlist.name}</h3>
+                            </button>                            <h3 className="card-title">{playlist.name}</h3>
                             <p className="card-subtitle">{playlist.description}</p>
-                            <p className="card-info">{playlist.tracks.length} titres</p>
-
-                            <button
+                            <p className="card-info">{playlist.tracks.length} titres</p>                            <button
                               className="view-playlist-btn"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -1590,9 +1347,7 @@ function AppContent() {
                           </div>
                         ))}
                       </div>
-                    </div>
-
-                    <div className="section">
+                    </div>                    <div className="section">
                       <div className="section-header">
                         <h2 className="section-title">Toutes les musiques ({musicDatabase.length})</h2>
                         <button
@@ -1658,16 +1413,12 @@ function AppContent() {
                   </div>
                 )}
               </div>
-            )}
-
-            {currentPage === 'stats' && (
+            )}            {currentPage === 'stats' && (
               <StatsPage 
                 musicDatabase={musicDatabase}
                 onPlayTrack={playTrack}
               />
-            )}
-
-            {currentPage === 'history' && (
+            )}            {currentPage === 'history' && (
               <HistoryPage 
                 musicDatabase={musicDatabase}
                 onPlayTrack={playTrack}
@@ -1675,9 +1426,7 @@ function AppContent() {
               />
             )}
           </div>
-        </div>
-
-        {/* Queue Panel */}
+        </div>        {/* Queue Panel */}
         <QueuePanel
           isOpen={showQueuePanel}
           onClose={() => setShowQueuePanel(false)}
@@ -1689,9 +1438,7 @@ function AppContent() {
           onSaveAsPlaylist={() => setShowSaveQueueModal(true)}
           onClearQueue={clearQueue}
         />
-      </div>
-
-      {/* Music Player */}
+      </div>      {/* Music Player */}
       {currentTrack && (
         <div className="music-player">
           <div className="player-content">
@@ -1712,9 +1459,7 @@ function AppContent() {
               >
                 ➕
               </button>
-            </div>
-
-            <div className="player-controls">
+            </div>            <div className="player-controls">
               <div className="player-buttons">
                 <button
                   className={`player-btn ${isShuffleMode ? 'active' : ''}`}
@@ -1737,9 +1482,7 @@ function AppContent() {
                 >
                   {getRepeatIcon()}
                 </button>
-              </div>
-
-              <div className="player-progress">
+              </div>              <div className="player-progress">
                 <span className="player-time">{formatTime(currentTime)}</span>
                 <div className="progress-bar" onClick={handleProgressClick}>
                   <div
@@ -1752,9 +1495,7 @@ function AppContent() {
                 </div>
                 <span className="player-time">{formatTime(duration)}</span>
               </div>
-            </div>
-
-            <div className="player-right-controls">
+            </div>            <div className="player-right-controls">
               <div className="now-playing-indicator">
                 {isPlaying && <span className="playing-animation" style={{ color: currentTheme.primary }}>🎵</span>}
                 <div className="playback-mode">
@@ -1792,27 +1533,21 @@ function AppContent() {
             </div>
           </div>
         </div>
-      )}
-
-      {/* Modals */}
+      )}      {/* Modals */}
       {showCreatePlaylistModal && (
         <CreatePlaylistModal
           onClose={() => setShowCreatePlaylistModal(false)}
           onCreate={createPlaylist}
           onImport={importPlaylist}
         />
-      )}
-
-      {showAddToPlaylistModal && trackToAdd && (
+      )}      {showAddToPlaylistModal && trackToAdd && (
         <AddToPlaylistModal
           track={trackToAdd}
           playlists={playlists}
           onClose={() => setShowAddToPlaylistModal(false)}
           onAdd={addTrackToPlaylist}
         />
-      )}
-
-      {showPlaylistOptionsModal && playlistForOptions && (
+      )}      {showPlaylistOptionsModal && playlistForOptions && (
         <PlaylistOptionsModal
           playlist={playlistForOptions}
           onClose={() => setShowPlaylistOptionsModal(false)}
@@ -1820,33 +1555,25 @@ function AppContent() {
           onEdit={handleEditPlaylist}
           onExport={exportPlaylist}
         />
-      )}
-
-      {showPlaylistEditModal && playlistToEdit && (
+      )}      {showPlaylistEditModal && playlistToEdit && (
         <PlaylistEditModal
           playlist={playlistToEdit}
           onClose={() => setShowPlaylistEditModal(false)}
           onSave={updatePlaylist}
         />
-      )}
-
-      {showSleepTimerModal && (
+      )}      {showSleepTimerModal && (
         <SleepTimerModal
           isOpen={showSleepTimerModal}
           onClose={() => setShowSleepTimerModal(false)}
           audioRef={audioRef}
           onStop={() => setIsPlaying(false)}
         />
-      )}
-
-      {showShortcutsHelp && (
+      )}      {showShortcutsHelp && (
         <KeyboardShortcutsHelp
           isOpen={showShortcutsHelp}
           onClose={() => setShowShortcutsHelp(false)}
         />
-      )}
-
-      {showSaveQueueModal && (
+      )}      {showSaveQueueModal && (
         <SaveQueueModal
           queue={currentQueue}
           onClose={() => setShowSaveQueueModal(false)}
@@ -1855,19 +1582,12 @@ function AppContent() {
       )}
     </div>
   );
-}
-
-// Composant HistoryPage
-const HistoryPage = ({ musicDatabase, onPlayTrack, onAddToPlaylist }) => {
+}const HistoryPage = ({ musicDatabase, onPlayTrack, onAddToPlaylist }) => {
   const { isDarkMode, currentTheme } = useTheme();
-  const { listeningHistory, playStats } = useMusic();
-
-  return (
+  const { listeningHistory, playStats } = useMusic();  return (
     <div className={`page-container ${isDarkMode ? 'dark' : 'light'}`}>
       <h1 className="page-title">📜 Historique d'écoute</h1>
-      <p className="page-subtitle">Vos 50 dernières musiques écoutées</p>
-
-      {listeningHistory.length === 0 ? (
+      <p className="page-subtitle">Vos 50 dernières musiques écoutées</p>      {listeningHistory.length === 0 ? (
         <div className="empty-state">
           <p>Aucune musique écoutée pour le moment.</p>
           <p>Commencez à écouter de la musique pour voir votre historique !</p>
@@ -1915,9 +1635,7 @@ const HistoryPage = ({ musicDatabase, onPlayTrack, onAddToPlaylist }) => {
       )}
     </div>
   );
-};
-
-function App() {
+};function App() {
   return (
     <ThemeProvider>
       <MusicProvider>
@@ -1925,6 +1643,4 @@ function App() {
       </MusicProvider>
     </ThemeProvider>
   );
-}
-
-export default App;
+}export default App;
