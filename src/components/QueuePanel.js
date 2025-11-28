@@ -53,7 +53,7 @@ const QueuePanel = ({
             <span className="now-playing-icon" style={{ color: currentTheme.primary }}>🎵</span>
           </div>
         </div>
-      )}-
+      )}
 
       <div className="queue-upcoming">
         <h4>À suivre ({upcomingTracks.length})</h4>
