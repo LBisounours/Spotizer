@@ -53,7 +53,7 @@ name: 'Rouge',
 primary: '#ff0000',
 secondary: '#994646',
 accent: '#dc2626',
-gradient: 'linear-gradient(135deg, #ff0000, #e7902c)'
+gradient: 'linear-gradient(135deg, #441010ff, #ff0808ff)'
 },
 marron: {
 name: 'Marron',
