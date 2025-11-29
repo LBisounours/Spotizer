@@ -9,105 +9,106 @@ import ThemeSelector from './components/ThemeSelector';
 import SleepTimerModal from './components/SleepTimerModal';
 import StatsPage from './components/StatsPage';
 import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const musicDatabase = [
-{ id: 1, title: "Un quart d'heure", artist: "Satine", album: "", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
-{ id: 2, title: "Côte Ouest", artist: "47Ter", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
-{ id: 3, title: "Harakiri", artist: "47Ter", album: "", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
-{ id: 4, title: "Bloody Stream", artist: "JoJo's Bizarre Adventure", album: "", duration: "4:21", cover: "Musique/Images/font4.png", audioUrl: "Musique/Musique4.mp3", genre: "Opening" }, 
-{ id: 5, title: "Bad Hatter", artist: "DYES IWASAKI", album: "", duration: "2:57", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "Electro Swing" }, 
-{ id: 6, title: "Black Betty", artist: "Ram Jam", album: "", duration: "2:24", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "Rock" },
-{ id: 7, title: "Un air qui fait", artist: "47Ter", album: "", duration: "3:46", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "Rap" },
-{ id: 8, title: "1000°C", artist: "Lomepal ft. Roméo Elvis", album: "", duration: "4:41", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "Rap" },
-{ id: 9, title: "Wellerman (Sea Shanty)", artist: "Nathan Evans", album: "", duration: "2:35", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "Folk" },
-{ id: 10, title: "I Can't Fit In", artist: "Marino", album: "", duration: "2:09", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "Pop Indé" }, 
-{ id: 11, title: "C'est pas grave", artist: "Columbine ", album: "", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "Rap" }, 
-{ id: 12, title: "Chaque soir", artist: "47Ter", album: "", duration: "3:14", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "Rap" },
-{ id: 13, title: "Sur tes pas", artist: "Wakfu", album: "", duration: "4:01", cover: "Musique/Images/font13.png", audioUrl: "Musique/Musique13.mp3", genre: "Soundtrack" }, 
-{ id: 14, title: "Fairytale", artist: "Alexander Rybak", album: "", duration: "3:02", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "Pop" },
-{ id: 15, title: "Malade", artist: "Roméo Elvis", album: "", duration: "3:11", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "Rap" }, 
-{ id: 16, title: "Bling-Bang-Bang-Born", artist: "Mashle", album: "", duration: "2:48", cover: "Musique/Images/font16.png", audioUrl: "Musique/Musique16.mp3", genre: "Opening" }, 
-{ id: 17, title: "Body Talks", artist: "The Struts", album: "", duration: "3:00", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musique17.mp3", genre: "Rock" },
-{ id: 18, title: "Colors By Flow", artist: "Code Geass", album: "", duration: "3:38", cover: "Musique/Images/font18.png", audioUrl: "Musique/Musique18.mp3", genre: "Opening" }, 
-{ id: 19, title: "Dans l'univers", artist: "Nekfeu", album: "", duration: "4:06", cover: "Musique/Images/font19.png", audioUrl: "Musique/Musique19.mp3", genre: "Rap" }, 
-{ id: 20, title: "Poupée Russe", artist: "Lujipeka", album: "", duration: "2:44", cover: "Musique/Images/font20.png", audioUrl: "Musique/Musique20.mp3", genre: "Rap" }, 
-{ id: 21, title: "À peu près", artist: "Lomepal", album: "", duration: "3:24", cover: "Musique/Images/font21.png", audioUrl: "Musique/Musique21.mp3", genre: "Rap" },
-{ id: 22, title: "Toutes les machines ont un coeur", artist: "Maëlle", album: "", duration: "4:19", cover: "Musique/Images/font22.png", audioUrl: "Musique/Musique22.mp3", genre: "Pop" },
-{ id: 23, title: "Épisode III - Les mains libres", artist: "Yuzmv", album: "", duration: "3:40", cover: "Musique/Images/font23.png", audioUrl: "Musique/Musique23.mp3", genre: "Rap" }, 
-{ id: 24, title: "Empires", artist: "The Electric Swing Circus", album: "", duration: "3:10", cover: "Musique/Images/font24.png", audioUrl: "Musique/Musique24.mp3", genre: "Electro Swing" }, 
-{ id: 25, title: "Toxic", artist: "BoyWithUke", album: "", duration: "2:50", cover: "Musique/Images/font25.png", audioUrl: "Musique/Musique25.mp3", genre: "Bedroom Pop" }, 
-{ id: 26, title: "Flicker", artist: "Andora", album: "", duration: "3:14", cover: "Musique/Images/font26.png", audioUrl: "Musique/Musique26.mp3", genre: "Electro" },
-{ id: 27, title: "Black Catcher", artist: "Black Clover", album: "", duration: "3:18", cover: "Musique/Images/font27.png", audioUrl: "Musique/Musique27.mp3", genre: "Opening" }, 
-{ id: 28, title: "Femme à la mer", artist: "Hoshi", album: "", duration: "3:59", cover: "Musique/Images/font28.png", audioUrl: "Musique/Musique28.mp3", genre: "Pop" },
-{ id: 29, title: "Chute d'étoiles", artist: "Suzuya", album: "", duration: "2:12", cover: "Musique/Images/font29.png", audioUrl: "Musique/Musique29.mp3", genre: "Rap" },
-{ id: 30, title: "Dis-moi que tu me détestes.", artist: "Suzuya", album: "", duration: "2:05", cover: "Musique/Images/font30.png", audioUrl: "Musique/Musique30.mp3", genre: "Rap" },
-{ id: 31, title: "Sundance", artist: "Népal", album: "", duration: "2:50", cover: "Musique/Images/font31.png", audioUrl: "Musique/Musique31.mp3", genre: "Rap" }, 
-{ id: 32, title: "30", artist: "47Ter", album: "", duration: "3:32", cover: "Musique/Images/font32.png", audioUrl: "Musique/Musique32.mp3", genre: "Rap" }, 
-{ id: 33, title: "Trop beau", artist: "Lomepal", album: "", duration: "4:04", cover: "Musique/Images/font33.png", audioUrl: "Musique/Musique33.mp3", genre: "Rap" },
-{ id: 34, title: "La Quête", artist: "Orelsan", album: "", duration: "3:54", cover: "Musique/Images/font34.png", audioUrl: "Musique/Musique34.mp3", genre: "Rap" },
-{ id: 35, title: "Déprime", artist: "Mastu", album: "", duration: "3:19", cover: "Musique/Images/font35.png", audioUrl: "Musique/Musique35.mp3", genre: "Pop" }, 
-{ id: 36, title: "Tchin Tchin", artist: "2TH", album: "", duration: "2:36", cover: "Musique/Images/font36.png", audioUrl: "Musique/Musique36.mp3", genre: "Rap" }, 
-{ id: 37, title: "Decrescendo", artist: "Lomepal", album: "", duration: "3:41", cover: "Musique/Images/font37.png", audioUrl: "Musique/Musique37.mp3", genre: "Rap" }, 
-{ id: 38, title: "Astronaute", artist: "Nekfeu", album: "", duration: "6:58", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "Rap" },
-{ id: 39, title: "Dépassé", artist: "Nuit Incolore", album: "", duration: "2:52", cover: "Musique/Images/font39.png", audioUrl: "Musique/Musique39.mp3", genre: "Pop" }, 
-{ id: 40, title: "Hit Sale", artist: "Therapie Taxi ft. Roméo Elvis", album: "", duration: "3:19", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "Pop Rock" }, 
-{ id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Columbine", album: "", duration: "3:45", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "Rap" }, 
-{ id: 42, title: "THE LONELIEST", artist: "Måneskin", album: "", duration: "4:47", cover: "Musique/Images/font42.png", audioUrl: "Musique/Musique42.mp3", genre: "Rock" },
-{ id: 43, title: "Daylight", artist: "David Kushner", album: "", duration: "3:49", cover: "Musique/Images/font43.png", audioUrl: "Musique/Musique43.mp3", genre: "Pop" },
-{ id: 44, title: "Ceux qui rêvent", artist: "Pomme", album: "", duration: "1:58", cover: "Musique/Images/font44.png", audioUrl: "Musique/Musique44.mp3", genre: "Pop Indé" }, 
-{ id: 45, title: "Sharks", artist: "Imagine Dragons", album: "", duration: "3:36", cover: "Musique/Images/font45.png", audioUrl: "Musique/Musique45.mp3", genre: "Alternative Rock" }, 
-{ id: 46, title: "I WANNA BE YOUR SLAVE", artist: "Måneskin", album: "", duration: "2:52", cover: "Musique/Images/font46.png", audioUrl: "Musique/Musique46.mp3", genre: "Rock" },
-{ id: 47, title: "Riptide", artist: "Vance Joy", album: "", duration: "3:24", cover: "Musique/Images/font47.png", audioUrl: "Musique/Musique47.mp3", genre: "Indie Folk" },
-{ id: 48, title: "Évidemment", artist: "Lomepal", album: "", duration: "3:18", cover: "Musique/Images/font48.png", audioUrl: "Musique/Musique48.mp3", genre: "Rap" }, 
-{ id: 49, title: "House of Memories", artist: "Panic! At The Disco", album: "", duration: "3:29", cover: "Musique/Images/font49.png", audioUrl: "Musique/Musique49.mp3", genre: "Alternative Rock" }, 
-{ id: 50, title: "Heathens", artist: "Twenty One Pilots", album: "", duration: "3:14", cover: "Musique/Images/font50.png", audioUrl: "Musique/Musique50.mp3", genre: "Alternative" },
-{ id: 51, title: "Mockingbird", artist: "Eminem", album: "", duration: "4:17", cover: "Musique/Images/font51.png", audioUrl: "Musique/Musique51.mp3", genre: "Rap" },
-{ id: 52, title: "Stressed Out", artist: "Twenty One Pilots", album: "", duration: "3:22", cover: "Musique/Images/font52.png", audioUrl: "Musique/Musique52.mp3", genre: "Alternative" },
-{ id: 53, title: "Actrice Fantôme", artist: "Suzuya", album: "", duration: "2:52", cover: "Musique/Images/font53.png", audioUrl: "Musique/Musique53.mp3", genre: "Rap" }, 
-{ id: 54, title: "Gangsta's Paradise", artist: "Coolio ft. L.V.", album: "", duration: "4:01", cover: "Musique/Images/font54.png", audioUrl: "Musique/Musique54.mp3", genre: "Rap" },
-{ id: 55, title: "Stolen Dance", artist: "Milky Chance", album: "", duration: "5:13", cover: "Musique/Images/font55.png", audioUrl: "Musique/Musique55.mp3", genre: "Indie Folk" }, 
-{ id: 56, title: "Feed the Machine", artist: "Poor Man's Poison", album: "", duration: "3:03", cover: "Musique/Images/font56.png", audioUrl: "Musique/Musique56.mp3", genre: "Folk" },
-{ id: 57, title: "Le stade", artist: "Fredz", album: "", duration: "2:35", cover: "Musique/Images/font57.png", audioUrl: "Musique/Musique57.mp3", genre: "Rap" }, 
-{ id: 58, title: "Help me", artist: "Or3o", album: "", duration: "4:20", cover: "Musique/Images/font58.png", audioUrl: "Musique/Musique58.mp3", genre: "Indie Pop" }, 
-{ id: 59, title: "IDGAF", artist: "BoyWithUke", album: "", duration: "2:26", cover: "Musique/Images/font59.png", audioUrl: "Musique/Musique59.mp3", genre: "Bedroom Pop" }, 
-{ id: 60, title: "Ma Meilleure Ennemie", artist: "Stomae & Pomme", album: "", duration: "2:28", cover: "Musique/Images/font60.png", audioUrl: "Musique/Musique60.mp3", genre: "Pop Indé" }, 
-{ id: 61, title: "Roi", artist: "Videoclub", album: "", duration: "3:49", cover: "Musique/Images/font61.png", audioUrl: "Musique/Musique61.mp3", genre: "Pop Indé" }, 
-{ id: 62, title: "Futur", artist: "DYES IWASAKI", album: "", duration: "3:22", cover: "Musique/Images/font62.png", audioUrl: "Musique/Musique62.mp3", genre: "Electro Swing" }, 
-{ id: 63, title: "God-Ish", artist: "PinocchioP", album: "", duration: "3:24", cover: "Musique/Images/font63.png", audioUrl: "Musique/Musique63.mp3", genre: "J-Pop" }, 
-{ id: 64, title: "Golden Hour", artist: "JVKE", album: "", duration: "3:51", cover: "Musique/Images/font64.png", audioUrl: "Musique/Musique64.mp3", genre: "Pop" },
-{ id: 65, title: "I'm Doing Fine", artist: "Marino", album: "", duration: "1:39", cover: "Musique/Images/font65.png", audioUrl: "Musique/Musique65.mp3", genre: "Pop Indé" }, 
-{ id: 66, title: "Feel Good Inc.", artist: "Gorillaz", album: "", duration: "4:13", cover: "Musique/Images/font66.png", audioUrl: "Musique/Musique66.mp3", genre: "Alternative" },
-{ id: 67, title: "Give and Take", artist: "Poor Man's Poison", album: "", duration: "3:17", cover: "Musique/Images/font67.png", audioUrl: "Musique/Musique67.mp3", genre: "Folk" },
-{ id: 68, title: "Je ne pense qu'à ça", artist: "Lenaïg", album: "", duration: "2:34", cover: "Musique/Images/font68.png", audioUrl: "Musique/Musique68.mp3", genre: "Pop" },
-{ id: 69, title: "Crush", artist: "Nuit Incolore", album: "", duration: "3:12", cover: "Musique/Images/font69.png", audioUrl: "Musique/Musique69.mp3", genre: "Pop" },
-{ id: 70, title: "Radioactive", artist: "Imagine Dragons", album: "", duration: "3:05", cover: "Musique/Images/font70.png", audioUrl: "Musique/Musique70.mp3", genre: "Alternative Rock" }, 
-{ id: 71, title: "Mood", artist: "24kGoldn", album: "", duration: "2:30", cover: "Musique/Images/font71.png", audioUrl: "Musique/Musique71.mp3", genre: "Pop Rap" }, 
-{ id: 72, title: "Vampire", artist: "Tsew The Kid", album: "", duration: "2:17", cover: "Musique/Images/font72.png", audioUrl: "Musique/Musique72.mp3", genre: "Rap" }, 
-{ id: 73, title: "Anxiety", artist: "Doechii", album: "", duration: "4:09", cover: "Musique/Images/font73.png", audioUrl: "Musique/Musique73.mp3", genre: "Rap" }, 
-{ id: 74, title: "Handclap", artist: "Fitz and The Tantrums", album: "", duration: "3:11", cover: "Musique/Images/font74.png", audioUrl: "Musique/Musique74.mp3", genre: "Soul-Pop" },
-{ id: 75, title: "Hardware Store", artist: "Weird Al Yankovic", album: "", duration: "3:44", cover: "Musique/Images/font75.png", audioUrl: "Musique/Musique75.mp3", genre: "Comedy" },
-{ id: 76, title: "Hit The Road Jack", artist: "Ray Charles", album: "", duration: "2:02", cover: "Musique/Images/font76.png", audioUrl: "Musique/Musique76.mp3", genre: "R&B" }, 
-{ id: 77, title: "I Wanna Be Like You", artist: "Sid Bader", album: "", duration: "2:01", cover: "Musique/Images/font77.png", audioUrl: "Musique/Musique77.mp3", genre: "Electro Swing" }, 
-{ id: 78, title: "Light up the night", artist: "Jamie Berry & Octavia Rose", album: "", duration: "3:53", cover: "Musique/Images/font78.png", audioUrl: "Musique/Musique78.mp3", genre: "Electro Swing" }, 
-{ id: 79, title: "No Strings Attached", artist: "Swingrowers", album: "", duration: "4:07", cover: "Musique/Images/font79.png", audioUrl: "Musique/Musique79.mp3", genre: "Electro Swing" }, 
-{ id: 80, title: "Overwhelmed", artist: "Royal & the Serpent", album: "", duration: "3:26", cover: "Musique/Images/font80.png", audioUrl: "Musique/Musique80.mp3", genre: "Alternative" },
-{ id: 81, title: "Party like it's 1920", artist: "The Swinghoppers & Wolfgang Lohr", album: "", duration: "3:05", cover: "Musique/Images/font81.png", audioUrl: "Musique/Musique81.mp3", genre: "Electro Swing" }, 
-{ id: 82, title: "Problematic", artist: "BoyWithUke", album: "", duration: "3:33", cover: "Musique/Images/font82.png", audioUrl: "Musique/Musique82.mp3", genre: "Bedroom Pop" }, 
-{ id: 83, title: "Reflection", artist: "Christina Aguilera", album: "", duration: "3:19", cover: "Musique/Images/font83.png", audioUrl: "Musique/Musique83.mp3", genre: "Pop" },
-{ id: 84, title: "Rockstar", artist: "BoyWithUke", album: "", duration: "4:32", cover: "Musique/Images/font84.png", audioUrl: "Musique/Musique84.mp3", genre: "Bedroom Pop" }, 
-{ id: 85, title: "Star Walkin", artist: "Lil Nas X", album: "", duration: "3:27", cover: "Musique/Images/font85.png", audioUrl: "Musique/Musique85.mp3", genre: "Pop Rap" },
-{ id: 86, title: "Shiawase no Monosashi", artist: "Vantage", album: "", duration: "5:00", cover: "Musique/Images/font86.png", audioUrl: "Musique/Musique86.mp3", genre: "Future Funk" }, 
-{ id: 87, title: "Sweater weather", artist: "The Neighbourhood", album: "", duration: "3:57", cover: "Musique/Images/font87.png", audioUrl: "Musique/Musique87.mp3", genre: "Alternative" },
-{ id: 88, title: "Two moons", artist: "BoyWithUke", album: "", duration: "3:56", cover: "Musique/Images/font88.png", audioUrl: "Musique/Musique88.mp3", genre: "Bedroom Pop" }, 
-{ id: 89, title: "Understand", artist: "BoyWithUke", album: "", duration: "3:14", cover: "Musique/Images/font89.png", audioUrl: "Musique/Musique89.mp3", genre: "Bedroom Pop" }, 
-{ id: 90, title: "Up & Down", artist: "EXGF", album: "", duration: "2:44", cover: "Musique/Images/font90.png", audioUrl: "Musique/Musique90.mp3", genre: "Electro Pop" }, 
-{ id: 91, title: "Usseewa", artist: "Ado", album: "", duration: "3:24", cover: "Musique/Images/font91.png", audioUrl: "Musique/Musique91.mp3", genre: "J-Pop" },
-{ id: 92, title: "Wild side", artist: "Beastars", album: "", duration: "2:38", cover: "Musique/Images/font92.png", audioUrl: "Musique/Musique92.mp3", genre: "Opening" }, 
-{ id: 93, title: "World's smallest violin", artist: "AJR", album: "", duration: "3:07", cover: "Musique/Images/font93.png", audioUrl: "Musique/Musique93.mp3", genre: "Alternative Pop" }, 
-{ id: 94, title: "Veil", artist: "Fire Force", album: "", duration: "3:28", cover: "Musique/Images/font94.png", audioUrl: "Musique/Musique94.mp3", genre: "Opening" }, 
-{ id: 95, title: "Star shopping", artist: "Lil Peep", album: "", duration: "2:22", cover: "Musique/Images/font95.png", audioUrl: "Musique/Musique95.mp3", genre: "Emo Rap" },
-{ id: 96, title: "Lumière", artist: "Clair Obscur: Expédition 33", album: "", duration: "3:42", cover: "Musique/Images/font96.png", audioUrl: "Musique/Musique96.mp3", genre: "Jeux" },
-{ id: 97, title: "Attrape les tous", artist: "Tresko", album: "", duration: "2:00", cover: "Musique/Images/font97.png", audioUrl: "Musique/Musique97.mp3", genre: "IA" },
-{ id: 98, title: "L'inquisiteur redouté", artist: "Tresko", album: "", duration: "3:16", cover: "Musique/Images/font98.png", audioUrl: "Musique/Musique98.mp3", genre: "IA" },
-{ id: 99, title: "Nuit d'épouvante", artist: "Tresko", album: "", duration: "2:28", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique99.mp3", genre: "IA" },
+{ id: 1, title: "Un quart d'heure", artist: "Satine", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
+{ id: 2, title: "Côte Ouest", artist: "47Ter", album: "Le_Bisounours_", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
+{ id: 3, title: "Harakiri", artist: "47Ter", album: "Le_Bisounours_", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
+{ id: 4, title: "Bloody Stream", artist: "JoJo's Bizarre Adventure", album: "Le_Bisounours_", duration: "4:21", cover: "Musique/Images/font4.png", audioUrl: "Musique/Musique4.mp3", genre: "Opening" }, 
+{ id: 5, title: "Bad Hatter", artist: "DYES IWASAKI", album: "Le_Bisounours_", duration: "2:57", cover: "Musique/Images/font5.png", audioUrl: "Musique/Musique5.mp3", genre: "Electro Swing" }, 
+{ id: 6, title: "Black Betty", artist: "Ram Jam", album: "Le_Bisounours_", duration: "2:24", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "Rock" },
+{ id: 7, title: "Un air qui fait", artist: "47Ter", album: "Le_Bisounours_", duration: "3:46", cover: "Musique/Images/font7.png", audioUrl: "Musique/Musique7.mp3", genre: "Rap" },
+{ id: 8, title: "1000°C", artist: "Lomepal ft. Roméo Elvis", album: "Le_Bisounours_", duration: "4:41", cover: "Musique/Images/font8.png", audioUrl: "Musique/Musique8.mp3", genre: "Rap" },
+{ id: 9, title: "Wellerman (Sea Shanty)", artist: "Nathan Evans", album: "Le_Bisounours_", duration: "2:35", cover: "Musique/Images/font9.png", audioUrl: "Musique/Musique9.mp3", genre: "Folk" },
+{ id: 10, title: "I Can't Fit In", artist: "Marino", album: "Le_Bisounours_", duration: "2:09", cover: "Musique/Images/font10.png", audioUrl: "Musique/Musique10.mp3", genre: "Pop Indé" }, 
+{ id: 11, title: "C'est pas grave", artist: "Columbine ", album: "Le_Bisounours_", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "Rap" }, 
+{ id: 12, title: "Chaque soir", artist: "47Ter", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font12.png", audioUrl: "Musique/Musique12.mp3", genre: "Rap" },
+{ id: 13, title: "Sur tes pas", artist: "Wakfu", album: "Le_Bisounours_", duration: "4:01", cover: "Musique/Images/font13.png", audioUrl: "Musique/Musique13.mp3", genre: "Soundtrack" }, 
+{ id: 14, title: "Fairytale", artist: "Alexander Rybak", album: "Le_Bisounours_", duration: "3:02", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "Pop" },
+{ id: 15, title: "Malade", artist: "Roméo Elvis", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "Rap" }, 
+{ id: 16, title: "Bling-Bang-Bang-Born", artist: "Mashle", album: "Le_Bisounours_", duration: "2:48", cover: "Musique/Images/font16.png", audioUrl: "Musique/Musique16.mp3", genre: "Opening" }, 
+{ id: 17, title: "Body Talks", artist: "The Struts", album: "Le_Bisounours_", duration: "3:00", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musique17.mp3", genre: "Rock" },
+{ id: 18, title: "Colors By Flow", artist: "Code Geass", album: "Le_Bisounours_", duration: "3:38", cover: "Musique/Images/font18.png", audioUrl: "Musique/Musique18.mp3", genre: "Opening" }, 
+{ id: 19, title: "Dans l'univers", artist: "Nekfeu", album: "Le_Bisounours_", duration: "4:06", cover: "Musique/Images/font19.png", audioUrl: "Musique/Musique19.mp3", genre: "Rap" }, 
+{ id: 20, title: "Poupée Russe", artist: "Lujipeka", album: "Le_Bisounours_", duration: "2:44", cover: "Musique/Images/font20.png", audioUrl: "Musique/Musique20.mp3", genre: "Rap" }, 
+{ id: 21, title: "À peu près", artist: "Lomepal", album: "Le_Bisounours_", duration: "3:24", cover: "Musique/Images/font21.png", audioUrl: "Musique/Musique21.mp3", genre: "Rap" },
+{ id: 22, title: "Toutes les machines ont un coeur", artist: "Maëlle", album: "Le_Bisounours_", duration: "4:19", cover: "Musique/Images/font22.png", audioUrl: "Musique/Musique22.mp3", genre: "Pop" },
+{ id: 23, title: "Épisode III - Les mains libres", artist: "Yuzmv", album: "Le_Bisounours_", duration: "3:40", cover: "Musique/Images/font23.png", audioUrl: "Musique/Musique23.mp3", genre: "Rap" }, 
+{ id: 24, title: "Empires", artist: "The Electric Swing Circus", album: "Le_Bisounours_", duration: "3:10", cover: "Musique/Images/font24.png", audioUrl: "Musique/Musique24.mp3", genre: "Electro Swing" }, 
+{ id: 25, title: "Toxic", artist: "BoyWithUke", album: "Le_Bisounours_", duration: "2:50", cover: "Musique/Images/font25.png", audioUrl: "Musique/Musique25.mp3", genre: "Bedroom Pop" }, 
+{ id: 26, title: "Flicker", artist: "Andora", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font26.png", audioUrl: "Musique/Musique26.mp3", genre: "Electro" },
+{ id: 27, title: "Black Catcher", artist: "Black Clover", album: "Le_Bisounours_", duration: "3:18", cover: "Musique/Images/font27.png", audioUrl: "Musique/Musique27.mp3", genre: "Opening" }, 
+{ id: 28, title: "Femme à la mer", artist: "Hoshi", album: "Le_Bisounours_", duration: "3:59", cover: "Musique/Images/font28.png", audioUrl: "Musique/Musique28.mp3", genre: "Pop" },
+{ id: 29, title: "Chute d'étoiles", artist: "Suzuya", album: "Le_Bisounours_", duration: "2:12", cover: "Musique/Images/font29.png", audioUrl: "Musique/Musique29.mp3", genre: "Rap" },
+{ id: 30, title: "Dis-moi que tu me détestes.", artist: "Suzuya", album: "Le_Bisounours_", duration: "2:05", cover: "Musique/Images/font30.png", audioUrl: "Musique/Musique30.mp3", genre: "Rap" },
+{ id: 31, title: "Sundance", artist: "Népal", album: "Le_Bisounours_", duration: "2:50", cover: "Musique/Images/font31.png", audioUrl: "Musique/Musique31.mp3", genre: "Rap" }, 
+{ id: 32, title: "30", artist: "47Ter", album: "Le_Bisounours_", duration: "3:32", cover: "Musique/Images/font32.png", audioUrl: "Musique/Musique32.mp3", genre: "Rap" }, 
+{ id: 33, title: "Trop beau", artist: "Lomepal", album: "Le_Bisounours_", duration: "4:04", cover: "Musique/Images/font33.png", audioUrl: "Musique/Musique33.mp3", genre: "Rap" },
+{ id: 34, title: "La Quête", artist: "Orelsan", album: "Le_Bisounours_", duration: "3:54", cover: "Musique/Images/font34.png", audioUrl: "Musique/Musique34.mp3", genre: "Rap" },
+{ id: 35, title: "Déprime", artist: "Mastu", album: "Le_Bisounours_", duration: "3:19", cover: "Musique/Images/font35.png", audioUrl: "Musique/Musique35.mp3", genre: "Pop" }, 
+{ id: 36, title: "Tchin Tchin", artist: "2TH", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font36.png", audioUrl: "Musique/Musique36.mp3", genre: "Rap" }, 
+{ id: 37, title: "Decrescendo", artist: "Lomepal", album: "Le_Bisounours_", duration: "3:41", cover: "Musique/Images/font37.png", audioUrl: "Musique/Musique37.mp3", genre: "Rap" }, 
+{ id: 38, title: "Astronaute", artist: "Nekfeu", album: "Le_Bisounours_", duration: "6:58", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "Rap" },
+{ id: 39, title: "Dépassé", artist: "Nuit Incolore", album: "Le_Bisounours_", duration: "2:52", cover: "Musique/Images/font39.png", audioUrl: "Musique/Musique39.mp3", genre: "Pop" }, 
+{ id: 40, title: "Hit Sale", artist: "Therapie Taxi ft. Roméo Elvis", album: "Le_Bisounours_", duration: "3:19", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "Pop Rock" }, 
+{ id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Columbine", album: "Le_Bisounours_", duration: "3:45", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "Rap" }, 
+{ id: 42, title: "THE LONELIEST", artist: "Måneskin", album: "Le_Bisounours_", duration: "4:47", cover: "Musique/Images/font42.png", audioUrl: "Musique/Musique42.mp3", genre: "Rock" },
+{ id: 43, title: "Daylight", artist: "David Kushner", album: "Le_Bisounours_", duration: "3:49", cover: "Musique/Images/font43.png", audioUrl: "Musique/Musique43.mp3", genre: "Pop" },
+{ id: 44, title: "Ceux qui rêvent", artist: "Pomme", album: "Le_Bisounours_", duration: "1:58", cover: "Musique/Images/font44.png", audioUrl: "Musique/Musique44.mp3", genre: "Pop Indé" }, 
+{ id: 45, title: "Sharks", artist: "Imagine Dragons", album: "Le_Bisounours_", duration: "3:36", cover: "Musique/Images/font45.png", audioUrl: "Musique/Musique45.mp3", genre: "Alternative Rock" }, 
+{ id: 46, title: "I WANNA BE YOUR SLAVE", artist: "Måneskin", album: "Le_Bisounours_", duration: "2:52", cover: "Musique/Images/font46.png", audioUrl: "Musique/Musique46.mp3", genre: "Rock" },
+{ id: 47, title: "Riptide", artist: "Vance Joy", album: "Le_Bisounours_", duration: "3:24", cover: "Musique/Images/font47.png", audioUrl: "Musique/Musique47.mp3", genre: "Indie Folk" },
+{ id: 48, title: "Évidemment", artist: "Lomepal", album: "Le_Bisounours_", duration: "3:18", cover: "Musique/Images/font48.png", audioUrl: "Musique/Musique48.mp3", genre: "Rap" }, 
+{ id: 49, title: "House of Memories", artist: "Panic! At The Disco", album: "Le_Bisounours_", duration: "3:29", cover: "Musique/Images/font49.png", audioUrl: "Musique/Musique49.mp3", genre: "Alternative Rock" }, 
+{ id: 50, title: "Heathens", artist: "Twenty One Pilots", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font50.png", audioUrl: "Musique/Musique50.mp3", genre: "Alternative" },
+{ id: 51, title: "Mockingbird", artist: "Eminem", album: "Le_Bisounours_", duration: "4:17", cover: "Musique/Images/font51.png", audioUrl: "Musique/Musique51.mp3", genre: "Rap" },
+{ id: 52, title: "Stressed Out", artist: "Twenty One Pilots", album: "Le_Bisounours_", duration: "3:22", cover: "Musique/Images/font52.png", audioUrl: "Musique/Musique52.mp3", genre: "Alternative" },
+{ id: 53, title: "Actrice Fantôme", artist: "Suzuya", album: "Le_Bisounours_", duration: "2:52", cover: "Musique/Images/font53.png", audioUrl: "Musique/Musique53.mp3", genre: "Rap" }, 
+{ id: 54, title: "Gangsta's Paradise", artist: "Coolio ft. L.V.", album: "Le_Bisounours_", duration: "4:01", cover: "Musique/Images/font54.png", audioUrl: "Musique/Musique54.mp3", genre: "Rap" },
+{ id: 55, title: "Stolen Dance", artist: "Milky Chance", album: "Le_Bisounours_", duration: "5:13", cover: "Musique/Images/font55.png", audioUrl: "Musique/Musique55.mp3", genre: "Indie Folk" }, 
+{ id: 56, title: "Feed the Machine", artist: "Poor Man's Poison", album: "Le_Bisounours_", duration: "3:03", cover: "Musique/Images/font56.png", audioUrl: "Musique/Musique56.mp3", genre: "Folk" },
+{ id: 57, title: "Le stade", artist: "Fredz", album: "Le_Bisounours_", duration: "2:35", cover: "Musique/Images/font57.png", audioUrl: "Musique/Musique57.mp3", genre: "Rap" }, 
+{ id: 58, title: "Help me", artist: "Or3o", album: "Le_Bisounours_", duration: "4:20", cover: "Musique/Images/font58.png", audioUrl: "Musique/Musique58.mp3", genre: "Indie Pop" }, 
+{ id: 59, title: "IDGAF", artist: "BoyWithUke", album: "Le_Bisounours_", duration: "2:26", cover: "Musique/Images/font59.png", audioUrl: "Musique/Musique59.mp3", genre: "Bedroom Pop" }, 
+{ id: 60, title: "Ma Meilleure Ennemie", artist: "Stomae & Pomme", album: "Le_Bisounours_", duration: "2:28", cover: "Musique/Images/font60.png", audioUrl: "Musique/Musique60.mp3", genre: "Pop Indé" }, 
+{ id: 61, title: "Roi", artist: "Videoclub", album: "Le_Bisounours_", duration: "3:49", cover: "Musique/Images/font61.png", audioUrl: "Musique/Musique61.mp3", genre: "Pop Indé" }, 
+{ id: 62, title: "Futur", artist: "DYES IWASAKI", album: "Le_Bisounours_", duration: "3:22", cover: "Musique/Images/font62.png", audioUrl: "Musique/Musique62.mp3", genre: "Electro Swing" }, 
+{ id: 63, title: "God-Ish", artist: "PinocchioP", album: "Le_Bisounours_", duration: "3:24", cover: "Musique/Images/font63.png", audioUrl: "Musique/Musique63.mp3", genre: "J-Pop" }, 
+{ id: 64, title: "Golden Hour", artist: "JVKE", album: "Le_Bisounours_", duration: "3:51", cover: "Musique/Images/font64.png", audioUrl: "Musique/Musique64.mp3", genre: "Pop" },
+{ id: 65, title: "I'm Doing Fine", artist: "Marino", album: "Le_Bisounours_", duration: "1:39", cover: "Musique/Images/font65.png", audioUrl: "Musique/Musique65.mp3", genre: "Pop Indé" }, 
+{ id: 66, title: "Feel Good Inc.", artist: "Gorillaz", album: "Le_Bisounours_", duration: "4:13", cover: "Musique/Images/font66.png", audioUrl: "Musique/Musique66.mp3", genre: "Alternative" },
+{ id: 67, title: "Give and Take", artist: "Poor Man's Poison", album: "Le_Bisounours_", duration: "3:17", cover: "Musique/Images/font67.png", audioUrl: "Musique/Musique67.mp3", genre: "Folk" },
+{ id: 68, title: "Je ne pense qu'à ça", artist: "Lenaïg", album: "Le_Bisounours_", duration: "2:34", cover: "Musique/Images/font68.png", audioUrl: "Musique/Musique68.mp3", genre: "Pop" },
+{ id: 69, title: "Crush", artist: "Nuit Incolore", album: "Le_Bisounours_", duration: "3:12", cover: "Musique/Images/font69.png", audioUrl: "Musique/Musique69.mp3", genre: "Pop" },
+{ id: 70, title: "Radioactive", artist: "Imagine Dragons", album: "Le_Bisounours_", duration: "3:05", cover: "Musique/Images/font70.png", audioUrl: "Musique/Musique70.mp3", genre: "Alternative Rock" }, 
+{ id: 71, title: "Mood", artist: "24kGoldn", album: "Le_Bisounours_", duration: "2:30", cover: "Musique/Images/font71.png", audioUrl: "Musique/Musique71.mp3", genre: "Pop Rap" }, 
+{ id: 72, title: "Vampire", artist: "Tsew The Kid", album: "Le_Bisounours_", duration: "2:17", cover: "Musique/Images/font72.png", audioUrl: "Musique/Musique72.mp3", genre: "Rap" }, 
+{ id: 73, title: "Anxiety", artist: "Doechii", album: "Le_Bisounours_", duration: "4:09", cover: "Musique/Images/font73.png", audioUrl: "Musique/Musique73.mp3", genre: "Rap" }, 
+{ id: 74, title: "Handclap", artist: "Fitz and The Tantrums", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font74.png", audioUrl: "Musique/Musique74.mp3", genre: "Soul-Pop" },
+{ id: 75, title: "Hardware Store", artist: "Weird Al Yankovic", album: "Le_Bisounours_", duration: "3:44", cover: "Musique/Images/font75.png", audioUrl: "Musique/Musique75.mp3", genre: "Comedy" },
+{ id: 76, title: "Hit The Road Jack", artist: "Ray Charles", album: "Le_Bisounours_", duration: "2:02", cover: "Musique/Images/font76.png", audioUrl: "Musique/Musique76.mp3", genre: "R&B" }, 
+{ id: 77, title: "I Wanna Be Like You", artist: "Sid Bader", album: "Le_Bisounours_", duration: "2:01", cover: "Musique/Images/font77.png", audioUrl: "Musique/Musique77.mp3", genre: "Electro Swing" }, 
+{ id: 78, title: "Light up the night", artist: "Jamie Berry & Octavia Rose", album: "Le_Bisounours_", duration: "3:53", cover: "Musique/Images/font78.png", audioUrl: "Musique/Musique78.mp3", genre: "Electro Swing" }, 
+{ id: 79, title: "No Strings Attached", artist: "Swingrowers", album: "Le_Bisounours_", duration: "4:07", cover: "Musique/Images/font79.png", audioUrl: "Musique/Musique79.mp3", genre: "Electro Swing" }, 
+{ id: 80, title: "Overwhelmed", artist: "Royal & the Serpent", album: "Le_Bisounours_", duration: "3:26", cover: "Musique/Images/font80.png", audioUrl: "Musique/Musique80.mp3", genre: "Alternative" },
+{ id: 81, title: "Party like it's 1920", artist: "The Swinghoppers & Wolfgang Lohr", album: "Le_Bisounours_", duration: "3:05", cover: "Musique/Images/font81.png", audioUrl: "Musique/Musique81.mp3", genre: "Electro Swing" }, 
+{ id: 82, title: "Problematic", artist: "BoyWithUke", album: "Le_Bisounours_", duration: "3:33", cover: "Musique/Images/font82.png", audioUrl: "Musique/Musique82.mp3", genre: "Bedroom Pop" }, 
+{ id: 83, title: "Reflection", artist: "Christina Aguilera", album: "Le_Bisounours_", duration: "3:19", cover: "Musique/Images/font83.png", audioUrl: "Musique/Musique83.mp3", genre: "Pop" },
+{ id: 84, title: "Rockstar", artist: "BoyWithUke", album: "Le_Bisounours_", duration: "4:32", cover: "Musique/Images/font84.png", audioUrl: "Musique/Musique84.mp3", genre: "Bedroom Pop" }, 
+{ id: 85, title: "Star Walkin", artist: "Lil Nas X", album: "Le_Bisounours_", duration: "3:27", cover: "Musique/Images/font85.png", audioUrl: "Musique/Musique85.mp3", genre: "Pop Rap" },
+{ id: 86, title: "Shiawase no Monosashi", artist: "Vantage", album: "Le_Bisounours_", duration: "5:00", cover: "Musique/Images/font86.png", audioUrl: "Musique/Musique86.mp3", genre: "Future Funk" }, 
+{ id: 87, title: "Sweater weather", artist: "The Neighbourhood", album: "Le_Bisounours_", duration: "3:57", cover: "Musique/Images/font87.png", audioUrl: "Musique/Musique87.mp3", genre: "Alternative" },
+{ id: 88, title: "Two moons", artist: "BoyWithUke", album: "Le_Bisounours_", duration: "3:56", cover: "Musique/Images/font88.png", audioUrl: "Musique/Musique88.mp3", genre: "Bedroom Pop" }, 
+{ id: 89, title: "Understand", artist: "BoyWithUke", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font89.png", audioUrl: "Musique/Musique89.mp3", genre: "Bedroom Pop" }, 
+{ id: 90, title: "Up & Down", artist: "EXGF", album: "Le_Bisounours_", duration: "2:44", cover: "Musique/Images/font90.png", audioUrl: "Musique/Musique90.mp3", genre: "Electro Pop" }, 
+{ id: 91, title: "Usseewa", artist: "Ado", album: "Le_Bisounours_", duration: "3:24", cover: "Musique/Images/font91.png", audioUrl: "Musique/Musique91.mp3", genre: "J-Pop" },
+{ id: 92, title: "Wild side", artist: "Beastars", album: "Le_Bisounours_", duration: "2:38", cover: "Musique/Images/font92.png", audioUrl: "Musique/Musique92.mp3", genre: "Opening" }, 
+{ id: 93, title: "World's smallest violin", artist: "AJR", album: "Le_Bisounours_", duration: "3:07", cover: "Musique/Images/font93.png", audioUrl: "Musique/Musique93.mp3", genre: "Alternative Pop" }, 
+{ id: 94, title: "Veil", artist: "Fire Force", album: "Le_Bisounours_", duration: "3:28", cover: "Musique/Images/font94.png", audioUrl: "Musique/Musique94.mp3", genre: "Opening" }, 
+{ id: 95, title: "Star shopping", artist: "Lil Peep", album: "Le_Bisounours_", duration: "2:22", cover: "Musique/Images/font95.png", audioUrl: "Musique/Musique95.mp3", genre: "Emo Rap" },
+{ id: 96, title: "Lumière", artist: "Clair Obscur: Expédition 33", album: "Le_Bisounours_", duration: "3:42", cover: "Musique/Images/font96.png", audioUrl: "Musique/Musique96.mp3", genre: "Jeux" },
+{ id: 97, title: "Attrape les tous", artist: "Tresko", album: "Le_Bisounours_", duration: "2:00", cover: "Musique/Images/font97.png", audioUrl: "Musique/Musique97.mp3", genre: "IA" },
+{ id: 98, title: "L'inquisiteur redouté", artist: "Tresko", album: "Le_Bisounours_", duration: "3:16", cover: "Musique/Images/font98.png", audioUrl: "Musique/Musique98.mp3", genre: "IA" },
+{ id: 99, title: "Nuit d'épouvante", artist: "Tresko", album: "Le_Bisounours_", duration: "2:28", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique99.mp3", genre: "IA" },
+{ id: 100, title: "C'est nous les bloods", artist: "Bisounours", album: "Le_Bisounours_", duration: "2:21", cover: "Musique/Images/font100.png", audioUrl: "Musique/Musique100.mp3", genre: "IA" },
 ];const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Ma playlist personnelle", cover: "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: [], isDefault: true }
 ];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
@@ -658,7 +659,7 @@ className="card"
 onClick={() => playTrack(track)}
 style={{
 background: isDarkMode
-? "linear-gradient(135deg, #374151, #4b5563)"
+? currentTheme.gradient
 : currentTheme.gradient,
 cursor: "pointer",
 boxShadow: currentTrack?.id === track.id && isPlaying
@@ -696,12 +697,20 @@ style={{ background: currentTheme.primary }}
 </div><div className="section">
 <h2 className="section-title">Rock & Alternative</h2>
 <div className="grid grid-cols-6">
-{musicDatabase.filter(track => ['Rock', 'Indie Rock', 'Pop Rock', 'Alternative Rock', 'Alternative', 'Indie'].includes(track.genre)).slice(0, 6).map(track => (
+{musicDatabase.filter(track => ['Rock', 'Indie Rock', 'Pop Rock', 'Alternative Rock', 'Alternative', 'Indie'].includes(track.genre)).slice(0, 150).map(track => (
 <div
 key={track.id}
 className="card"
 onClick={() => playTrack(track)}
-style={{ cursor: "pointer" }}
+style={{
+background: isDarkMode
+? currentTheme.gradient
+: currentTheme.gradient,
+cursor: "pointer",
+boxShadow: currentTrack?.id === track.id && isPlaying
+? `0 0 20px 10px ${currentTheme.primary}80`
+: "none"
+}}
 title="Cliquer pour jouer"
 >
 <img src={track.cover} alt={track.title} className="card-image" />
@@ -711,23 +720,42 @@ onClick={(e) => {
 e.stopPropagation();
 openAddToPlaylistModal(track);
 }}
+title="Ajouter à une playlist"
 >
 ➕
-</button>
-<h3 className="card-title">{track.title}</h3>
+</button><button
+className="add-to-queue-btn"
+onClick={(e) => {
+e.stopPropagation();
+addToQueue(track);
+}}
+title="Ajouter à la file d'attente"
+style={{ background: currentTheme.primary }}
+>
+📋
+</button><h3 className="card-title">{track.title}</h3>
 <p className="card-subtitle">{track.artist}</p>
+<p className="card-info">{track.genre} • {track.duration}</p>
 </div>
 ))}
 </div>
 </div><div className="section">
-<h2 className="section-title">Rap & Hip-Hop</h2>
+<h2 className="section-title">Rap & Pop</h2>
 <div className="grid grid-cols-6">
-{musicDatabase.filter(track => ['Hip-Hop', 'Rap'].includes(track.genre)).slice(0, 6).map(track => (
+{musicDatabase.filter(track => ['Pop', 'Rap'].includes(track.genre)).slice(0, 150).map(track => (
 <div
 key={track.id}
 className="card"
 onClick={() => playTrack(track)}
-style={{ cursor: "pointer" }}
+style={{
+background: isDarkMode
+? currentTheme.gradient
+: currentTheme.gradient,
+cursor: "pointer",
+boxShadow: currentTrack?.id === track.id && isPlaying
+? `0 0 20px 10px ${currentTheme.primary}80`
+: "none"
+}}
 title="Cliquer pour jouer"
 >
 <img src={track.cover} alt={track.title} className="card-image" />
@@ -737,23 +765,42 @@ onClick={(e) => {
 e.stopPropagation();
 openAddToPlaylistModal(track);
 }}
+title="Ajouter à une playlist"
 >
 ➕
-</button>
-<h3 className="card-title">{track.title}</h3>
+</button><button
+className="add-to-queue-btn"
+onClick={(e) => {
+e.stopPropagation();
+addToQueue(track);
+}}
+title="Ajouter à la file d'attente"
+style={{ background: currentTheme.primary }}
+>
+📋
+</button><h3 className="card-title">{track.title}</h3>
 <p className="card-subtitle">{track.artist}</p>
+<p className="card-info">{track.genre} • {track.duration}</p>
 </div>
 ))}
 </div>
 </div><div className="section">
-<h2 className="section-title">Openings Anime</h2>
+<h2 className="section-title">Anime & Film</h2>
 <div className="grid grid-cols-6">
-{musicDatabase.filter(track => track.genre === 'Opening').slice(0, 6).map(track => (
+{musicDatabase.filter(track => ['Opening', 'Film'].includes(track.genre)).slice(0, 150).map(track => (
 <div
 key={track.id}
 className="card"
 onClick={() => playTrack(track)}
-style={{ cursor: "pointer" }}
+style={{
+background: isDarkMode
+? currentTheme.gradient
+: currentTheme.gradient,
+cursor: "pointer",
+boxShadow: currentTrack?.id === track.id && isPlaying
+? `0 0 20px 10px ${currentTheme.primary}80`
+: "none"
+}}
 title="Cliquer pour jouer"
 >
 <img src={track.cover} alt={track.title} className="card-image" />
@@ -763,11 +810,22 @@ onClick={(e) => {
 e.stopPropagation();
 openAddToPlaylistModal(track);
 }}
+title="Ajouter à une playlist"
 >
 ➕
-</button>
-<h3 className="card-title">{track.title}</h3>
+</button><button
+className="add-to-queue-btn"
+onClick={(e) => {
+e.stopPropagation();
+addToQueue(track);
+}}
+title="Ajouter à la file d'attente"
+style={{ background: currentTheme.primary }}
+>
+📋
+</button><h3 className="card-title">{track.title}</h3>
 <p className="card-subtitle">{track.artist}</p>
+<p className="card-info">{track.genre} • {track.duration}</p>
 </div>
 ))}
 </div>
