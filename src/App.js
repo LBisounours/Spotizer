@@ -125,6 +125,12 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 112, title: "Rêver j'en ai l'habitude", artist: "Molière le spectacle Musical", album: "Le_Bisounours_", duration: "3:17", cover: "Musique/Images/font111.png", audioUrl: "Musique/Musique112.mp3", genre: "Théâte" },
 { id: 113, title: "À quoi ça rime", artist: "Molière le spectacle Musical", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font111.png", audioUrl: "Musique/Musique113.mp3", genre: "Théâte" },
 { id: 115, title: "Vise le sommet", artist: "Inazuma Eleven Ares ", album: "Le_Bisounours_", duration: "4:08", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique115.mp3", genre: "Opening" },
+{ id: 116, title: "The Crusade of God", artist: "Inazuma Eleven", album: "Le_Bisounours_", duration: "2:26", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique116.mp3", genre: "Opening" },
+{ id: 117, title: "Official Matches ", artist: "Inazuma Eleven", album: "Le_Bisounours_", duration: "2:22", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique117.mp3", genre: "Opening" },
+{ id: 118, title: "Mou Hitori no Ace Striker", artist: "Inazuma Eleven", album: "Le_Bisounours_", duration: "2:25", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique118.mp3", genre: "Opening" },
+{ id: 119, title: "Jounetsu de Mune Atsu!", artist: "Inazuma Eleven Go Chrono Stone", album: "Le_Bisounours_", duration: "4:44", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique119.mp3", genre: "Opening" },
+{ id: 120, title: "Kandou Kyouyuu!", artist: "Inazuma Eleven Go Chrono Stone", album: "Le_Bisounours_", duration: "1:24", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique120.mp3", genre: "Opening" },
+{ id: 121, title: "Vol. 2 Wild Pokemon Battle Theme", artist: "Pokémon Journeys", album: "Le_Bisounours_", duration: "1:48", cover: "Musique/Images/font121.png", audioUrl: "Musique/Musique121.mp3", genre: "OST" },
 ];const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Ma playlist personnelle", cover: "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: [], isDefault: true }
 ];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
