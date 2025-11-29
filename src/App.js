@@ -131,6 +131,14 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 119, title: "Jounetsu de Mune Atsu!", artist: "Inazuma Eleven Go Chrono Stone", album: "Le_Bisounours_", duration: "4:44", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique119.mp3", genre: "Opening" },
 { id: 120, title: "Kandou Kyouyuu!", artist: "Inazuma Eleven Go Chrono Stone", album: "Le_Bisounours_", duration: "1:24", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique120.mp3", genre: "Opening" },
 { id: 121, title: "Vol. 2 Wild Pokemon Battle Theme", artist: "Pokémon Journeys", album: "Le_Bisounours_", duration: "1:48", cover: "Musique/Images/font121.png", audioUrl: "Musique/Musique121.mp3", genre: "OST" },
+{ id: 122, title: "Washing Machine Heart", artist: "Mitski", album: "Le_Bisounours_", duration: "2:08", cover: "Musique/Images/font122.png", audioUrl: "Musique/Musique122.mp3", genre: "Rock Pop punk" },
+{ id: 123, title: "Nothing At All", artist: "Nxdia", album: "Le_Bisounours_", duration: "2:40", cover: "Musique/Images/font123.png", audioUrl: "Musique/Musique123.mp3", genre: "Pop" },
+{ id: 124, title: "Her", artist: "JVKE", album: "Le_Bisounours_", duration: "2:51", cover: "Musique/Images/font124.png", audioUrl: "Musique/Musique124.mp3", genre: "Pop" },
+{ id: 125, title: "What About Me", artist: "Rex Orange County", album: "Le_Bisounours_", duration: "4:22", cover: "Musique/Images/font125.png", audioUrl: "Musique/Musique125.mp3", genre: "Pop" },
+{ id: 126, title: "Baby Doll", artist: "Dominic Fike", album: "Le_Bisounours_", duration: "1:40", cover: "Musique/Images/font126.png", audioUrl: "Musique/Musique126.mp3", genre: "Alternative" },
+{ id: 127, title: "En boucle", artist: "Adèle Castillon", album: "Le_Bisounours_", duration: "4:06", cover: "Musique/Images/font127.png", audioUrl: "Musique/Musique127.mp3", genre: "Pop" },
+{ id: 128, title: "The Adults Are Talking", artist: "The Strokes", album: "Le_Bisounours_", duration: "4:47", cover: "Musique/Images/font128.png", audioUrl: "Musique/Musique128.mp3", genre: "New wave" },
+{ id: 129, title: "Melodrama", artist: "Disiz & Théodora", album: "Le_Bisounours_", duration: "2:56", cover: "Musique/Images/font129.png", audioUrl: "Musique/Musique129.mp3", genre: "Alternative" },
 ];const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Ma playlist personnelle", cover: "https://media.discordapp.net/attachments/968955109155418132/1444385047133163530/BisouHug.png?ex=692c83e6&is=692b3266&hm=0f3608095d232fa0320b0f013da175ad542c9d99dfe2bd77767823a86546213b&=&format=webp&quality=lossless", tracks: [], isDefault: true }
 ];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
