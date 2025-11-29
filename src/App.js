@@ -981,10 +981,10 @@ style={{ background: currentTheme.gradient }}
 </div>
 ) : (
 <DragDropContext onDragEnd={handlePlaylistDragEnd}>
-<Droppable droppableId="playlist-tracks">
+<Droppable droppableId="playlist-tracks" >
 {(provided) => (
 <div 
-className="track-list"
+className="track-list "
 {...provided.droppableProps}
 ref={provided.innerRef}
 >
@@ -999,19 +999,19 @@ index={index}
 ref={provided.innerRef}
 {...provided.draggableProps}
 {...provided.dragHandleProps}
-className={`track-item ${snapshot.isDragging ? 'dragging' : ''}`}
+className={`track-item ${snapshot.isDragging ? 'dragging' : ''}`} 
 onClick={() => playTrack(track, selectedPlaylist)}
 style={{
 ...provided.draggableProps.style,
 cursor: "pointer",
-borderLeft: snapshot.isDragging ? `3px solid ${currentTheme.primary}` : 'none'
+borderLeft: snapshot.isDragging ? `3px solid ${currentTheme.primary}` : 'none', background: currentTheme.gradient 
 }}
 title="Cliquer pour jouer, glisser pour réorganiser"
 >
 <span className="drag-handle">⋮⋮</span>
 <div className="track-number">{index + 1}</div>
 <button
-className="track-play-btn"
+className="track-play-btn" 
 onClick={(e) => {
 e.stopPropagation();
 playTrack(track, selectedPlaylist);
