@@ -55,8 +55,8 @@ secondary: '#e7902cff',
 accent: '#dc2626',
 gradient: 'linear-gradient(135deg, #ff0000ff, #e7902cff)'
 },
-caca: {
-name: 'Caca',
+marron: {
+name: 'Marron',
 primary: '#572403ff',
 secondary: '#834019ff',
 accent: '#ac5c2dff',
