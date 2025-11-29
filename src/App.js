@@ -809,7 +809,7 @@ style={{ background: currentTheme.primary }}
 </div><div className="section">
 <h2 className="section-title">Anime & Film</h2>
 <div className="grid grid-cols-6">
-{musicDatabase.filter(track => ['Opening', 'Film'].includes(track.genre)).slice(0, 150).map(track => (
+{musicDatabase.filter(track => ['Opening', 'Film', 'OST'].includes(track.genre)).slice(0, 150).map(track => (
 <div
 key={track.id}
 className="card"
