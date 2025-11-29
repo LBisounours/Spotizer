@@ -119,7 +119,12 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 107, title: "Golden", artist: "Kpop Demon Hunter", album: "Le_Bisounours_", duration: "3:18", cover: "Musique/Images/font106.png", audioUrl: "Musique/Musique107.mp3", genre: "Film" },
 { id: 108, title: "Your Idol", artist: "Kpop Demon Hunter", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font106.png", audioUrl: "Musique/Musique108.mp3", genre: "Film" },
 { id: 109, title: "Réplique Culte", artist: "French Fuse", album: "Le_Bisounours_", duration: "3:16", cover: "Musique/Images/font109.png", audioUrl: "Musique/Musique109.mp3", genre: "Remix" },
-{ id: 110, title: "Harry Potter", artist: "French Fuse", album: "Le_Bisounours_", duration: "3:16", cover: "Musique/Images/font109.png", audioUrl: "Musique/Musique110.mp3", genre: "Remix" },
+{ id: 110, title: "Harry Potter", artist: "French Fuse", album: "Le_Bisounours_", duration: "3:41", cover: "Musique/Images/font109.png", audioUrl: "Musique/Musique110.mp3", genre: "Remix" },
+{ id: 114, title: "La Chanson des manifs", artist: "French Fuse", album: "Le_Bisounours_", duration: "3:23", cover: "Musique/Images/font109.png", audioUrl: "Musique/Musique114.mp3", genre: "Remix" },
+{ id: 111, title: "On se Moque", artist: "Molière le spectacle Musical", album: "Le_Bisounours_", duration: "2:47", cover: "Musique/Images/font111.png", audioUrl: "Musique/Musique111.mp3", genre: "Théâte" },
+{ id: 112, title: "Rêver j'en ai l'habitude", artist: "Molière le spectacle Musical", album: "Le_Bisounours_", duration: "3:17", cover: "Musique/Images/font111.png", audioUrl: "Musique/Musique112.mp3", genre: "Théâte" },
+{ id: 113, title: "À quoi ça rime", artist: "Molière le spectacle Musical", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font111.png", audioUrl: "Musique/Musique113.mp3", genre: "Théâte" },
+{ id: 115, title: "Vise le sommet", artist: "Inazuma Eleven Ares ", album: "Le_Bisounours_", duration: "4:08", cover: "Musique/Images/font115.png", audioUrl: "Musique/Musique115.mp3", genre: "Opening" },
 ];const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Ma playlist personnelle", cover: "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: [], isDefault: true }
 ];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
