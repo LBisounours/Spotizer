@@ -89,9 +89,9 @@ background: currentTheme.gradient
 {topGenres.length === 0 ? (
 <p className="no-stats">Pas encore de données de genres.</p>
 ) : (
-<div className="top-genres-list">
+<div className="top-genres-list" >
 {topGenres.map((item, index) => (
-<div key={item.genre} className="genre-item">
+<div key={item.genre} className="genre-item" >
 <div className="genre-info">
 <span className="genre-rank">{index + 1}</span>
 <span className="genre-name">{item.genre || 'Non défini'}</span>
@@ -117,11 +117,11 @@ background: currentTheme.gradient
 {listeningHistory.length === 0 ? (
 <p className="no-stats">Aucune musique écoutée récemment.</p>
 ) : (
-<div className="history-list">
+<div className="history-list" >
 {listeningHistory.slice(0, 20).map((entry, index) => (
 <div 
 key={entry.playId} 
-className="history-item"
+className="history-item " style={{ background: currentTheme.gradient }}
 onClick={() => onPlayTrack(entry)}
 >
 <img src={entry.cover} alt={entry.title} className="history-cover" />

@@ -1114,9 +1114,9 @@ style={{ background: currentTheme.gradient }}
 {musicDatabase.map((track, index) => (
 <div
 key={track.id}
-className="track-item"
+className="track-item" 
 onClick={() => playTrack(track)}
-style={{ cursor: "pointer" }}
+style={{ cursor: "pointer", background: currentTheme.gradient}}
 title="Cliquer pour jouer"
 >
 <div className="track-number">{index + 1}</div>
@@ -1344,11 +1344,11 @@ const { listeningHistory, playStats } = useMusic();return (
 {listeningHistory.map((entry, index) => (
 <div 
 key={entry.playId} 
-className="track-item history-track-item"
+className="track-item history-track-item " 
 onClick={() => onPlayTrack(entry)}
-style={{ cursor: 'pointer' }}
+style={{ background: currentTheme.gradient }}
 >
-<div className="track-number">{index + 1}</div>
+<div className="track-number" >{index + 1}</div>
 <img src={entry.cover} alt={entry.title} className="track-cover" />
 <div className="track-info">
 <div className="track-title">{entry.title}</div>
@@ -1363,7 +1363,7 @@ style={{ cursor: 'pointer' }}
 {new Date(entry.playedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
 </span>
 </div>
-<div className="play-count-badge" style={{ background: currentTheme.gradient }}>
+<div className="play-count-badge">
 {playStats[entry.id] || 1}x
 </div>
 <button
