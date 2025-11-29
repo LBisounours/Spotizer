@@ -886,7 +886,7 @@ style={{ background: currentTheme.gradient }}
 key={track.id}
 className="track-item"
 onClick={() => playTrack(track)}
-style={{ cursor: "pointer" }}
+style={{ cursor: "pointer", background: currentTheme.gradient}}
 title="Cliquer pour jouer"
 >
 <div className="track-number">{index + 1}</div>
