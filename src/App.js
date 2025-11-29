@@ -8,9 +8,7 @@ import QueuePanel from './components/QueuePanel';
 import ThemeSelector from './components/ThemeSelector';
 import SleepTimerModal from './components/SleepTimerModal';
 import StatsPage from './components/StatsPage';
-import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';
-
-const musicDatabase = [
+import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const musicDatabase = [
 { id: 1, title: "Un quart d'heure", artist: "Satine", album: "", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
 { id: 2, title: "Côte Ouest", artist: "47Ter", album: "", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
 { id: 3, title: "Harakiri", artist: "47Ter", album: "", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
@@ -112,14 +110,10 @@ const musicDatabase = [
 { id: 99, title: "Nuit d'épouvante", artist: "Tresko", album: "", duration: "2:28", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique99.mp3", genre: "IA" },
 ];const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Ma playlist personnelle", cover: "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: [], isDefault: true }
-];
-
-const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
+];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
 const { isDarkMode } = useTheme();
 return (<div className="modal-backdrop" onClick={onClose}><div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}><h2 className="modal-title">Options pour "{playlist.name}"</h2><div className="playlist-options"><button className="option-btn edit-btn" onClick={() => { onClose(); onEdit(playlist); }}>✏️ Éditer la playlist</button><button className="option-btn export-btn" onClick={() => onExport(playlist)}>📤 Exporter la playlist</button><button className="option-btn delete-btn" onClick={() => onDelete(playlist.id)}>🗑️ Supprimer la playlist</button></div><div className="modal-buttons"><button onClick={onClose} className="btn btn-secondary">Annuler</button></div></div></div>);
-};
-
-const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
+};const PlaylistEditModal = ({ playlist, onClose, onSave }) => {
 const { isDarkMode, currentTheme } = useTheme();
 const [name, setName] = useState(playlist.name || '');
 const [description, setDescription] = useState(playlist.description || '');
@@ -130,9 +124,7 @@ onSave({ ...playlist, name: name.trim(), description: description.trim(), cover:
 onClose();
 };
 return (<div className="modal-backdrop" onClick={onClose}><div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}><h2 className="modal-title">Modifier la playlist</h2><form onSubmit={handleSubmit} className="modal-form"><div className="form-group"><label className="form-label">Nom *</label><input type="text" className="form-input" value={name} onChange={e => setName(e.target.value)} required autoFocus/></div><div className="form-group"><label className="form-label">Description</label><textarea className="form-textarea" value={description} onChange={e => setDescription(e.target.value)} rows="3"/></div><div className="form-group"><label className="form-label">URL de la cover</label><input type="url" className="form-input" value={cover} onChange={e => setCover(e.target.value)} placeholder="https://exemple.com/image.jpg"/></div><div className="modal-buttons"><button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>Sauvegarder</button><button type="button" onClick={onClose} className="btn btn-secondary">Annuler</button></div></form></div></div>);
-};
-
-const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
+};const CreatePlaylistModal = ({ onClose, onCreate, onImport }) => {
 const { isDarkMode, currentTheme } = useTheme();
 const [name, setName] = useState('');
 const [description, setDescription] = useState('');
@@ -159,14 +151,10 @@ reader.readAsText(file);
 }
 };
 return (<div className="modal-backdrop" onClick={onClose}><div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}><h2 className="modal-title">Créer une nouvelle playlist</h2><form onSubmit={handleSubmit} className="modal-form"><div className="form-group"><label className="form-label">Nom de la playlist *</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-input" placeholder="Ma nouvelle playlist" required/></div><div className="form-group"><label className="form-label">Description (optionnel)</label><textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-textarea" placeholder="Description de votre playlist" rows="3"/></div><div className="form-group"><label className="form-label">URL de la cover (optionnel)</label><input type="url" value={cover} onChange={(e) => setCover(e.target.value)} className="form-input" placeholder="https://exemple.com/image.jpg"/></div><div className="modal-buttons"><button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>Créer</button><button type="button" onClick={onClose} className="btn btn-secondary">Annuler</button></div></form><div style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.2)' }}><input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }}/><button type="button" onClick={() => fileInputRef.current.click()} className="btn btn-secondary" style={{ width: '100%' }}>📥 Importer une playlist</button></div></div></div>);
-};
-
-const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
+};const AddToPlaylistModal = ({ track, playlists, onClose, onAdd }) => {
 const { isDarkMode, currentTheme } = useTheme();
 return (<div className="modal-backdrop" onClick={onClose}><div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}><h2 className="modal-title">Ajouter "{track.title}" à une playlist</h2><div className="playlist-list">{playlists.length === 0 ? (<p>Aucune playlist disponible. Créez-en une d'abord !</p>) : (playlists.map(playlist => (<button key={playlist.id} className="playlist-option" onClick={() => onAdd(playlist.id, track)}><img src={playlist.cover} alt={playlist.name} className="playlist-option-cover" /><div className="playlist-option-info"><div className="playlist-option-name">{playlist.name}</div><div className="playlist-option-tracks">{playlist.tracks.length} titres</div></div>{playlist.tracks.find(t => t.id === track.id) && (<span className="already-added" style={{ color: currentTheme.primary }}>✓ Déjà ajouté</span>)}</button>)))}</div><div className="modal-buttons"><button onClick={onClose} className="btn btn-secondary">Fermer</button></div></div></div>);
-};
-
-const SaveQueueModal = ({ queue, onClose, onCreate }) => {
+};const SaveQueueModal = ({ queue, onClose, onCreate }) => {
 const { isDarkMode, currentTheme } = useTheme();
 const [name, setName] = useState('Ma file d\'attente');
 const [description, setDescription] = useState('');const handleSubmit = (e) => {
@@ -174,9 +162,7 @@ e.preventDefault();
 if (name.trim() && queue.length > 0) { onCreate(name.trim(), description.trim(), queue); onClose(); }
 };
 return (<div className="modal-backdrop" onClick={onClose}><div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}><h2 className="modal-title">💾 Sauvegarder la file d'attente</h2><p className="modal-subtitle">{queue.length} musiques seront ajoutées</p><form onSubmit={handleSubmit} className="modal-form"><div className="form-group"><label className="form-label">Nom de la playlist *</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-input" placeholder="Ma nouvelle playlist" required/></div><div className="form-group"><label className="form-label">Description (optionnel)</label><textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-textarea" placeholder="Description de votre playlist" rows="2"/></div><div className="modal-buttons"><button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>Sauvegarder</button><button type="button" onClick={onClose} className="btn btn-secondary">Annuler</button></div></form></div></div>);
-};
-
-function AppContent() {
+};function AppContent() {
 const { isDarkMode, currentTheme } = useTheme();
 const { addToHistory, addListeningTime, sleepTimerActive, sleepTimerRemaining } = useMusic();
 const [currentPage, setCurrentPage] = useState('home');
@@ -187,8 +173,8 @@ const [searchResults, setSearchResults] = useState([]);
 const [currentTime, setCurrentTime] = useState(0);
 const [duration, setDuration] = useState(0);
 const [volume, setVolume] = useState(() => {
-    const saved = localStorage.getItem('spotizer-volume');
-    return saved !== null ? parseFloat(saved) : 0.05;
+const saved = localStorage.getItem('spotizer-volume');
+return saved !== null ? parseFloat(saved) : 0.05;
 });
 const [isMuted, setIsMuted] = useState(false);
 const [playlists, setPlaylists] = useState([]);
@@ -208,372 +194,291 @@ const [showSleepTimerModal, setShowSleepTimerModal] = useState(false);
 const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
 const [showSaveQueueModal, setShowSaveQueueModal] = useState(false);
 const [lastPlayTime, setLastPlayTime] = useState(0);
-const audioRef = useRef(null);
-
-// --- FONCTIONS UTILITAIRES DE BASE ---
-const shuffleArray = useCallback((array) => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
+const audioRef = useRef(null);const shuffleArray = useCallback((array) => {
+const newArray = [...array];
+for (let i = newArray.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i + 1));
+[newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+}
+return newArray;
+}, []);const initializeQueue = useCallback((startTrack, sourceList) => {
+const startIndex = sourceList.findIndex(t => t.id === startTrack.id);
+if (startIndex === -1) return [startTrack];
+const queue = [ ...sourceList.slice(startIndex), ...sourceList.slice(0, startIndex) ];
+return queue;
 }, []);
-
-const initializeQueue = useCallback((startTrack, sourceList) => {
-    const startIndex = sourceList.findIndex(t => t.id === startTrack.id);
-    if (startIndex === -1) return [startTrack];
-    const queue = [ ...sourceList.slice(startIndex), ...sourceList.slice(0, startIndex) ];
-    return queue;
-}, []);
-
-// --- DÉCLARATION DES FONCTIONS DE CONTRÔLE (Pour éviter l'erreur d'initialisation) ---
-
 const updateMediaSessionMetadata = useCallback((track) => {
-    if (!track) return;
-    if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new window.MediaMetadata({
-            title: track.title, artist: track.artist, album: track.album || '',
-            artwork: [{ src: track.cover, sizes: '512x512', type: 'image/png' }]
-        });
-        if (!navigator.mediaSession._handlersSet) {
-            navigator.mediaSession.setActionHandler('play', () => { audioRef.current?.play(); setIsPlaying(true); });
-            navigator.mediaSession.setActionHandler('pause', () => { audioRef.current?.pause(); setIsPlaying(false); });
-            // Les handlers ci-dessous utilisent les fonctions déclarées ci-dessous, ce qui est OK
-            navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
-            navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
-            // Saut rapide vers piste suivante/précédente
-            navigator.mediaSession.setActionHandler('seekforward', () => { audioRef.current.currentTime += 10000; });
-            navigator.mediaSession.setActionHandler('seekbackward', () => { audioRef.current.currentTime -= 10000; });
-            navigator.mediaSession._handlersSet = true;
-        }
-    }
-}, []);
-
-const nextTrack = useCallback(() => {
-    if (currentQueue.length === 0) return;
-    const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
-    let nextIndex;
-
-    if (isRepeatMode === 1) { nextIndex = (currentIndex + 1) % currentQueue.length; } 
-    else {
-        nextIndex = currentIndex + 1;
-        if (nextIndex >= currentQueue.length) {
-            if (isRepeatMode === 0) { setIsPlaying(false); setCurrentTrack(null); setCurrentTime(0); return; }
-            nextIndex = 0;
-        }
-    }
-
-    if (currentQueue[nextIndex]) {
-        const nextTrackData = currentQueue[nextIndex];
-        setCurrentTrack(nextTrackData);
-        setIsPlaying(true);
-        setLastPlayTime(0);
-        addToHistory(nextTrackData);
-        updateMediaSessionMetadata(nextTrackData);
-
-        const audio = audioRef.current;
-        if (audio) {
-            audio.oncanplaythrough = null;
-            audio.pause();
-            audio.volume = isMuted ? 0 : volume; // Application du volume
-            audio.load();
-            audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste suivante:', e)); };
-        }
-    }
-}, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata, isMuted, volume]);
-
-const previousTrack = useCallback(() => {
-    if (currentQueue.length === 0) return;
-    
-    // Revenir au début si déjà 3 secondes passées
-    if (audioRef.current && currentTime > 3) { audioRef.current.currentTime = 0; return; }
-
-    const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
-    let prevIndex;
-
-    if (isRepeatMode === 1) { prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1; }
-    else { prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1; }
-
-    if (currentQueue[prevIndex]) {
-        const prevTrackData = currentQueue[prevIndex];
-        setCurrentTrack(prevTrackData);
-        setIsPlaying(true);
-        setLastPlayTime(0);
-        addToHistory(prevTrackData);
-        updateMediaSessionMetadata(prevTrackData);
-
-        const audio = audioRef.current;
-        if (audio) {
-            audio.oncanplaythrough = null;
-            audio.pause();
-            audio.volume = isMuted ? 0 : volume; // Application du volume
-            audio.load();
-            audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste précédente:', e)); };
-        }
-    }
-}, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata, currentTime, isMuted, volume]);
-
-// --- Fonction Principale de Lecture ---
-const playTrack = useCallback((track, playlist = null) => {
-    setCurrentTrack(track);
-    setIsPlaying(true);
-    setLastPlayTime(0);
-    addToHistory(track);
-    const sourceList = playlist?.tracks || selectedPlaylist?.tracks || musicDatabase;
-    
-    if (isShuffleMode) {
-        const shuffledList = shuffleArray(sourceList);
-        const trackIndex = shuffledList.findIndex(t => t.id === track.id);
-        if (trackIndex > 0) { shuffledList.splice(trackIndex, 1); shuffledList.unshift(track); }
-        setCurrentQueue(shuffledList);
-    } else {
-        const orderedQueue = initializeQueue(track, sourceList);
-        setCurrentQueue(orderedQueue);
-    }
-    
-    updateMediaSessionMetadata(track);
-
-    const audio = audioRef.current;
-    if (audio) {
-        audio.oncanplaythrough = null;
-        audio.pause();
-        audio.volume = isMuted ? 0 : volume; // Appliquer le volume
-        audio.load();
-        audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur de lecture:', e)); };
-    }
-}, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue, updateMediaSessionMetadata, isMuted, volume]);
-
-// --- EFFETS ---
-
-// [CORRECTIF VOLUME] Gère la sauvegarde du volume et l'application immédiate à l'élément audio.
-useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) { audio.volume = isMuted ? 0 : volume; }
-    localStorage.setItem('spotizer-volume', volume.toString());
-}, [volume, isMuted]);
-
-// Charge les playlists au démarrage
-useEffect(() => {
-    const savedPlaylists = localStorage.getItem('deezer-playlists');
-    if (savedPlaylists) { setPlaylists(JSON.parse(savedPlaylists)); } else { setPlaylists(defaultPlaylists); }
-}, []);
-
-// Sauvegarde les playlists à chaque modification
-useEffect(() => {
-    if (playlists.length > 0) { localStorage.setItem('deezer-playlists', JSON.stringify(playlists)); }
-}, [playlists]);
-
-// Gère la lecture en chaîne (appel de nextTrack après 'ended')
-useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    const handleTimeUpdate = () => {
-        setCurrentTime(audio.currentTime);
-        const currentSec = Math.floor(audio.currentTime);
-        if (currentSec > 0 && currentSec % 10 === 0 && currentSec !== lastPlayTime) {
-            addListeningTime(10);
-            setLastPlayTime(currentSec);
-        }
-    };
-    const handleDurationChange = () => setDuration(audio.duration);
-    const handleEnded = () => {
-        setIsPlaying(false);
-        setCurrentTime(0);
-        if (isRepeatMode === 2) { audio.currentTime = 0; audio.play(); setIsPlaying(true); } 
-        else { nextTrack(); } // Utilise la référence simple
-    };
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('durationchange', handleDurationChange);
-    audio.addEventListener('ended', handleEnded);
-    return () => {
-        audio.removeEventListener('timeupdate', handleTimeUpdate);
-        audio.removeEventListener('durationchange', handleDurationChange);
-        audio.removeEventListener('ended', handleEnded);
-    };
-}, [currentTrack, isRepeatMode, lastPlayTime, addListeningTime, nextTrack]); // Utilise la référence simple
-
-// --- Fonctions de contrôle et UI ---
-const togglePlayPause = useCallback(() => {
-    if (!audioRef.current || !currentTrack) return;
-    if (isPlaying) { audioRef.current.pause(); setIsPlaying(false); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused'; } 
-    else { audioRef.current.play().catch(e => console.log('Erreur de lecture:', e)); setIsPlaying(true); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'; }
-}, [isPlaying, currentTrack]);
-
-const handleProgressClick = (e) => {
-    if (!audioRef.current || !duration) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const newTime = (clickX / rect.width) * duration;
-    audioRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
+if (!track) return;
+if ('mediaSession' in navigator) {
+navigator.mediaSession.metadata = new window.MediaMetadata({
+title: track.title, artist: track.artist, album: track.album || '',
+artwork: [{ src: track.cover, sizes: '512x512', type: 'image/png' }]
+});
+if (!navigator.mediaSession._handlersSet) {
+navigator.mediaSession.setActionHandler('play', () => { audioRef.current?.play(); setIsPlaying(true); });
+navigator.mediaSession.setActionHandler('pause', () => { audioRef.current?.pause(); setIsPlaying(false); });
+navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
+navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+navigator.mediaSession.setActionHandler('seekforward', () => { audioRef.current.currentTime += 10000; });
+navigator.mediaSession.setActionHandler('seekbackward', () => { audioRef.current.currentTime -= 10000; });
+navigator.mediaSession._handlersSet = true;
+}
+}
+}, []);const nextTrack = useCallback(() => {
+if (currentQueue.length === 0) return;
+const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
+let nextIndex;if (isRepeatMode === 1) { nextIndex = (currentIndex + 1) % currentQueue.length; }else {
+nextIndex = currentIndex + 1;
+if (nextIndex >= currentQueue.length) {
+if (isRepeatMode === 0) { setIsPlaying(false); setCurrentTrack(null); setCurrentTime(0); return; }
+nextIndex = 0;
+}
+}if (currentQueue[nextIndex]) {
+const nextTrackData = currentQueue[nextIndex];
+setCurrentTrack(nextTrackData);
+setIsPlaying(true);
+setLastPlayTime(0);
+addToHistory(nextTrackData);
+updateMediaSessionMetadata(nextTrackData);const audio = audioRef.current;
+if (audio) {
+audio.oncanplaythrough = null;
+audio.pause();
+audio.volume = isMuted ? 0 : volume; audio.load();
+audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste suivante:', e)); };
+}
+}
+}, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata, isMuted, volume]);const previousTrack = useCallback(() => {
+if (currentQueue.length === 0) return;
+if (audioRef.current && currentTime > 3) { audioRef.current.currentTime = 0; return; }const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
+let prevIndex;if (isRepeatMode === 1) { prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1; }
+else { prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1; }if (currentQueue[prevIndex]) {
+const prevTrackData = currentQueue[prevIndex];
+setCurrentTrack(prevTrackData);
+setIsPlaying(true);
+setLastPlayTime(0);
+addToHistory(prevTrackData);
+updateMediaSessionMetadata(prevTrackData);const audio = audioRef.current;
+if (audio) {
+audio.oncanplaythrough = null;
+audio.pause();
+audio.volume = isMuted ? 0 : volume; audio.load();
+audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste précédente:', e)); };
+}
+}
+}, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata, currentTime, isMuted, volume]);const playTrack = useCallback((track, playlist = null) => {
+setCurrentTrack(track);
+setIsPlaying(true);
+setLastPlayTime(0);
+addToHistory(track);
+const sourceList = playlist?.tracks || selectedPlaylist?.tracks || musicDatabase;
+if (isShuffleMode) {
+const shuffledList = shuffleArray(sourceList);
+const trackIndex = shuffledList.findIndex(t => t.id === track.id);
+if (trackIndex > 0) { shuffledList.splice(trackIndex, 1); shuffledList.unshift(track); }
+setCurrentQueue(shuffledList);
+} else {
+const orderedQueue = initializeQueue(track, sourceList);
+setCurrentQueue(orderedQueue);
+}
+updateMediaSessionMetadata(track);const audio = audioRef.current;
+if (audio) {
+audio.oncanplaythrough = null;
+audio.pause();
+audio.volume = isMuted ? 0 : volume; audio.load();
+audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur de lecture:', e)); };
+}
+}, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue, updateMediaSessionMetadata, isMuted, volume]);useEffect(() => {
+const audio = audioRef.current;
+if (audio) { audio.volume = isMuted ? 0 : volume; }
+localStorage.setItem('spotizer-volume', volume.toString());
+}, [volume, isMuted]);useEffect(() => {
+const savedPlaylists = localStorage.getItem('deezer-playlists');
+if (savedPlaylists) { setPlaylists(JSON.parse(savedPlaylists)); } else { setPlaylists(defaultPlaylists); }
+}, []);useEffect(() => {
+if (playlists.length > 0) { localStorage.setItem('deezer-playlists', JSON.stringify(playlists)); }
+}, [playlists]);useEffect(() => {
+const audio = audioRef.current;
+if (!audio) return;
+const handleTimeUpdate = () => {
+setCurrentTime(audio.currentTime);
+const currentSec = Math.floor(audio.currentTime);
+if (currentSec > 0 && currentSec % 10 === 0 && currentSec !== lastPlayTime) {
+addListeningTime(10);
+setLastPlayTime(currentSec);
+}
 };
-
-const formatTime = (time) => {
-    if (isNaN(time)) return '0:00';
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+const handleDurationChange = () => setDuration(audio.duration);
+const handleEnded = () => {
+setIsPlaying(false);
+setCurrentTime(0);
+if (isRepeatMode === 2) { audio.currentTime = 0; audio.play(); setIsPlaying(true); }else { nextTrack(); } };
+audio.addEventListener('timeupdate', handleTimeUpdate);
+audio.addEventListener('durationchange', handleDurationChange);
+audio.addEventListener('ended', handleEnded);
+return () => {
+audio.removeEventListener('timeupdate', handleTimeUpdate);
+audio.removeEventListener('durationchange', handleDurationChange);
+audio.removeEventListener('ended', handleEnded);
 };
-
-const toggleShuffle = useCallback(() => {
-    setIsShuffleMode(prev => {
-        const newMode = !prev;
-        if (currentQueue.length === 0 || !currentTrack) { return newMode; }
-        const currentIndex = currentQueue.findIndex(t => t.id === currentTrack.id);
-        if (currentIndex === -1) return newMode;
-        if (newMode) {
-            const upcoming = currentQueue.slice(currentIndex + 1);
-            const shuffledUpcoming = shuffleArray(upcoming);
-            const alreadyPlayed = currentQueue.slice(0, currentIndex + 1);
-            setCurrentQueue([...alreadyPlayed, ...shuffledUpcoming]);
-        } else {
-            const sourceList = selectedPlaylist?.tracks || musicDatabase;
-            const newQueue = initializeQueue(currentTrack, sourceList);
-            setCurrentQueue(newQueue);
-        }
-        return newMode;
-    });
-}, [currentQueue, currentTrack, selectedPlaylist, shuffleArray, initializeQueue]);
-
-const toggleRepeat = useCallback(() => { setIsRepeatMode((prev) => (prev + 1) % 3); }, []);
+}, [currentTrack, isRepeatMode, lastPlayTime, addListeningTime, nextTrack]); const togglePlayPause = useCallback(() => {
+if (!audioRef.current || !currentTrack) return;
+if (isPlaying) { audioRef.current.pause(); setIsPlaying(false); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused'; }else { audioRef.current.play().catch(e => console.log('Erreur de lecture:', e)); setIsPlaying(true); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'; }
+}, [isPlaying, currentTrack]);const handleProgressClick = (e) => {
+if (!audioRef.current || !duration) return;
+const rect = e.currentTarget.getBoundingClientRect();
+const clickX = e.clientX - rect.left;
+const newTime = (clickX / rect.width) * duration;
+audioRef.current.currentTime = newTime;
+setCurrentTime(newTime);
+};const formatTime = (time) => {
+if (isNaN(time)) return '0:00';
+const minutes = Math.floor(time / 60);
+const seconds = Math.floor(time % 60);
+return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};const toggleShuffle = useCallback(() => {
+setIsShuffleMode(prev => {
+const newMode = !prev;
+if (currentQueue.length === 0 || !currentTrack) { return newMode; }
+const currentIndex = currentQueue.findIndex(t => t.id === currentTrack.id);
+if (currentIndex === -1) return newMode;
+if (newMode) {
+const upcoming = currentQueue.slice(currentIndex + 1);
+const shuffledUpcoming = shuffleArray(upcoming);
+const alreadyPlayed = currentQueue.slice(0, currentIndex + 1);
+setCurrentQueue([...alreadyPlayed, ...shuffledUpcoming]);
+} else {
+const sourceList = selectedPlaylist?.tracks || musicDatabase;
+const newQueue = initializeQueue(currentTrack, sourceList);
+setCurrentQueue(newQueue);
+}
+return newMode;
+});
+}, [currentQueue, currentTrack, selectedPlaylist, shuffleArray, initializeQueue]);const toggleRepeat = useCallback(() => { setIsRepeatMode((prev) => (prev + 1) % 3); }, []);
 const handleVolumeUp = useCallback(() => { setVolume(prev => Math.min(1, prev + 0.05)); }, []);
 const handleVolumeDown = useCallback(() => { setVolume(prev => Math.max(0, prev - 0.05)); }, []);
 const toggleMute = useCallback(() => { setIsMuted(prev => !prev); }, []);
-const toggleQueue = useCallback(() => { setShowQueuePanel(prev => !prev); }, []);
-
-useKeyboardShortcuts({
-    onPlayPause: togglePlayPause, onNext: nextTrack, onPrevious: previousTrack, onVolumeUp: handleVolumeUp, onVolumeDown: handleVolumeDown, onMute: toggleMute, onShuffle: toggleShuffle, onRepeat: toggleRepeat, onToggleQueue: toggleQueue, isEnabled: true
-});
-
-const getRepeatIcon = () => {
-    switch (isRepeatMode) { case 0: return '🔁'; case 1: return '🔁'; case 2: return '🔂'; default: return '🔁'; }
+const toggleQueue = useCallback(() => { setShowQueuePanel(prev => !prev); }, []);useKeyboardShortcuts({
+onPlayPause: togglePlayPause, onNext: nextTrack, onPrevious: previousTrack, onVolumeUp: handleVolumeUp, onVolumeDown: handleVolumeDown, onMute: toggleMute, onShuffle: toggleShuffle, onRepeat: toggleRepeat, onToggleQueue: toggleQueue, isEnabled: true
+});const getRepeatIcon = () => {
+switch (isRepeatMode) { case 0: return '🔁'; case 1: return '🔁'; case 2: return '🔂'; default: return '🔁'; }
 };
 const getRepeatTitle = () => {
-    switch (isRepeatMode) { case 0: return 'Répétition désactivée'; case 1: return 'Répéter toute la playlist'; case 2: return 'Répéter la chanson actuelle'; default: return 'Répétition désactivée'; }
-};
-
-const handleSearch = (query) => {
-    setSearchQuery(query);
-    if (query.trim()) {
-        const results = musicDatabase.filter(track =>
-            track.title.toLowerCase().includes(query.toLowerCase()) || track.artist.toLowerCase().includes(query.toLowerCase()) || track.album.toLowerCase().includes(query.toLowerCase()) || track.genre.toLowerCase().includes(query.toLowerCase())
-        );
-        setSearchResults(results);
-    } else {
-        setSearchResults([]);
-    }
-};
-
-const createPlaylist = (name, description, cover) => {
-    const newPlaylist = { id: Date.now().toString(), name, description, cover: cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: [], isDefault: false };
-    setPlaylists([...playlists, newPlaylist]);
-    setShowCreatePlaylistModal(false);
+switch (isRepeatMode) { case 0: return 'Répétition désactivée'; case 1: return 'Répéter toute la playlist'; case 2: return 'Répéter la chanson actuelle'; default: return 'Répétition désactivée'; }
+};const handleSearch = (query) => {
+setSearchQuery(query);
+if (query.trim()) {
+const results = musicDatabase.filter(track =>
+track.title.toLowerCase().includes(query.toLowerCase()) || track.artist.toLowerCase().includes(query.toLowerCase()) || track.album.toLowerCase().includes(query.toLowerCase()) || track.genre.toLowerCase().includes(query.toLowerCase())
+);
+setSearchResults(results);
+} else {
+setSearchResults([]);
+}
+};const createPlaylist = (name, description, cover) => {
+const newPlaylist = { id: Date.now().toString(), name, description, cover: cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: [], isDefault: false };
+setPlaylists([...playlists, newPlaylist]);
+setShowCreatePlaylistModal(false);
 };
 const createPlaylistFromQueue = (name, description, tracks) => {
-    const newPlaylist = { id: Date.now().toString(), name, description, cover: tracks[0]?.cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: tracks, isDefault: false };
-    setPlaylists([...playlists, newPlaylist]);
+const newPlaylist = { id: Date.now().toString(), name, description, cover: tracks[0]?.cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: tracks, isDefault: false };
+setPlaylists([...playlists, newPlaylist]);
 };
 const deletePlaylist = (playlistId) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette playlist ?')) {
-        setPlaylists(playlists.filter(p => p.id !== playlistId));
-        if (selectedPlaylist?.id === playlistId) { setSelectedPlaylist(null); }
-        setShowPlaylistOptionsModal(false);
-    }
+if (window.confirm('Êtes-vous sûr de vouloir supprimer cette playlist ?')) {
+setPlaylists(playlists.filter(p => p.id !== playlistId));
+if (selectedPlaylist?.id === playlistId) { setSelectedPlaylist(null); }
+setShowPlaylistOptionsModal(false);
+}
 };
 const addTrackToPlaylist = (playlistId, track) => {
-    setPlaylists(playlists.map(playlist => {
-        if (playlist.id === playlistId) {
-            if (!playlist.tracks.find(t => t.id === track.id)) { return { ...playlist, tracks: [...playlist.tracks, track] }; }
-        }
-        return playlist;
-    }));
-    setShowAddToPlaylistModal(false);
-    setTrackToAdd(null);
+setPlaylists(playlists.map(playlist => {
+if (playlist.id === playlistId) {
+if (!playlist.tracks.find(t => t.id === track.id)) { return { ...playlist, tracks: [...playlist.tracks, track] }; }
+}
+return playlist;
+}));
+setShowAddToPlaylistModal(false);
+setTrackToAdd(null);
 };
 const removeTrackFromPlaylist = (playlistId, trackId) => {
-    const updatedPlaylists = playlists.map(playlist => {
-        if (playlist.id === playlistId) { return { ...playlist, tracks: playlist.tracks.filter(t => t.id !== trackId) }; }
-        return playlist;
-    });
-    setPlaylists(updatedPlaylists);
-    if (selectedPlaylist?.id === playlistId) {
-        const updatedPlaylist = updatedPlaylists.find(p => p.id === playlistId);
-        setSelectedPlaylist(updatedPlaylist);
-    }
+const updatedPlaylists = playlists.map(playlist => {
+if (playlist.id === playlistId) { return { ...playlist, tracks: playlist.tracks.filter(t => t.id !== trackId) }; }
+return playlist;
+});
+setPlaylists(updatedPlaylists);
+if (selectedPlaylist?.id === playlistId) {
+const updatedPlaylist = updatedPlaylists.find(p => p.id === playlistId);
+setSelectedPlaylist(updatedPlaylist);
+}
 };
 const openAddToPlaylistModal = (track) => { setTrackToAdd(track); setShowAddToPlaylistModal(true); };
 const openPlaylistOptionsModal = (playlist) => { setPlaylistForOptions(playlist); setShowPlaylistOptionsModal(true); };
 const handleEditPlaylist = (playlist) => { setPlaylistToEdit(playlist); setShowPlaylistEditModal(true); setShowPlaylistOptionsModal(false); };
 const updatePlaylist = (updatedPlaylist) => {
-    const updatedPlaylists = playlists.map((p) => p.id === updatedPlaylist.id ? updatedPlaylist : p );
-    setPlaylists(updatedPlaylists);
-    if (selectedPlaylist?.id === updatedPlaylist.id) { setSelectedPlaylist(updatedPlaylist); }
-    setShowPlaylistEditModal(false);
+const updatedPlaylists = playlists.map((p) => p.id === updatedPlaylist.id ? updatedPlaylist : p );
+setPlaylists(updatedPlaylists);
+if (selectedPlaylist?.id === updatedPlaylist.id) { setSelectedPlaylist(updatedPlaylist); }
+setShowPlaylistEditModal(false);
 };
 const exportPlaylist = (playlist) => {
-    const dataStr = JSON.stringify(playlist, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${playlist.name.replace(/[^a-z0-9]/gi, '_')}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-    setShowPlaylistOptionsModal(false);
+const dataStr = JSON.stringify(playlist, null, 2);
+const dataBlob = new Blob([dataStr], { type: 'application/json' });
+const url = URL.createObjectURL(dataBlob);
+const link = document.createElement('a');
+link.href = url;
+link.download = `${playlist.name.replace(/[^a-z0-9]/gi, '_')}.json`;
+link.click();
+URL.revokeObjectURL(url);
+setShowPlaylistOptionsModal(false);
 };
 const importPlaylist = (importedPlaylist) => {
-    const newPlaylist = { ...importedPlaylist, id: Date.now().toString(), isDefault: false };
-    setPlaylists([...playlists, newPlaylist]);
-    alert(`Playlist "${newPlaylist.name}" importée avec succès!`);
+const newPlaylist = { ...importedPlaylist, id: Date.now().toString(), isDefault: false };
+setPlaylists([...playlists, newPlaylist]);
+alert(`Playlist "${newPlaylist.name}" importée avec succès!`);
 };
 const playPlaylist = (playlist) => {
-    if (playlist.tracks.length > 0) { setSelectedPlaylist(playlist); playTrack(playlist.tracks[0], playlist); }
+if (playlist.tracks.length > 0) { setSelectedPlaylist(playlist); playTrack(playlist.tracks[0], playlist); }
 };
 const playPlaylistShuffle = (playlist) => {
-    if (playlist.tracks.length > 0) {
-        setSelectedPlaylist(playlist);
-        setIsShuffleMode(true);
-        const shuffledTracks = shuffleArray(playlist.tracks);
-        setCurrentQueue(shuffledTracks);
-        playTrack(shuffledTracks[0], playlist);
-    }
+if (playlist.tracks.length > 0) {
+setSelectedPlaylist(playlist);
+setIsShuffleMode(true);
+const shuffledTracks = shuffleArray(playlist.tracks);
+setCurrentQueue(shuffledTracks);
+playTrack(shuffledTracks[0], playlist);
+}
 };
 const openPlaylist = (playlist) => { setCurrentPage('library'); setSelectedPlaylist(playlist); };
 const handleQueueReorder = (sourceIndex, destinationIndex) => {
-    const currentIndex = currentQueue.findIndex(t => t.id === currentTrack?.id);
-    const actualSourceIndex = currentIndex + 1 + sourceIndex;
-    const actualDestIndex = currentIndex + 1 + destinationIndex;
-    const newQueue = [...currentQueue];
-    const [removed] = newQueue.splice(actualSourceIndex, 1);
-    newQueue.splice(actualDestIndex, 0, removed);
-    setCurrentQueue(newQueue);
+const currentIndex = currentQueue.findIndex(t => t.id === currentTrack?.id);
+const actualSourceIndex = currentIndex + 1 + sourceIndex;
+const actualDestIndex = currentIndex + 1 + destinationIndex;
+const newQueue = [...currentQueue];
+const [removed] = newQueue.splice(actualSourceIndex, 1);
+newQueue.splice(actualDestIndex, 0, removed);
+setCurrentQueue(newQueue);
 };
 const handleQueueRemove = (index) => {
-    const newQueue = [...currentQueue];
-    newQueue.splice(index, 1);
-    setCurrentQueue(newQueue);
+const newQueue = [...currentQueue];
+newQueue.splice(index, 1);
+setCurrentQueue(newQueue);
 };
 const addToQueue = (track) => {
-    if (!currentQueue.find(t => t.id === track.id)) { setCurrentQueue([...currentQueue, track]); }
+if (!currentQueue.find(t => t.id === track.id)) { setCurrentQueue([...currentQueue, track]); }
 };
 const clearQueue = () => {
-    if (currentTrack) { setCurrentQueue([currentTrack]); } else { setCurrentQueue([]); }
+if (currentTrack) { setCurrentQueue([currentTrack]); } else { setCurrentQueue([]); }
 };
 const handlePlaylistDragEnd = (result) => {
-    if (!result.destination || !selectedPlaylist) return;
-    const newTracks = [...selectedPlaylist.tracks];
-    const [removed] = newTracks.splice(result.source.index, 1);
-    newTracks.splice(result.destination.index, 0, removed);
-    const updatedPlaylist = { ...selectedPlaylist, tracks: newTracks };
-    updatePlaylist(updatedPlaylist);
-};
-
-const themeStyle = {
-    '--theme-primary': currentTheme.primary, '--theme-secondary': currentTheme.secondary, '--theme-accent': currentTheme.accent, '--theme-gradient': currentTheme.gradient
-};
-
-return (
+if (!result.destination || !selectedPlaylist) return;
+const newTracks = [...selectedPlaylist.tracks];
+const [removed] = newTracks.splice(result.source.index, 1);
+newTracks.splice(result.destination.index, 0, removed);
+const updatedPlaylist = { ...selectedPlaylist, tracks: newTracks };
+updatePlaylist(updatedPlaylist);
+};const themeStyle = {
+'--theme-primary': currentTheme.primary, '--theme-secondary': currentTheme.secondary, '--theme-accent': currentTheme.accent, '--theme-gradient': currentTheme.gradient
+};return (
 <div className={`App ${isDarkMode ? 'dark' : 'light'}`} style={themeStyle}>
 {currentTrack && (
 <audio
