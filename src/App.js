@@ -53,7 +53,6 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 34, title: "La Quête", artist: "Orelsan", album: "Le_Bisounours_", duration: "3:54", cover: "Musique/Images/font34.png", audioUrl: "Musique/Musique34.mp3", genre: "Rap" },
 { id: 35, title: "Déprime", artist: "Mastu", album: "Le_Bisounours_", duration: "3:19", cover: "Musique/Images/font35.png", audioUrl: "Musique/Musique35.mp3", genre: "Pop" }, 
 { id: 36, title: "Tchin Tchin", artist: "2TH", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font36.png", audioUrl: "Musique/Musique36.mp3", genre: "Rap" }, 
-{ id: 38, title: "Astronaute", artist: "Nekfeu", album: "Le_Bisounours_", duration: "6:58", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "Rap" },
 { id: 40, title: "Hit Sale", artist: "Therapie Taxi ft. Roméo Elvis", album: "Le_Bisounours_", duration: "3:19", cover: "Musique/Images/font40.png", audioUrl: "Musique/Musique40.mp3", genre: "Pop Rock" }, 
 { id: 41, title: "Pierre, feuille, papier, ciseaux", artist: "Columbine", album: "Le_Bisounours_", duration: "3:45", cover: "Musique/Images/font41.png", audioUrl: "Musique/Musique41.mp3", genre: "Rap" },
 { id: 11, title: "C'est pas grave", artist: "Columbine ", album: "Le_Bisounours_", duration: "2:41", cover: "Musique/Images/font11.png", audioUrl: "Musique/Musique11.mp3", genre: "Rap" },
