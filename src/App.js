@@ -361,7 +361,7 @@ const toggleMute = useCallback(() => { setIsMuted(prev => !prev); }, []);
 const toggleQueue = useCallback(() => { setShowQueuePanel(prev => !prev); }, []);useKeyboardShortcuts({
 onPlayPause: togglePlayPause, onNext: nextTrack, onPrevious: previousTrack, onVolumeUp: handleVolumeUp, onVolumeDown: handleVolumeDown, onMute: toggleMute, onShuffle: toggleShuffle, onRepeat: toggleRepeat, onToggleQueue: toggleQueue, isEnabled: true
 });const getRepeatIcon = () => {
-switch (isRepeatMode) { case 0: return '🔁'; case 1: return '🔁'; case 2: return '🔂'; default: return '🔁'; }
+switch (isRepeatMode) { case 0: return '🔁'; case 1: return '🔁📋'; case 2: return '🔂🎵'; default: return '🔁'; }
 };
 const getRepeatTitle = () => {
 switch (isRepeatMode) { case 0: return 'Répétition désactivée'; case 1: return 'Répéter toute la playlist'; case 2: return 'Répéter la chanson actuelle'; default: return 'Répétition désactivée'; }
