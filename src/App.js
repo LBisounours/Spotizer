@@ -868,11 +868,23 @@ style={{ background: currentTheme.primary }}
 <div className="genre-card genre-electronic" onClick={() => handleSearch('Electro')}>
 <h4 className="genre-name">Electro</h4>
 </div>
+<div className="genre-card genre-altr" onClick={() => handleSearch('Alternative')}>
+<h4 className="genre-name">Alternative</h4>
+</div>
 <div className="genre-card genre-hiphop" onClick={() => handleSearch('Opening')}>
 <h4 className="genre-name">Opening</h4>
 </div>
-<div className="genre-card genre-altr" onClick={() => handleSearch('Alternative')}>
-<h4 className="genre-name">Alternative</h4>
+<div className="genre-card genre-film" onClick={() => handleSearch('Film')}>
+<h4 className="genre-name">Film</h4>
+</div>
+<div className="genre-card genre-theatre" onClick={() => handleSearch('Théâtre')}>
+<h4 className="genre-name">Théâtre</h4>
+</div>
+<div className="genre-card genre-remix" onClick={() => handleSearch('Remix')}>
+<h4 className="genre-name">Remix</h4>
+</div>
+<div className="genre-card genre-ia" onClick={() => handleSearch('IA')}>
+<h4 className="genre-name">IA</h4>
 </div>
 </div>
 </div>
