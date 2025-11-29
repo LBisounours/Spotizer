@@ -2,30 +2,30 @@ import React, { createContext, useContext, useState, useEffect } from 'react';co
 violet: {
 name: 'Violet',
 primary: '#571249',
-secondary: '#9917f0ff',
+secondary: '#9917f0',
 accent: '#a855f7',
-gradient: 'linear-gradient(135deg, #571249, #9917f0ff)'
+gradient: 'linear-gradient(135deg, #571249, #9917f0)'
 },
 blue: {
 name: 'Bleu',
-primary: '#04055cff',
-secondary: '#1e21dbff',
-accent: '#1e21dbff',
-gradient: 'linear-gradient(135deg, #04055cff, #1e21dbff)'
+primary: '#04055c',
+secondary: '#1e21db',
+accent: '#4548e0',
+gradient: 'linear-gradient(135deg, #04055c, #1e21db)'
 },
 orange: {
 name: 'Orange',
-primary: '#ef6644ff',
+primary: '#ef6644',
 secondary: '#f97316',
 accent: '#dc2626',
-gradient: 'linear-gradient(135deg, #ef6644ff, #f97316)'
+gradient: 'linear-gradient(135deg, #ef6644, #f97316)'
 },
-green: {
+vert: {
 name: 'Vert',
-primary: '#0a7531ff',
+primary: '#0a7531',
 secondary: '#10b981',
 accent: '#34d399',
-gradient: 'linear-gradient(135deg, #0a7531ff, #10b981)'
+gradient: 'linear-gradient(135deg, #0a7531, #10b981)'
 },
 jaune: {
 name: 'Jaune',
@@ -44,23 +44,23 @@ gradient: 'linear-gradient(135deg, #ec4899, #f472b6)'
 cyan: {
 name: 'Cyan',
 primary: '#06b6d4',
-secondary: '#77ddecff',
+secondary: '#77ddec',
 accent: '#0891b2',
-gradient: 'linear-gradient(135deg, #06b6d4, #77ddecff)'
+gradient: 'linear-gradient(135deg, #06b6d4, #77ddec)'
 },
 red: {
 name: 'Rouge',
-primary: '#ff0000ff',
-secondary: '#e7902cff',
+primary: '#ff0000',
+secondary: '#994646',
 accent: '#dc2626',
-gradient: 'linear-gradient(135deg, #ff0000ff, #e7902cff)'
+gradient: 'linear-gradient(135deg, #ff0000, #e7902c)'
 },
 marron: {
 name: 'Marron',
-primary: '#572403ff',
-secondary: '#834019ff',
-accent: '#ac5c2dff',
-gradient: 'linear-gradient(135deg, #572403ff, #ac5c2dff)'
+primary: '#572403',
+secondary: '#834019',
+accent: '#ac5c2d',
+gradient: 'linear-gradient(135deg, #572403, #ac5c2d)'
 }
 };export const ThemeProvider = ({ children }) => {
 const [isDarkMode, setIsDarkMode] = useState(() => {
