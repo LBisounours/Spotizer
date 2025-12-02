@@ -11,6 +11,7 @@ import SleepTimerModal from './components/SleepTimerModal';
 import StatsPage from './components/StatsPage';
 import { SoundBoardProvider } from './contexts/SoundBoardContext';
 import SoundBoardPage from './components/SoundBoardPage';
+import { useSoundBoard } from './contexts/SoundBoardContext';
 import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const musicDatabase = [
 { id: 1, title: "Un quart d'heure", artist: "Satine", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
 { id: 2, title: "Côte Ouest", artist: "47Ter", album: "Le_Bisounours_", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
@@ -212,6 +213,9 @@ const [searchQuery, setSearchQuery] = useState('');
 const [searchResults, setSearchResults] = useState([]);
 const [currentTime, setCurrentTime] = useState(0);
 const [duration, setDuration] = useState(0);
+const { soundBoards } = useSoundBoard();
+const [showCreateSoundBoardModal, setShowCreateSoundBoardModal] = useState(false);
+const [selectedSoundBoard, setSelectedSoundBoard] = useState(null);
 const [volume, setVolume] = useState(() => {
 const saved = localStorage.getItem('spotizer-volume');
 return saved !== null ? parseFloat(saved) : 0.05;
@@ -415,12 +419,12 @@ setSearchResults(results);
 setSearchResults([]);
 }
 };const createPlaylist = (name, description, cover) => {
-const newPlaylist = { id: Date.now().toString(), name, description, cover: cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: [], isDefault: false };
+const newPlaylist = { id: Date.now().toString(), name, description, cover: cover || "Musique/Images/favorite.png", tracks: [], isDefault: false };
 setPlaylists([...playlists, newPlaylist]);
 setShowCreatePlaylistModal(false);
 };
 const createPlaylistFromQueue = (name, description, tracks) => {
-const newPlaylist = { id: Date.now().toString(), name, description, cover: tracks[0]?.cover || "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless", tracks: tracks, isDefault: false };
+const newPlaylist = { id: Date.now().toString(), name, description, cover: tracks[0]?.cover || "Musique/Images/favorite.png", tracks: tracks, isDefault: false };
 setPlaylists([...playlists, newPlaylist]);
 };
 const deletePlaylist = (playlistId) => {
@@ -605,7 +609,7 @@ alt={`Cover de ${playlist.name}`}
 className="playlist-cover"
 onError={(e) => {
 e.target.onerror = null;
-e.target.src = "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png?ex=688f9ccb&is=688e4b4b&hm=e541b37c4d19098a587549aa4d704fa34889dd20cc4dcb5b725668ca11e191bb&=&format=webp&quality=lossless";
+e.target.src = "Musique/Images/favorite.png";
 }}
 />
 <div className="playlist-name">{playlist.name}</div>
@@ -622,6 +626,51 @@ title="Options de la playlist"
 )}
 </div>
 ))}
+  {/* Section SoundBoards */}
+  <div style={{ 
+    marginTop: '24px', 
+    paddingTop: '16px', 
+    borderTop: '1px solid rgba(255,255,255,0.2)' 
+  }}>
+    <div className="playlists-header">
+      <h3 className="playlists-title">SoundBoards</h3>
+      <button
+        className="add-playlist-btn"
+        onClick={() => {
+          setCurrentPage('soundboard');
+          // Le modal de création sera géré par la page SoundBoard
+        }}
+        title="Créer un SoundBoard"
+      >
+        ➕
+      </button>
+    </div>
+    {soundBoards.map(board => (
+      <div key={board.id} className="playlist-item-container">
+        <button
+          className={`playlist-item ${currentPage === 'soundboard' && selectedSoundBoard?.id === board.id ? 'active' : ''}`}
+          onClick={() => {
+            setCurrentPage('soundboard');
+            setSelectedSoundBoard(board);
+          }}
+          title="Ouvrir le SoundBoard"
+          style={currentPage === 'soundboard' && selectedSoundBoard?.id === board.id ? { background: currentTheme.gradient } : {}}
+        >
+          <img
+            src={board.cover}
+            alt={`Cover de ${board.name}`}
+            className="playlist-cover"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://media.istockphoto.com/id/622064544/photo/music-mixer.jpg?s=612x612&w=0&k=20&c=IMi-9tn01Q6KcLOmOVL5IkGe6R_VpD7wvztVxXtrMxo=";
+            }}
+          />
+          <div className="playlist-name">{board.name}</div>
+          <div className="playlist-tracks">{board.sounds.length} sons</div>
+        </button>
+      </div>
+    ))}
+  </div>
 </div>{/* Bouton aide raccourcis */}
 <button 
 className="shortcuts-help-btn"
@@ -1232,7 +1281,11 @@ onAddToPlaylist={openAddToPlaylistModal}
 />
 )}
 {currentPage === 'soundboard' && (
-  <SoundBoardPage soundDatabase={soundDatabase} />
+  <SoundBoardPage 
+    soundDatabase={soundDatabase} 
+    selectedBoardFromSidebar={selectedSoundBoard}
+    onBoardChange={setSelectedSoundBoard}
+  />
 )}
 </div>
 </div>{/* Queue Panel */}
@@ -1342,6 +1395,7 @@ title="Volume (↑/↓)"
 </div>
 </div>
 </div>
+
 )}{/* Modals */}
 {showCreatePlaylistModal && (
 <CreatePlaylistModal
