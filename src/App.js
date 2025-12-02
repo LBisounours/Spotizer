@@ -318,7 +318,7 @@ const CreateSoundBoardModal = ({ onClose, onCreate, onImport }) => {
             className="btn btn-secondary"
             style={{ width: '100%' }}
           >
-            📥 Importer un SoundBoard
+            📥 Importer une SoundBoard
           </button>
         </div>
       </div>
@@ -789,7 +789,7 @@ style={currentPage === 'history' ? { background: currentTheme.gradient } : {}}
       <button
         className="add-playlist-btn"
         onClick={() => setShowCreateSoundBoardModal(true)}
-        title="Créer un SoundBoard"
+        title="Créer une SoundBoard"
       >
         ➕
       </button>
