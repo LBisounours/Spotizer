@@ -830,3 +830,295 @@
     font-size: 11px;
   }
 }
+
+/* Ajoutez ces styles à la fin de App.css */
+
+/* FIX: Playlist item container pour éviter l'overflow des trois points */
+.playlist-item-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.playlist-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  padding-right: 32px; /* Espace pour le bouton options */
+  border-radius: 4px;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 0; /* Important pour permettre le shrink */
+}
+
+.playlist-name {
+  font-size: 14px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0; /* Important pour permettre le shrink */
+}
+
+.playlist-options-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.playlist-item-container:hover .playlist-options-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.playlist-options-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* SoundBoard dans la sidebar */
+.playlists-section {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sound Grid amélioré */
+.sound-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.sound-card {
+  position: relative;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sound-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.sound-card.dragging {
+  opacity: 0.5;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.sound-card.playing {
+  animation: pulse-glow 1.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.sound-card-image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.sound-card-info {
+  text-align: center;
+  margin-top: auto;
+}
+
+.sound-card-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.sound-card-artist {
+  color: #ffffff;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sound-card-duration {
+  color: #9ca3af;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.remove-sound-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.9);
+  border: none;
+  color: white;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.sound-card:hover .remove-sound-btn {
+  opacity: 1;
+}
+
+.remove-sound-btn:hover {
+  transform: scale(1.1);
+  background: rgba(239, 68, 68, 1);
+}
+
+.playing-indicator {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 24px;
+  animation: bounce 1s infinite;
+}
+
+/* Modal Large pour ajout de sons */
+.modal-large {
+  max-width: 600px;
+  max-height: 80vh;
+}
+
+.sound-selection-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 16px 0;
+}
+
+.sound-selection-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.sound-selection-cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.sound-selection-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sound-selection-title {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sound-selection-artist {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.sound-selection-duration {
+  color: #9ca3af;
+  font-size: 14px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+/* Séparateur entre musique et soundboards */
+.playlists-section > div[style*="borderTop"] {
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+/* Responsive SoundBoard */
+@media (max-width: 768px) {
+  .sound-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .sound-card {
+    padding: 12px;
+    min-height: 220px;
+  }
+
+  .modal-large {
+    max-width: 95%;
+  }
+
+  .sound-selection-item {
+    padding: 8px;
+  }
+
+  .sound-selection-cover {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sound-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .sound-card {
+    padding: 8px;
+    min-height: 180px;
+  }
+
+  .sound-card-title {
+    font-size: 12px;
+  }
+
+  .sound-card-artist {
+    font-size: 11px;
+  }
+}

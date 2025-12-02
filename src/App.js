@@ -148,7 +148,6 @@ const soundDatabase = [
   { id: 2, title: "Ahhhh", artist: "SFX", duration: "0:03", cover: "SoundBoard/Images/Ahhhh.png", audioUrl: "SoundBoard/Ahhhh.mp3" },
   { id: 3, title: "Bass Explode", artist: "SFX", duration: "0:02", cover: "SoundBoard/Images/Bass.png", audioUrl: "SoundBoard/Bass.mp3" },
 ];
-
 const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Mes sons favoris !", cover: "Musique/Images/favorite.png", tracks: [], isDefault: true }
 ];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
@@ -204,8 +203,17 @@ if (name.trim() && queue.length > 0) { onCreate(name.trim(), description.trim(),
 };
 return (<div className="modal-backdrop" onClick={onClose}><div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}><h2 className="modal-title">💾 Sauvegarder la file d'attente</h2><p className="modal-subtitle">{queue.length} musiques seront ajoutées</p><form onSubmit={handleSubmit} className="modal-form"><div className="form-group"><label className="form-label">Nom de la playlist *</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-input" placeholder="Ma nouvelle playlist" required/></div><div className="form-group"><label className="form-label">Description (optionnel)</label><textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-textarea" placeholder="Description de votre playlist" rows="2"/></div><div className="modal-buttons"><button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>Sauvegarder</button><button type="button" onClick={onClose} className="btn btn-secondary">Annuler</button></div></form></div></div>);
 };function AppContent() {
+  
 const { isDarkMode, currentTheme } = useTheme();
 const { addToHistory, addListeningTime, sleepTimerActive, sleepTimerRemaining } = useMusic();
+const { 
+    soundBoards, 
+    createSoundBoard, 
+    deleteSoundBoard, 
+    updateSoundBoard,
+    exportSoundBoard,
+    importSoundBoard 
+  } = useSoundBoard();
 const [currentPage, setCurrentPage] = useState('home');
 const [currentTrack, setCurrentTrack] = useState(null);
 const [isPlaying, setIsPlaying] = useState(false);
@@ -213,9 +221,12 @@ const [searchQuery, setSearchQuery] = useState('');
 const [searchResults, setSearchResults] = useState([]);
 const [currentTime, setCurrentTime] = useState(0);
 const [duration, setDuration] = useState(0);
-const { soundBoards } = useSoundBoard();
 const [showCreateSoundBoardModal, setShowCreateSoundBoardModal] = useState(false);
 const [selectedSoundBoard, setSelectedSoundBoard] = useState(null);
+const [showSoundBoardOptionsModal, setShowSoundBoardOptionsModal] = useState(false);
+const [soundBoardForOptions, setSoundBoardForOptions] = useState(null);
+const [showEditSoundBoardModal, setShowEditSoundBoardModal] = useState(false);
+const [soundBoardToEdit, setSoundBoardToEdit] = useState(null);
 const [volume, setVolume] = useState(() => {
 const saved = localStorage.getItem('spotizer-volume');
 return saved !== null ? parseFloat(saved) : 0.05;
@@ -238,6 +249,41 @@ const [showSleepTimerModal, setShowSleepTimerModal] = useState(false);
 const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
 const [showSaveQueueModal, setShowSaveQueueModal] = useState(false);
 const [lastPlayTime, setLastPlayTime] = useState(0);
+// Fonctions de gestion des SoundBoards (à placer après les fonctions de playlists)
+const openSoundBoardOptionsModal = (board) => {
+  setSoundBoardForOptions(board);
+  setShowSoundBoardOptionsModal(true);
+};
+
+const handleEditSoundBoard = (board) => {
+  setSoundBoardToEdit(board);
+  setShowEditSoundBoardModal(true);
+  setShowSoundBoardOptionsModal(false);
+};
+
+const handleDeleteSoundBoard = (boardId) => {
+  if (window.confirm('Êtes-vous sûr de vouloir supprimer ce SoundBoard ?')) {
+    deleteSoundBoard(boardId);
+    if (selectedSoundBoard?.id === boardId) {
+      setSelectedSoundBoard(null);
+    }
+    setShowSoundBoardOptionsModal(false);
+  }
+};
+
+const handleExportSoundBoard = (board) => {
+  exportSoundBoard(board);
+  setShowSoundBoardOptionsModal(false);
+};
+
+const handleUpdateSoundBoard = (updatedBoard) => {
+  updateSoundBoard(updatedBoard);
+  if (selectedSoundBoard?.id === updatedBoard.id) {
+    setSelectedSoundBoard(updatedBoard);
+  }
+  setShowEditSoundBoardModal(false);
+  setSoundBoardToEdit(null);
+};
 const audioRef = useRef(null);const shuffleArray = useCallback((array) => {
 const newArray = [...array];
 for (let i = newArray.length - 1; i > 0; i--) {
@@ -584,48 +630,51 @@ style={currentPage === 'history' ? { background: currentTheme.gradient } : {}}
 <span>📜</span>
 <span>Historique</span>
 </button>
-</nav><div className="playlists-section">
-<div className="playlists-header">
-<h3 className="playlists-title">Playlists</h3>
-<button
-className="add-playlist-btn"
-onClick={() => setShowCreatePlaylistModal(true)}
-title="Créer une playlist"
->
-➕
-</button>
-</div>
-{playlists.map(playlist => (
-<div key={playlist.id} className="playlist-item-container">
-<button
-className={`playlist-item ${selectedPlaylist?.id === playlist.id ? 'active' : ''}`}
-onClick={() => openPlaylist(playlist)}
-title="Ouvrir la playlist"
-style={selectedPlaylist?.id === playlist.id ? { background: currentTheme.gradient } : {}}
->
-<img
-src={playlist.cover}
-alt={`Cover de ${playlist.name}`}
-className="playlist-cover"
-onError={(e) => {
-e.target.onerror = null;
-e.target.src = "SoundBoard/Images/default.png";
-}}
-/>
-<div className="playlist-name">{playlist.name}</div>
-<div className="playlist-tracks">{playlist.tracks.length} titres</div>
-</button>
-{!playlist.isDefault && (
-<button
-className="playlist-options-btn"
-onClick={() => openPlaylistOptionsModal(playlist)}
-title="Options de la playlist"
->
-⋮
-</button>
-)}
-</div>
-))}
+</nav>
+<div className="playlists-section">
+  {/* Section Playlists Musique */}
+  <div className="playlists-header">
+    <h3 className="playlists-title">Playlists Musique</h3>
+    <button
+      className="add-playlist-btn"
+      onClick={() => setShowCreatePlaylistModal(true)}
+      title="Créer une playlist"
+    >
+      ➕
+    </button>
+  </div>
+  {playlists.map(playlist => (
+    <div key={playlist.id} className="playlist-item-container">
+      <button
+        className={`playlist-item ${selectedPlaylist?.id === playlist.id ? 'active' : ''}`}
+        onClick={() => openPlaylist(playlist)}
+        title="Ouvrir la playlist"
+        style={selectedPlaylist?.id === playlist.id ? { background: currentTheme.gradient } : {}}
+      >
+        <img
+          src={playlist.cover}
+          alt={`Cover de ${playlist.name}`}
+          className="playlist-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png";
+          }}
+        />
+        <div className="playlist-name">{playlist.name}</div>
+        <div className="playlist-tracks">{playlist.tracks.length} titres</div>
+      </button>
+      {!playlist.isDefault && (
+        <button
+          className="playlist-options-btn"
+          onClick={() => openPlaylistOptionsModal(playlist)}
+          title="Options de la playlist"
+        >
+          ⋮
+        </button>
+      )}
+    </div>
+  ))}
+
   {/* Section SoundBoards */}
   <div style={{ 
     marginTop: '24px', 
@@ -638,7 +687,6 @@ title="Options de la playlist"
         className="add-playlist-btn"
         onClick={() => {
           setCurrentPage('soundboard');
-          // Le modal de création sera géré par la page SoundBoard
         }}
         title="Créer un SoundBoard"
       >
@@ -662,11 +710,18 @@ title="Options de la playlist"
             className="playlist-cover"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "https://media.istockphoto.com/id/622064544/photo/music-mixer.jpg?s=612x612&w=0&k=20&c=IMi-9tn01Q6KcLOmOVL5IkGe6R_VpD7wvztVxXtrMxo=";
+              e.target.src = "SoundBoard/Images/default.png";
             }}
           />
           <div className="playlist-name">{board.name}</div>
           <div className="playlist-tracks">{board.sounds.length} sons</div>
+        </button>
+        <button
+          className="playlist-options-btn"
+          onClick={() => openSoundBoardOptionsModal(board)}
+          title="Options du SoundBoard"
+        >
+          ⋮
         </button>
       </div>
     ))}
@@ -1397,6 +1452,31 @@ title="Volume (↑/↓)"
 </div>
 
 )}{/* Modals */}
+
+{showSoundBoardOptionsModal && soundBoardForOptions && (
+  <SoundBoardOptionsModal
+    board={soundBoardForOptions}
+    onClose={() => {
+      setShowSoundBoardOptionsModal(false);
+      setSoundBoardForOptions(null);
+    }}
+    onDelete={handleDeleteSoundBoard}
+    onEdit={handleEditSoundBoard}
+    onExport={handleExportSoundBoard}
+  />
+)}
+
+{/* Modal Edit SoundBoard */}
+{showEditSoundBoardModal && soundBoardToEdit && (
+  <EditSoundBoardModal
+    board={soundBoardToEdit}
+    onClose={() => {
+      setShowEditSoundBoardModal(false);
+      setSoundBoardToEdit(null);
+    }}
+    onSave={handleUpdateSoundBoard}
+  />
+)}
 {showCreatePlaylistModal && (
 <CreatePlaylistModal
 onClose={() => setShowCreatePlaylistModal(false)}
@@ -1445,7 +1525,110 @@ onCreate={createPlaylistFromQueue}
 )}
 </div>
 );
-}const HistoryPage = ({ musicDatabase, onPlayTrack, onAddToPlaylist }) => {
+}
+const SoundBoardOptionsModal = ({ board, onClose, onDelete, onEdit, onExport }) => {
+  const { isDarkMode } = useTheme();
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
+        <h2 className="modal-title">Options pour "{board.name}"</h2>
+        <div className="playlist-options">
+          <button 
+            className="option-btn edit-btn" 
+            onClick={() => onEdit(board)}
+          >
+            ✏️ Éditer le SoundBoard
+          </button>
+          <button 
+            className="option-btn export-btn" 
+            onClick={() => onExport(board)}
+          >
+            📤 Exporter le SoundBoard
+          </button>
+          <button 
+            className="option-btn delete-btn" 
+            onClick={() => onDelete(board.id)}
+          >
+            🗑️ Supprimer le SoundBoard
+          </button>
+        </div>
+        <div className="modal-buttons">
+          <button onClick={onClose} className="btn btn-secondary">Annuler</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const EditSoundBoardModal = ({ board, onClose, onSave }) => {
+  const { isDarkMode, currentTheme } = useTheme();
+  const [name, setName] = useState(board.name || '');
+  const [description, setDescription] = useState(board.description || '');
+  const [cover, setCover] = useState(board.cover || '');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      alert("Le nom du SoundBoard est obligatoire !");
+      return;
+    }
+    onSave({ 
+      ...board, 
+      name: name.trim(), 
+      description: description.trim(), 
+      cover: cover.trim() || board.cover 
+    });
+  };
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
+        <h2 className="modal-title">Modifier le SoundBoard</h2>
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="form-group">
+            <label className="form-label">Nom *</label>
+            <input
+              type="text"
+              className="form-input"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required
+              autoFocus
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Description</label>
+            <textarea
+              className="form-textarea"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              rows="3"
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">URL de la cover</label>
+            <input
+              type="url"
+              className="form-input"
+              value={cover}
+              onChange={e => setCover(e.target.value)}
+              placeholder="SoundBoard/Images/cover.jpg"
+            />
+          </div>
+          <div className="modal-buttons">
+            <button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>
+              Sauvegarder
+            </button>
+            <button type="button" onClick={onClose} className="btn btn-secondary">
+              Annuler
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+const HistoryPage = ({ musicDatabase, onPlayTrack, onAddToPlaylist }) => {
 const { isDarkMode, currentTheme } = useTheme();
 const { listeningHistory, playStats } = useMusic();return (
 <div className={`page-container ${isDarkMode ? 'dark' : 'light'}`}>
