@@ -15,7 +15,7 @@ const totalPlays = Object.values(playStats).reduce((a, b) => a + b, 0);
 const maxPlays = topTracks.length > 0 ? topTracks[0].playCount : 1;
 const maxGenreCount = topGenres.length > 0 ? topGenres[0].count : 1;return (
 <div className={`stats-page ${isDarkMode ? 'dark' : 'light'}`}>
-<h1 className="page-title">📊 Mes Statistiques</h1>{/* Cartes de temps d'écoute */}
+<h1 className="page-title">📊 Mes Statistiques</h1>{}
 <div className="stats-time-cards">
 <div className="stat-card" style={{ borderColor: currentTheme.primary }}>
 <span className="stat-icon">📅</span>
@@ -46,7 +46,7 @@ const maxGenreCount = topGenres.length > 0 ? topGenres[0].count : 1;return (
 </div>
 </div>
 </div><div className="stats-grid">
-{/* Top 10 musiques */}
+{}
 <div className="stats-section">
 <h2 className="section-title">🏆 Top 10 Musiques</h2>
 {topTracks.length === 0 ? (
@@ -83,7 +83,7 @@ background: currentTheme.gradient
 ))}
 </div>
 )}
-</div>{/* Top Genres */}
+</div>{}
 <div className="stats-section">
 <h2 className="section-title">🎸 Top Genres</h2>
 {topGenres.length === 0 ? (
@@ -111,7 +111,7 @@ background: currentTheme.gradient
 </div>
 )}
 </div>
-</div>{/* Historique récent */}
+</div>{}
 <div className="stats-section full-width">
 <h2 className="section-title">📜 Historique récent</h2>
 {listeningHistory.length === 0 ? (

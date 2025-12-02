@@ -42,9 +42,7 @@ title="Vider la file d'attente"
 </div>
 </div>
 )}<div className="queue-upcoming">
-<h4>À suivre ({upcomingTracks.length})</h4>
-
-{upcomingTracks.length === 0 ? (
+<h4>À suivre ({upcomingTracks.length})</h4>{upcomingTracks.length === 0 ? (
 <p className="queue-empty">Aucune musique dans la file d'attente</p>
 ) : (
 <DragDropContext onDragEnd={handleDragEnd}>

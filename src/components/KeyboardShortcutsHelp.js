@@ -13,9 +13,7 @@ const { isDarkMode, currentTheme } = useTheme();if (!isOpen) return null;const s
 ];return (
 <div className="modal-backdrop" onClick={onClose}>
 <div className={`modal shortcuts-modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
-<h2 className="modal-title">⌨️ Raccourcis clavier</h2>
-
-<div className="shortcuts-list">
+<h2 className="modal-title">⌨️ Raccourcis clavier</h2><div className="shortcuts-list">
 {shortcuts.map((shortcut, index) => (
 <div key={index} className="shortcut-item">
 <kbd className="shortcut-key" style={{ borderColor: currentTheme.primary }}>

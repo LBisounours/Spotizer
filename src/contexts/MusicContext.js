@@ -1,6 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';const MusicContext = createContext();export const MusicProvider = ({ children }) => {
-
-const [listeningHistory, setListeningHistory] = useState(() => {
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';const MusicContext = createContext();export const MusicProvider = ({ children }) => {const [listeningHistory, setListeningHistory] = useState(() => {
 const saved = localStorage.getItem('spotizer-history');
 return saved ? JSON.parse(saved) : [];
 });
@@ -87,9 +85,7 @@ return { ...track, playCount: count };
 }).filter(t => t.id);
 }, [playStats]);
 const getTopGenres = useCallback((musicDatabase, limit = 3) => {
-const genreCounts = {};
-
-Object.entries(playStats).forEach(([id, count]) => {
+const genreCounts = {};Object.entries(playStats).forEach(([id, count]) => {
 const track = musicDatabase.find(t => t.id === parseInt(id));
 if (track && track.genre) {
 genreCounts[track.genre] = (genreCounts[track.genre] || 0) + count;
@@ -100,39 +96,24 @@ genreCounts[track.genre] = (genreCounts[track.genre] || 0) + count;
 .map(([genre, count]) => ({ genre, count }));
 }, [playStats]);
 const getRecommendations = useCallback((musicDatabase, currentTrack, limit = 10) => {
-if (!currentTrack && listeningHistory.length === 0) {
-
-return [...musicDatabase].sort(() => Math.random() - 0.5).slice(0, limit);
+if (!currentTrack && listeningHistory.length === 0) {return [...musicDatabase].sort(() => Math.random() - 0.5).slice(0, limit);
 }const topGenres = getTopGenres(musicDatabase, 5).map(g => g.genre);
 const topArtists = getTopArtists(musicDatabase, 5);
 const recentlyPlayed = new Set(listeningHistory.slice(0, 20).map(h => h.id));
 const scored = musicDatabase
 .filter(track => !recentlyPlayed.has(track.id))
 .map(track => {
-let score = 0;
-
-
-if (topGenres.includes(track.genre)) {
+let score = 0;if (topGenres.includes(track.genre)) {
 score += 3 * (topGenres.length - topGenres.indexOf(track.genre));
-}
-
-
-if (topArtists.includes(track.artist)) {
+}if (topArtists.includes(track.artist)) {
 score += 5;
-}
-
-
-score += Math.random() * 2;
-
-return { ...track, score };
+}score += Math.random() * 2;return { ...track, score };
 })
 .sort((a, b) => b.score - a.score)
 .slice(0, limit);return scored;
 }, [listeningHistory, getTopGenres]);
 const getTopArtists = useCallback((musicDatabase, limit = 5) => {
-const artistCounts = {};
-
-Object.entries(playStats).forEach(([id, count]) => {
+const artistCounts = {};Object.entries(playStats).forEach(([id, count]) => {
 const track = musicDatabase.find(t => t.id === parseInt(id));
 if (track) {
 artistCounts[track.artist] = (artistCounts[track.artist] || 0) + count;
