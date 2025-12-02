@@ -14,6 +14,7 @@ const SoundBoardPage = ({ soundDatabase }) => {
     addSoundToBoard,
     removeSoundFromBoard,
     importSoundBoard,
+    exportSoundBoard,
     addToSoundBoardHistory
   } = useSoundBoard();
 
@@ -40,14 +41,14 @@ const SoundBoardPage = ({ soundDatabase }) => {
     setCurrentlyPlaying(sound.id);
     addToSoundBoardHistory(sound);
 
-    audio.play();
+    audio.play().catch(err => console.log('Erreur lecture:', err));
     audio.onended = () => {
       setCurrentlyPlaying(null);
     };
   };
 
-  // Arrêter le son en cours
-  const stopSound = () => {
+  // Arrêter tous les sons
+  const stopAllSounds = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -61,7 +62,7 @@ const SoundBoardPage = ({ soundDatabase }) => {
     sound.artist.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Gérer la réorganisation des sons dans un board
+  // Gérer la réorganisation des sons
   const handleDragEnd = (result) => {
     if (!result.destination || !selectedBoard) return;
 
@@ -74,194 +75,254 @@ const SoundBoardPage = ({ soundDatabase }) => {
     setSelectedBoard(updatedBoard);
   };
 
-  return (
-    <div className="page-container">
-      {selectedBoard ? (
-        // Vue détaillée d'un soundboard
-        <div>
-          <button className="back-btn" onClick={() => setSelectedBoard(null)}>
-            ← Retour
-          </button>
+  // Ouvrir les modals
+  const openEditModal = (board) => {
+    setBoardToEdit(board);
+    setShowEditModal(true);
+  };
 
-          <div className="soundboard-header">
-            <img 
-              src={selectedBoard.cover} 
-              alt={selectedBoard.name} 
-              className="soundboard-cover-large"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "SoundBoard/Images/default.png";
-              }}
-            />
-            <div className="soundboard-details">
-              <p className="soundboard-type">SoundBoard</p>
-              <h1 className="soundboard-title-large">{selectedBoard.name}</h1>
-              <p className="soundboard-description-large">{selectedBoard.description}</p>
-              <p className="soundboard-stats">{selectedBoard.sounds.length} sons</p>
-              <div className="soundboard-actions">
+  const openOptionsModal = (board) => {
+    setBoardForOptions(board);
+    setShowOptionsModal(true);
+  };
+
+  const handleCreateBoard = (name, description, cover) => {
+    createSoundBoard(name, description, cover);
+    setShowCreateModal(false);
+  };
+
+  const handleUpdateBoard = (updatedBoard) => {
+    updateSoundBoard(updatedBoard);
+    if (selectedBoard?.id === updatedBoard.id) {
+      setSelectedBoard(updatedBoard);
+    }
+    setShowEditModal(false);
+    setBoardToEdit(null);
+  };
+
+  const handleDeleteBoard = (boardId) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce SoundBoard ?')) {
+      deleteSoundBoard(boardId);
+      if (selectedBoard?.id === boardId) {
+        setSelectedBoard(null);
+      }
+      setShowOptionsModal(false);
+      setBoardForOptions(null);
+    }
+  };
+
+  const handleExportBoard = (board) => {
+    exportSoundBoard(board);
+    setShowOptionsModal(false);
+    setBoardForOptions(null);
+  };
+
+  const handleImportBoard = (imported) => {
+    importSoundBoard(imported);
+    setShowCreateModal(false);
+  };
+
+  return (
+    <div className="soundboard-layout">
+      {/* Sidebar gauche avec liste des SoundBoards */}
+      <div className="soundboard-sidebar">
+        <div className="soundboard-sidebar-header">
+          <h3 className="soundboard-sidebar-title">SoundBoards</h3>
+          <button
+            className="add-soundboard-btn"
+            onClick={() => setShowCreateModal(true)}
+            title="Créer un SoundBoard"
+          >
+            ➕
+          </button>
+        </div>
+
+        <div className="soundboard-list">
+          {soundBoards.map(board => (
+            <div key={board.id} style={{ position: 'relative' }}>
+              <button
+                className={`soundboard-list-item ${selectedBoard?.id === board.id ? 'active' : ''}`}
+                onClick={() => setSelectedBoard(board)}
+                style={selectedBoard?.id === board.id ? { background: currentTheme.gradient } : {}}
+              >
+                <img
+                  src={board.cover}
+                  alt={board.name}
+                  className="soundboard-list-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "SoundBoard/Images/default.png";
+                  }}
+                />
+                <div className="soundboard-list-info">
+                  <div className="soundboard-list-name">{board.name}</div>
+                  <div className="soundboard-list-count">{board.sounds.length} sons</div>
+                </div>
+              </button>
+              <button
+                className="soundboard-options-list-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openOptionsModal(board);
+                }}
+                title="Options"
+              >
+                ⋮
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Contenu principal */}
+      <div className="soundboard-content">
+        {!selectedBoard ? (
+          // Vue d'accueil
+          <div className="soundboard-empty-state">
+            {soundBoards.length === 0 ? (
+              <>
+                <h2>🎵 Créez votre premier SoundBoard</h2>
+                <p>Organisez vos sons préférés dans des boards personnalisés</p>
                 <button
-                  className="add-sound-btn"
-                  onClick={() => setShowAddSoundModal(true)}
+                  className="create-first-soundboard-btn"
+                  onClick={() => setShowCreateModal(true)}
                   style={{ background: currentTheme.gradient }}
                 >
-                  ➕ Ajouter des sons
+                  ➕ Créer un SoundBoard
                 </button>
-                {currentlyPlaying && (
-                  <button
-                    className="stop-all-btn"
-                    onClick={stopSound}
-                    style={{ background: '#ef4444' }}
-                  >
-                    ⏹️ Arrêter
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="soundboard-sounds">
-            {selectedBoard.sounds.length === 0 ? (
-              <div className="empty-soundboard">
-                <p>Ce soundboard est vide</p>
-                <p>Ajoutez des sons depuis la bibliothèque</p>
-              </div>
+              </>
             ) : (
-              <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="soundboard-sounds">
-                  {(provided) => (
-                    <div
-                      className="sound-grid"
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
-                      {selectedBoard.sounds.map((sound, index) => (
-                        <Draggable
-                          key={`${sound.id}-${index}`}
-                          draggableId={`${sound.id}-${index}`}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`sound-card ${snapshot.isDragging ? 'dragging' : ''} ${currentlyPlaying === sound.id ? 'playing' : ''}`}
-                              onClick={() => playSound(sound)}
-                              style={{
-                                ...provided.draggableProps.style,
-                                background: currentTheme.gradient,
-                                boxShadow: currentlyPlaying === sound.id 
-                                  ? `0 0 20px 10px ${currentTheme.primary}80` 
-                                  : 'none'
-                              }}
-                            >
-                              <img 
-                                src={sound.cover} 
-                                alt={sound.title} 
-                                className="sound-card-image"
-                              />
-                              <button
-                                className="remove-sound-btn"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeSoundFromBoard(selectedBoard.id, sound.id);
-                                }}
-                                title="Retirer du soundboard"
-                              >
-                                🗑️
-                              </button>
-                              <div className="sound-card-info">
-                                <h3 className="sound-card-title">{sound.title}</h3>
-                                <p className="sound-card-artist">{sound.artist}</p>
-                                <p className="sound-card-duration">{sound.duration}</p>
-                              </div>
-                              {currentlyPlaying === sound.id && (
-                                <div className="playing-indicator">▶️</div>
-                              )}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
+              <>
+                <h2>👈 Sélectionnez un SoundBoard</h2>
+                <p>Choisissez un SoundBoard dans la liste à gauche pour commencer</p>
+              </>
             )}
           </div>
-        </div>
-      ) : (
-        // Vue liste des soundboards
-        <div>
-          <div className="library-header">
-            <h1 className="page-title">🎵 SoundBoards</h1>
-            <button
-              className="create-playlist-btn"
-              onClick={() => setShowCreateModal(true)}
-              style={{ background: currentTheme.gradient }}
-            >
-              ➕ Créer un SoundBoard
-            </button>
-          </div>
-
-          {soundBoards.length === 0 ? (
-            <div className="empty-state">
-              <p>Aucun SoundBoard pour le moment</p>
-              <p>Créez votre premier SoundBoard pour commencer !</p>
-            </div>
-          ) : (
-            <div className="section">
-              <h2 className="section-title">Mes SoundBoards ({soundBoards.length})</h2>
-              <div className="grid grid-cols-4">
-                {soundBoards.map(board => (
-                  <div
-                    key={board.id}
-                    className="card"
+        ) : (
+          // Vue détaillée du SoundBoard sélectionné
+          <div>
+            <div className="soundboard-header">
+              <img
+                src={selectedBoard.cover}
+                alt={selectedBoard.name}
+                className="soundboard-cover-large"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "SoundBoard/Images/default.png";
+                }}
+              />
+              <div className="soundboard-details">
+                <p className="soundboard-type">SoundBoard</p>
+                <h1 className="soundboard-title-large">{selectedBoard.name}</h1>
+                <p className="soundboard-description-large">{selectedBoard.description}</p>
+                <p className="soundboard-stats">{selectedBoard.sounds.length} sons</p>
+                <div className="soundboard-actions">
+                  <button
+                    className="add-sound-btn"
+                    onClick={() => setShowAddSoundModal(true)}
                     style={{ background: currentTheme.gradient }}
                   >
-                    <img 
-                      src={board.cover} 
-                      alt={board.name} 
-                      className="card-image"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "SoundBoard/Images/default.png";
-                      }}
-                    />
+                    ➕ Ajouter des sons
+                  </button>
+                  {currentlyPlaying && (
                     <button
-                      className="soundboard-options-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setBoardForOptions(board);
-                        setShowOptionsModal(true);
-                      }}
-                      title="Options"
+                      className="stop-all-btn"
+                      onClick={stopAllSounds}
+                      style={{ background: '#ef4444' }}
                     >
-                      ⋮
+                      ⏹️ Arrêter
                     </button>
-                    <h3 className="card-title">{board.name}</h3>
-                    <p className="card-subtitle">{board.description}</p>
-                    <p className="card-info">{board.sounds.length} sons</p>
-                    <button
-                      className="view-playlist-btn"
-                      onClick={() => setSelectedBoard(board)}
-                    >
-                      Ouvrir le SoundBoard
-                    </button>
-                  </div>
-                ))}
+                  )}
+                </div>
               </div>
             </div>
-          )}
-        </div>
-      )}
+
+            <div className="soundboard-sounds">
+              {selectedBoard.sounds.length === 0 ? (
+                <div className="empty-soundboard">
+                  <p>Ce soundboard est vide</p>
+                  <p>Ajoutez des sons depuis la bibliothèque</p>
+                </div>
+              ) : (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                  <Droppable droppableId="soundboard-sounds">
+                    {(provided) => (
+                      <div
+                        className="sound-grid"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {selectedBoard.sounds.map((sound, index) => (
+                          <Draggable
+                            key={`${sound.id}-${index}`}
+                            draggableId={`${sound.id}-${index}`}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className={`sound-card ${snapshot.isDragging ? 'dragging' : ''} ${currentlyPlaying === sound.id ? 'playing' : ''}`}
+                                onClick={() => playSound(sound)}
+                                style={{
+                                  ...provided.draggableProps.style,
+                                  background: currentTheme.gradient,
+                                  boxShadow: currentlyPlaying === sound.id
+                                    ? `0 0 20px 10px ${currentTheme.primary}80`
+                                    : 'none'
+                                }}
+                              >
+                                <img
+                                  src={sound.cover}
+                                  alt={sound.title}
+                                  className="sound-card-image"
+                                />
+                                <button
+                                  className="remove-sound-btn"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeSoundFromBoard(selectedBoard.id, sound.id);
+                                    // Mettre à jour l'état local
+                                    const updatedBoard = {
+                                      ...selectedBoard,
+                                      sounds: selectedBoard.sounds.filter(s => s.id !== sound.id)
+                                    };
+                                    setSelectedBoard(updatedBoard);
+                                  }}
+                                  title="Retirer du soundboard"
+                                >
+                                  🗑️
+                                </button>
+                                <div className="sound-card-info">
+                                  <h3 className="sound-card-title">{sound.title}</h3>
+                                  <p className="sound-card-artist">{sound.artist}</p>
+                                  <p className="sound-card-duration">{sound.duration}</p>
+                                </div>
+                                {currentlyPlaying === sound.id && (
+                                  <div className="playing-indicator">▶️</div>
+                                )}
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Modals */}
       {showCreateModal && (
         <CreateSoundBoardModal
           onClose={() => setShowCreateModal(false)}
-          onCreate={createSoundBoard}
-          onImport={importSoundBoard}
+          onCreate={handleCreateBoard}
+          onImport={handleImportBoard}
         />
       )}
 
@@ -272,12 +333,7 @@ const SoundBoardPage = ({ soundDatabase }) => {
             setShowEditModal(false);
             setBoardToEdit(null);
           }}
-          onSave={(updated) => {
-            updateSoundBoard(updated);
-            if (selectedBoard?.id === updated.id) {
-              setSelectedBoard(updated);
-            }
-          }}
+          onSave={handleUpdateBoard}
         />
       )}
 
@@ -288,17 +344,12 @@ const SoundBoardPage = ({ soundDatabase }) => {
             setShowOptionsModal(false);
             setBoardForOptions(null);
           }}
-          onDelete={(id) => {
-            deleteSoundBoard(id);
-            if (selectedBoard?.id === id) {
-              setSelectedBoard(null);
-            }
-          }}
+          onDelete={handleDeleteBoard}
           onEdit={(board) => {
-            setBoardToEdit(board);
-            setShowEditModal(true);
+            openEditModal(board);
             setShowOptionsModal(false);
           }}
+          onExport={handleExportBoard}
         />
       )}
 
@@ -306,8 +357,19 @@ const SoundBoardPage = ({ soundDatabase }) => {
         <AddSoundModal
           soundDatabase={soundDatabase}
           selectedBoard={selectedBoard}
-          onClose={() => setShowAddSoundModal(false)}
-          onAdd={(sound) => addSoundToBoard(selectedBoard.id, sound)}
+          onClose={() => {
+            setShowAddSoundModal(false);
+            setSearchQuery('');
+          }}
+          onAdd={(sound) => {
+            addSoundToBoard(selectedBoard.id, sound);
+            // Mettre à jour l'état local
+            const updatedBoard = {
+              ...selectedBoard,
+              sounds: [...selectedBoard.sounds, sound]
+            };
+            setSelectedBoard(updatedBoard);
+          }}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           filteredSounds={filteredSounds}
@@ -329,7 +391,6 @@ const CreateSoundBoardModal = ({ onClose, onCreate, onImport }) => {
     e.preventDefault();
     if (name.trim()) {
       onCreate(name.trim(), description.trim(), cover.trim());
-      onClose();
     }
   };
 
@@ -341,9 +402,8 @@ const CreateSoundBoardModal = ({ onClose, onCreate, onImport }) => {
         try {
           const imported = JSON.parse(event.target.result);
           onImport(imported);
-          onClose();
         } catch (error) {
-          alert('Erreur lors de l\'importation.');
+          alert('Erreur lors de l\'importation. Vérifiez le format du fichier.');
         }
       };
       reader.readAsText(file);
@@ -364,6 +424,7 @@ const CreateSoundBoardModal = ({ onClose, onCreate, onImport }) => {
               className="form-input"
               placeholder="Mon SoundBoard"
               required
+              autoFocus
             />
           </div>
           <div className="form-group">
@@ -372,7 +433,7 @@ const CreateSoundBoardModal = ({ onClose, onCreate, onImport }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="form-textarea"
-              placeholder="Description"
+              placeholder="Description du SoundBoard"
               rows="3"
             />
           </div>
@@ -430,8 +491,12 @@ const EditSoundBoardModal = ({ board, onClose, onSave }) => {
       alert("Le nom est obligatoire !");
       return;
     }
-    onSave({ ...board, name: name.trim(), description: description.trim(), cover: cover.trim() || board.cover });
-    onClose();
+    onSave({ 
+      ...board, 
+      name: name.trim(), 
+      description: description.trim(), 
+      cover: cover.trim() || board.cover 
+    });
   };
 
   return (
@@ -484,38 +549,30 @@ const EditSoundBoardModal = ({ board, onClose, onSave }) => {
 };
 
 // Modal d'options
-const SoundBoardOptionsModal = ({ board, onClose, onDelete, onEdit }) => {
+const SoundBoardOptionsModal = ({ board, onClose, onDelete, onEdit, onExport }) => {
   const { isDarkMode } = useTheme();
-
-  const exportBoard = () => {
-    const dataStr = JSON.stringify(board, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${board.name.replace(/[^a-z0-9]/gi, '_')}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-    onClose();
-  };
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
         <h2 className="modal-title">Options pour "{board.name}"</h2>
         <div className="playlist-options">
-          <button className="option-btn edit-btn" onClick={() => onEdit(board)}>
+          <button 
+            className="option-btn edit-btn" 
+            onClick={() => onEdit(board)}
+          >
             ✏️ Éditer le SoundBoard
           </button>
-          <button className="option-btn export-btn" onClick={exportBoard}>
+          <button 
+            className="option-btn export-btn" 
+            onClick={() => onExport(board)}
+          >
             📤 Exporter le SoundBoard
           </button>
-          <button className="option-btn delete-btn" onClick={() => {
-            if (window.confirm('Êtes-vous sûr de vouloir supprimer ce SoundBoard ?')) {
-              onDelete(board.id);
-              onClose();
-            }
-          }}>
+          <button 
+            className="option-btn delete-btn" 
+            onClick={() => onDelete(board.id)}
+          >
             🗑️ Supprimer le SoundBoard
           </button>
         </div>
@@ -547,32 +604,42 @@ const AddSoundModal = ({ soundDatabase, selectedBoard, onClose, onAdd, searchQue
         </div>
         <div className="sound-selection-list">
           {filteredSounds.length === 0 ? (
-            <p>Aucun son trouvé.</p>
+            <p style={{ textAlign: 'center', color: '#9ca3af', padding: '32px' }}>
+              Aucun son trouvé.
+            </p>
           ) : (
-            filteredSounds.map(sound => (
-              <div key={sound.id} className="sound-selection-item">
-                <img src={sound.cover} alt={sound.title} className="sound-selection-cover" />
-                <div className="sound-selection-info">
-                  <div className="sound-selection-title">{sound.title}</div>
-                  <div className="sound-selection-artist">{sound.artist}</div>
+            filteredSounds.map(sound => {
+              const isAdded = selectedBoard.sounds.find(s => s.id === sound.id);
+              return (
+                <div key={sound.id} className="sound-selection-item">
+                  <img 
+                    src={sound.cover} 
+                    alt={sound.title} 
+                    className="sound-selection-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "SoundBoard/Images/default.png";
+                    }}
+                  />
+                  <div className="sound-selection-info">
+                    <div className="sound-selection-title">{sound.title}</div>
+                    <div className="sound-selection-artist">{sound.artist}</div>
+                  </div>
+                  <div className="sound-selection-duration">{sound.duration}</div>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => onAdd(sound)}
+                    disabled={isAdded}
+                    style={{
+                      background: isAdded ? '#6b7280' : currentTheme.gradient,
+                      cursor: isAdded ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    {isAdded ? '✓ Ajouté' : '➕ Ajouter'}
+                  </button>
                 </div>
-                <div className="sound-selection-duration">{sound.duration}</div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    onAdd(sound);
-                  }}
-                  disabled={selectedBoard.sounds.find(s => s.id === sound.id)}
-                  style={{ 
-                    background: selectedBoard.sounds.find(s => s.id === sound.id) 
-                      ? '#6b7280' 
-                      : currentTheme.gradient 
-                  }}
-                >
-                  {selectedBoard.sounds.find(s => s.id === sound.id) ? '✓ Ajouté' : '➕ Ajouter'}
-                </button>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
         <div className="modal-buttons">

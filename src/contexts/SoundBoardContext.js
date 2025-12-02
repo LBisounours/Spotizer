@@ -104,7 +104,7 @@ export const SoundBoardProvider = ({ children }) => {
     }));
   };
 
-  // Importer un soundboard
+// Importer un soundboard
   const importSoundBoard = (importedSoundBoard) => {
     const newSoundBoard = {
       ...importedSoundBoard,
@@ -113,6 +113,18 @@ export const SoundBoardProvider = ({ children }) => {
     };
     setSoundBoards([...soundBoards, newSoundBoard]);
     return newSoundBoard;
+  };
+
+  // Exporter un soundboard
+  const exportSoundBoard = (soundBoard) => {
+    const dataStr = JSON.stringify(soundBoard, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${soundBoard.name.replace(/[^a-z0-9]/gi, '_')}_soundboard.json`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const value = {
@@ -124,6 +136,7 @@ export const SoundBoardProvider = ({ children }) => {
     addSoundToBoard,
     removeSoundFromBoard,
     importSoundBoard,
+    exportSoundBoard,
     addToSoundBoardHistory
   };
 
