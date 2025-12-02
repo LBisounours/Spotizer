@@ -145,9 +145,10 @@ const musicDatabase = [
 { id: 129, title: "Melodrama", artist: "Disiz & Théodora", album: "Le_Bisounours_", duration: "2:56", cover: "Musique/Images/font129.png", audioUrl: "Musique/Musique129.mp3", genre: "Alternative" },
 ];
 const soundDatabase = [
-{ id: 1, title: "BIP", artist: "SFX", duration: "0:02", cover: "SoundBoard/Images/Bip1.png", audioUrl: "SoundBoard/Bip1.mp3" },
-{ id: 2, title: "Ahhhh", artist: "SFX", duration: "0:03", cover: "SoundBoard/Images/Ahhhh.png", audioUrl: "SoundBoard/Ahhhh.mp3" },
-{ id: 3, title: "Bass Explode", artist: "SFX", duration: "0:02", cover: "SoundBoard/Images/Bass.png", audioUrl: "SoundBoard/Bass.mp3" },
+{ id: 1, title: "Bip", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Bip1.png", audioUrl: "SoundBoard/Bip1.mp3" },
+{ id: 2, title: "Ennnn", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Ahhhh.png", audioUrl: "SoundBoard/Ahhhh.mp3" },
+{ id: 3, title: "Explode Bass", artist: "SFX", duration: "0:04", cover: "SoundBoard/Images/Bass.png", audioUrl: "SoundBoard/Bass.mp3" },
+{ id: 4, title: "Bruum", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Bruum.png", audioUrl: "SoundBoard/Bruum.mp3" },
 ];
 const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Mes sons favoris !", cover: "Musique/Images/favorite.png", tracks: [], isDefault: true }
