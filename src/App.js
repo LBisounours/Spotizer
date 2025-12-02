@@ -609,7 +609,7 @@ alt={`Cover de ${playlist.name}`}
 className="playlist-cover"
 onError={(e) => {
 e.target.onerror = null;
-e.target.src = "Musique/Images/favorite.png";
+e.target.src = "SoundBoard/Images/default.png";
 }}
 />
 <div className="playlist-name">{playlist.name}</div>
