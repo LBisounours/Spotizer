@@ -49,6 +49,13 @@ const SoundBoardPage = ({ soundDatabase, selectedBoardFromSidebar, onBoardChange
 
     const audio = new Audio(sound.audioUrl);
     audio.volume = soundVolume;
+    audio.setAttribute('data-soundboard', 'true'); // Marquer comme son de soundboard
+    audio.className = 'soundboard-audio'; // Ajouter une classe
+    
+    // IMPORTANT : Ajouter au DOM pour que preload.js le détecte
+    audio.style.display = 'none';
+    document.body.appendChild(audio);
+    
     audioRef.current = audio;
     setCurrentlyPlaying(sound.id);
     addToSoundBoardHistory(sound);
@@ -56,6 +63,10 @@ const SoundBoardPage = ({ soundDatabase, selectedBoardFromSidebar, onBoardChange
     audio.play().catch(err => console.log('Erreur lecture:', err));
     audio.onended = () => {
       setCurrentlyPlaying(null);
+      // Nettoyer le DOM
+      if (audio.parentNode) {
+        audio.parentNode.removeChild(audio);
+      }
     };
   };
 
