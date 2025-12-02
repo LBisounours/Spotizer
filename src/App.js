@@ -12,7 +12,8 @@ import StatsPage from './components/StatsPage';
 import { SoundBoardProvider } from './contexts/SoundBoardContext';
 import SoundBoardPage from './components/SoundBoardPage';
 import { useSoundBoard } from './contexts/SoundBoardContext';
-import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const musicDatabase = [
+import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';
+const musicDatabase = [
 { id: 1, title: "Un quart d'heure", artist: "Satine", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
 { id: 2, title: "Côte Ouest", artist: "47Ter", album: "Le_Bisounours_", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
 { id: 3, title: "Harakiri", artist: "47Ter", album: "Le_Bisounours_", duration: "3:01", cover: "Musique/Images/font3.png", audioUrl: "Musique/Musique3.mp3", genre: "Rap" },
@@ -224,6 +225,106 @@ const [duration, setDuration] = useState(0);
 const [showCreateSoundBoardModal, setShowCreateSoundBoardModal] = useState(false);
 const [selectedSoundBoard, setSelectedSoundBoard] = useState(null);
 const [showSoundBoardOptionsModal, setShowSoundBoardOptionsModal] = useState(false);
+const CreateSoundBoardModal = ({ onClose, onCreate, onImport }) => {
+  const { isDarkMode, currentTheme } = useTheme();
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [cover, setCover] = useState('');
+  const fileInputRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (name.trim()) {
+      onCreate(name.trim(), description.trim(), cover.trim());
+      setName('');
+      setDescription('');
+      setCover('');
+    }
+  };
+
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const importedBoard = JSON.parse(event.target.result);
+          onImport(importedBoard);
+        } catch (error) {
+          alert('Erreur lors de l\'importation. Assurez-vous que le fichier est au bon format.');
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}>
+        <h2 className="modal-title">Créer un nouveau SoundBoard</h2>
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="form-group">
+            <label className="form-label">Nom du SoundBoard *</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="form-input"
+              placeholder="Mon SoundBoard"
+              required
+              autoFocus
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Description (optionnel)</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="form-textarea"
+              placeholder="Description du SoundBoard"
+              rows="3"
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">URL de la cover (optionnel)</label>
+            <input
+              type="url"
+              value={cover}
+              onChange={(e) => setCover(e.target.value)}
+              className="form-input"
+              placeholder="SoundBoard/Images/cover.jpg"
+            />
+          </div>
+          <div className="modal-buttons">
+            <button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>
+              Créer
+            </button>
+            <button type="button" onClick={onClose} className="btn btn-secondary">
+              Annuler
+            </button>
+          </div>
+        </form>
+        <div style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            onChange={handleImport}
+            style={{ display: 'none' }}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current.click()}
+            className="btn btn-secondary"
+            style={{ width: '100%' }}
+          >
+            📥 Importer un SoundBoard
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 const [soundBoardForOptions, setSoundBoardForOptions] = useState(null);
 const [showEditSoundBoardModal, setShowEditSoundBoardModal] = useState(false);
 const [soundBoardToEdit, setSoundBoardToEdit] = useState(null);
@@ -304,6 +405,7 @@ navigator.mediaSession.metadata = new window.MediaMetadata({
 title: track.title, artist: track.artist, album: track.album || '',
 artwork: [{ src: track.cover, sizes: '512x512', type: 'image/png' }]
 });
+// eslint-disable-next-line react-hooks/exhaustive-deps
 if (!navigator.mediaSession._handlersSet) {
 navigator.mediaSession.setActionHandler('play', () => { audioRef.current?.play(); setIsPlaying(true); });
 navigator.mediaSession.setActionHandler('pause', () => { audioRef.current?.pause(); setIsPlaying(false); });
@@ -401,6 +503,7 @@ const handleDurationChange = () => setDuration(audio.duration);
 const handleEnded = () => {
 setIsPlaying(false);
 setCurrentTime(0);
+// eslint-disable-next-line react-hooks/exhaustive-deps
 if (isRepeatMode === 2) { audio.currentTime = 0; audio.play(); setIsPlaying(true); }else { nextTrack(); } };
 audio.addEventListener('timeupdate', handleTimeUpdate);
 audio.addEventListener('durationchange', handleDurationChange);
@@ -685,9 +788,7 @@ style={currentPage === 'history' ? { background: currentTheme.gradient } : {}}
       <h3 className="playlists-title">SoundBoards</h3>
       <button
         className="add-playlist-btn"
-        onClick={() => {
-          setCurrentPage('soundboard');
-        }}
+        onClick={() => setShowCreateSoundBoardModal(true)}
         title="Créer un SoundBoard"
       >
         ➕
@@ -1452,7 +1553,24 @@ title="Volume (↑/↓)"
 </div>
 
 )}{/* Modals */}
-
+{/* Modal Create SoundBoard */}
+{showCreateSoundBoardModal && (
+  <CreateSoundBoardModal
+    onClose={() => setShowCreateSoundBoardModal(false)}
+    onCreate={(name, description, cover) => {
+      const newBoard = createSoundBoard(name, description, cover);
+      setShowCreateSoundBoardModal(false);
+      setCurrentPage('soundboard');
+      setSelectedSoundBoard(newBoard);
+    }}
+    onImport={(imported) => {
+      const newBoard = importSoundBoard(imported);
+      setShowCreateSoundBoardModal(false);
+      setCurrentPage('soundboard');
+      setSelectedSoundBoard(newBoard);
+    }}
+  />
+)}
 {showSoundBoardOptionsModal && soundBoardForOptions && (
   <SoundBoardOptionsModal
     board={soundBoardForOptions}
