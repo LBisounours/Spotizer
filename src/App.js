@@ -1,3 +1,4 @@
+// /src/App.js
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import './App.css';
@@ -8,6 +9,8 @@ import QueuePanel from './components/QueuePanel';
 import ThemeSelector from './components/ThemeSelector';
 import SleepTimerModal from './components/SleepTimerModal';
 import StatsPage from './components/StatsPage';
+import { SoundBoardProvider } from './contexts/SoundBoardContext';
+import SoundBoardPage from './components/SoundBoardPage';
 import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const musicDatabase = [
 { id: 1, title: "Un quart d'heure", artist: "Satine", album: "Le_Bisounours_", duration: "2:36", cover: "Musique/Images/font1.png", audioUrl: "Musique/Musique1.mp3", genre: "Pop" },
 { id: 2, title: "Côte Ouest", artist: "47Ter", album: "Le_Bisounours_", duration: "3:51", cover: "Musique/Images/font2.png", audioUrl: "Musique/Musique2.mp3", genre: "Rap" },
@@ -138,7 +141,14 @@ import KeyboardShortcutsHelp from './components/KeyboardShortcutsHelp';const mus
 { id: 127, title: "En boucle", artist: "Adèle Castillon", album: "Le_Bisounours_", duration: "4:06", cover: "Musique/Images/font127.png", audioUrl: "Musique/Musique127.mp3", genre: "Pop" },
 { id: 128, title: "The Adults Are Talking", artist: "The Strokes", album: "Le_Bisounours_", duration: "4:47", cover: "Musique/Images/font128.png", audioUrl: "Musique/Musique128.mp3", genre: "New wave" },
 { id: 129, title: "Melodrama", artist: "Disiz & Théodora", album: "Le_Bisounours_", duration: "2:56", cover: "Musique/Images/font129.png", audioUrl: "Musique/Musique129.mp3", genre: "Alternative" },
-];const defaultPlaylists = [
+];
+const soundDatabase = [
+  { id: 1, title: "BIP", artist: "SFX", duration: "0:02", cover: "SoundBoard/Images/Bip1.png", audioUrl: "SoundBoard/Bip1.mp3" },
+  { id: 2, title: "Ahhhh", artist: "SFX", duration: "0:03", cover: "SoundBoard/Images/Ahhhh.png", audioUrl: "SoundBoard/Ahhhh.mp3" },
+  { id: 3, title: "Bass Explode", artist: "SFX", duration: "0:02", cover: "SoundBoard/Images/Bass.png", audioUrl: "SoundBoard/Bass.mp3" },
+];
+
+const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Mes sons favoris !", cover: "Musique/Images/favorite.png", tracks: [], isDefault: true }
 ];const PlaylistOptionsModal = ({ playlist, onClose, onDelete, onEdit, onExport }) => {
 const { isDarkMode } = useTheme();
@@ -545,6 +555,14 @@ style={currentPage === 'library' ? { background: currentTheme.gradient } : {}}
 >
 <span>📚</span>
 <span>Ma musique</span>
+</button>
+<button
+  className={`nav-item ${currentPage === 'soundboard' ? 'active' : ''}`}
+  onClick={() => setCurrentPage('soundboard')}
+  style={currentPage === 'soundboard' ? { background: currentTheme.gradient } : {}}
+>
+  <span>🎵</span>
+  <span>SoundBoard</span>
 </button>
 <button
 className={`nav-item ${currentPage === 'stats' ? 'active' : ''}`}
@@ -1213,6 +1231,9 @@ onPlayTrack={playTrack}
 onAddToPlaylist={openAddToPlaylistModal}
 />
 )}
+{currentPage === 'soundboard' && (
+  <SoundBoardPage soundDatabase={soundDatabase} />
+)}
 </div>
 </div>{/* Queue Panel */}
 <QueuePanel
@@ -1427,7 +1448,9 @@ title="Ajouter à une playlist"
 return (
 <ThemeProvider>
 <MusicProvider>
+<SoundBoardProvider>
 <AppContent />
+</SoundBoardProvider>
 </MusicProvider>
 </ThemeProvider>
 );
