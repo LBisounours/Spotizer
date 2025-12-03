@@ -149,6 +149,7 @@ const soundDatabase = [
 { id: 2, title: "Ennnn", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Ahhhh.png", audioUrl: "SoundBoard/Ahhhh.mp3" },
 { id: 3, title: "Explode Bass", artist: "SFX", duration: "0:04", cover: "SoundBoard/Images/Bass.png", audioUrl: "SoundBoard/Bass.mp3" },
 { id: 4, title: "Bruum", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Bruum.png", audioUrl: "SoundBoard/Bruum.mp3" },
+{ id: 5, title: "Oh Now", artist: "SFX", duration: "0:05", cover: "SoundBoard/Images/Ohnow.png", audioUrl: "SoundBoard/ohnow.mp3" },
 ];
 const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Mes sons favoris !", cover: "Musique/Images/favorite.png", tracks: [], isDefault: true }
