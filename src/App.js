@@ -150,6 +150,11 @@ const soundDatabase = [
 { id: 3, title: "Explode Bass", artist: "SFX", duration: "0:04", cover: "SoundBoard/Images/Bass.png", audioUrl: "SoundBoard/Bass.mp3" },
 { id: 4, title: "Bruum", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Bruum.png", audioUrl: "SoundBoard/Bruum.mp3" },
 { id: 5, title: "Oh Now", artist: "SFX", duration: "0:05", cover: "SoundBoard/Images/Ohnow.png", audioUrl: "SoundBoard/ohnow.mp3" },
+{ id: 6, title: "What ?", artist: "SFX", duration: "0:09", cover: "SoundBoard/Images/what.png", audioUrl: "SoundBoard/what.mp3" },
+{ id: 7, title: "Oh Ma Gaud", artist: "SFX", duration: "0:02", cover: "SoundBoard/Images/Ohmagaud.png", audioUrl: "SoundBoard/Ohmagaud.mp3" },
+{ id: 8, title: "Windows XP Error", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/WindowsXPError.png", audioUrl: "SoundBoard/WindowsXPError.mp3" },
+{ id: 9, title: "Chili Chili Fart", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/chilichilifart.png", audioUrl: "SoundBoard/chilichilifart.mp3" },
+{ id: 10, title: "Annonce", artist: "SFX", duration: "0:04", cover: "SoundBoard/Images/annonce.png", audioUrl: "SoundBoard/annonce.mp3" },
 ];
 const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Mes sons favoris !", cover: "Musique/Images/favorite.png", tracks: [], isDefault: true }
