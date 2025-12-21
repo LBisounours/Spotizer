@@ -143,6 +143,16 @@ const musicDatabase = [
 { id: 127, title: "En boucle", artist: "Adèle Castillon", album: "Le_Bisounours_", duration: "4:06", cover: "Musique/Images/font127.png", audioUrl: "Musique/Musique127.mp3", genre: "Pop" },
 { id: 128, title: "The Adults Are Talking", artist: "The Strokes", album: "Le_Bisounours_", duration: "4:47", cover: "Musique/Images/font128.png", audioUrl: "Musique/Musique128.mp3", genre: "New wave" },
 { id: 129, title: "Melodrama", artist: "Disiz & Théodora", album: "Le_Bisounours_", duration: "2:56", cover: "Musique/Images/font129.png", audioUrl: "Musique/Musique129.mp3", genre: "Alternative" },
+{ id: 130, title: "Internet", artist: "Lenaïg", album: "Le_Bisounours_", duration: "3:09", cover: "Musique/Images/font130.png", audioUrl: "Musique/Musique130.mp3", genre: "Pop" },
+{ id: 131, title: "J'veux que t'aies mal", artist: "Lenaïg", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font131.png", audioUrl: "Musique/Musique131.mp3", genre: "Pop" },
+{ id: 132, title: "Tourner la page", artist: "Zaho", album: "Le_Bisounours_", duration: "4:26", cover: "Musique/Images/font132.png", audioUrl: "Musique/Musique132.mp3", genre: "Pop" },
+{ id: 133, title: "What I've Done", artist: "Linkin Park", album: "Le_Bisounours_", duration: "3:27", cover: "Musique/Images/font133.png", audioUrl: "Musique/Musique133.mp3", genre: "Metal" },
+{ id: 134, title: "In the end", artist: "Linkin Park", album: "Le_Bisounours_", duration: "3:44", cover: "Musique/Images/font134.png", audioUrl: "Musique/Musique134.mp3", genre: "Metal" },
+{ id: 135, title: "Numb", artist: "Linkin Park", album: "Le_Bisounours_", duration: "3:07", cover: "Musique/Images/font135.png", audioUrl: "Musique/Musique135.mp3", genre: "Metal" },
+{ id: 136, title: "Toxicity", artist: "System of a Down", album: "Le_Bisounours_", duration: "3:44", cover: "Musique/Images/font136.png", audioUrl: "Musique/Musique136.mp3", genre: "Metal" },
+{ id: 137, title: "Chop Suey!", artist: "System of a Down", album: "Le_Bisounours_", duration: "3:28", cover: "Musique/Images/font137.png", audioUrl: "Musique/Musique137.mp3", genre: "Metal" },
+{ id: 138, title: "Zombie", artist: "The Cranberries", album: "Le_Bisounours_", duration: "3:47", cover: "Musique/Images/font138.png", audioUrl: "Musique/Musique138.mp3", genre: "Rock" },
+{ id: 139, title: "Set fire to the rain", artist: "Adele", album: "Le_Bisounours_", duration: "4:15", cover: "Musique/Images/font139.png", audioUrl: "Musique/Musique139.mp3", genre: "Pop" },
 ];
 const soundDatabase = [
 { id: 1, title: "Bip", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Bip1.png", audioUrl: "SoundBoard/Bip1.mp3" },
