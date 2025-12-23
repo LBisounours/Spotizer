@@ -165,7 +165,7 @@ const soundDatabase = [
 { id: 8, title: "Windows XP Error", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/WindowsXPError.png", audioUrl: "SoundBoard/WindowsXPError.mp3" },
 { id: 9, title: "Chili Chili Fart", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/chilichilifart.png", audioUrl: "SoundBoard/chilichilifart.mp3" },
 { id: 10, title: "Annonce", artist: "SFX", duration: "0:04", cover: "SoundBoard/Images/annonce.png", audioUrl: "SoundBoard/annonce.mp3" },
-{ id: 11, title: "Au pays de Candy", artist: "SFX", duration: "0:04", cover: "SoundBoard/Images/candy.png", audioUrl: "SoundBoard/candy.mp3" },
+{ id: 11, title: "Au pays de Candy", artist: "SFX", duration: "0:13", cover: "SoundBoard/Images/candy.png", audioUrl: "SoundBoard/candy.mp3" },
 ];
 const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Mes sons favoris !", cover: "Musique/Images/favorite.png", tracks: [], isDefault: true }
