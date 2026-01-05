@@ -153,7 +153,12 @@ const musicDatabase = [
 { id: 137, title: "Chop Suey!", artist: "System of a Down", album: "Le_Bisounours_", duration: "3:28", cover: "Musique/Images/font137.png", audioUrl: "Musique/Musique137.mp3", genre: "Metal" },
 { id: 138, title: "Zombie", artist: "The Cranberries", album: "Le_Bisounours_", duration: "3:47", cover: "Musique/Images/font138.png", audioUrl: "Musique/Musique138.mp3", genre: "Rock" },
 { id: 139, title: "Set fire to the rain", artist: "Adele", album: "Le_Bisounours_", duration: "4:15", cover: "Musique/Images/font139.png", audioUrl: "Musique/Musique139.mp3", genre: "Pop" },
+{ id: 140, title: "Frère flic", artist: "Tresko", album: "Le_Bisounours_", duration: "2:48", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique140.mp3", genre: "IA" },
+{ id: 141, title: "Tyron dans la rue", artist: "Tresko", album: "Le_Bisounours_", duration: "2:43", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique141.mp3", genre: "IA" },
+{ id: 142, title: "Nuit d'épouvante", artist: "Tresko", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique142.mp3", genre: "IA" },
+{ id: 143, title: "Frère Rookie", artist: "Tresko", album: "Le_Bisounours_", duration: "3:13", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique143.mp3", genre: "IA" },
 ];
+
 const soundDatabase = [
 { id: 1, title: "Bip", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Bip1.png", audioUrl: "SoundBoard/Bip1.mp3" },
 { id: 2, title: "Ennnn", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/Ahhhh.png", audioUrl: "SoundBoard/Ahhhh.mp3" },
