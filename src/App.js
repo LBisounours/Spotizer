@@ -171,6 +171,7 @@ const soundDatabase = [
 { id: 9, title: "Chili Chili Fart", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/chilichilifart.png", audioUrl: "SoundBoard/chilichilifart.mp3" },
 { id: 10, title: "Annonce", artist: "SFX", duration: "0:04", cover: "SoundBoard/Images/annonce.png", audioUrl: "SoundBoard/annonce.mp3" },
 { id: 11, title: "Au pays de Candy", artist: "SFX", duration: "0:13", cover: "SoundBoard/Images/candy.png", audioUrl: "SoundBoard/candy.mp3" },
+{ id: 12, title: "End Of Watch", artist: "SFX", duration: "0:01", cover: "SoundBoard/Images/candy.png", audioUrl: "SoundBoard/endofwatch.mp3" },
 ];
 const defaultPlaylists = [
 { id: 'default-1', name: "Mes favoris", description: "Mes sons favoris !", cover: "Musique/Images/favorite.png", tracks: [], isDefault: true }
