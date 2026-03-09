@@ -1,4 +1,4 @@
-
+// /src/App.js
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import './App.css';
@@ -237,7 +237,8 @@ createSoundBoard,
 deleteSoundBoard, 
 updateSoundBoard,
 exportSoundBoard,
-importSoundBoard 
+importSoundBoard,
+selectedSoundBoardForShortcuts
 } = useSoundBoard();
 const [currentPage, setCurrentPage] = useState('home');
 const [currentTrack, setCurrentTrack] = useState(null);
@@ -554,9 +555,47 @@ return newMode;
 const handleVolumeUp = useCallback(() => { setVolume(prev => Math.min(1, prev + 0.05)); }, []);
 const handleVolumeDown = useCallback(() => { setVolume(prev => Math.max(0, prev - 0.05)); }, []);
 const toggleMute = useCallback(() => { setIsMuted(prev => !prev); }, []);
-const toggleQueue = useCallback(() => { setShowQueuePanel(prev => !prev); }, []);useKeyboardShortcuts({
-onPlayPause: togglePlayPause, onNext: nextTrack, onPrevious: previousTrack, onVolumeUp: handleVolumeUp, onVolumeDown: handleVolumeDown, onMute: toggleMute, onShuffle: toggleShuffle, onRepeat: toggleRepeat, onToggleQueue: toggleQueue, isEnabled: true
-});const getRepeatIcon = () => {
+const toggleQueue = useCallback(() => { setShowQueuePanel(prev => !prev); }, []);
+
+  // Fonction pour jouer un son du soundboard via raccourci clavier
+  const playSoundBoardSound = useCallback((index) => {
+    const selectedBoard = soundBoards.find(b => b.id === selectedSoundBoardForShortcuts);
+    
+    if (selectedBoard && selectedBoard.sounds[index]) {
+      const sound = selectedBoard.sounds[index];
+      const audio = new Audio(sound.audioUrl);
+      const savedVolume = localStorage.getItem('spotizer-sound-volume');
+      audio.volume = savedVolume !== null ? parseFloat(savedVolume) : 0.5;
+      audio.setAttribute('data-soundboard', 'true');
+      audio.className = 'soundboard-audio';
+      audio.style.display = 'none';
+      document.body.appendChild(audio);
+      
+      audio.play().catch(err => console.log('Erreur lecture son:', err));
+      
+      audio.onended = () => {
+        if (audio.parentNode) {
+          audio.parentNode.removeChild(audio);
+        }
+      };
+    }
+  }, [soundBoards, selectedSoundBoardForShortcuts]);
+
+  useKeyboardShortcuts({
+    onPlayPause: togglePlayPause, 
+    onNext: nextTrack, 
+    onPrevious: previousTrack, 
+    onVolumeUp: handleVolumeUp, 
+    onVolumeDown: handleVolumeDown, 
+    onMute: toggleMute, 
+    onShuffle: toggleShuffle, 
+    onRepeat: toggleRepeat, 
+    onToggleQueue: toggleQueue,
+    onPlaySoundBoardSound: playSoundBoardSound,
+    isEnabled: true
+  });
+
+const getRepeatIcon = () => {
 switch (isRepeatMode) { case 0: return '🔁'; case 1: return '🔁📋'; case 2: return '🔂🎵'; default: return '🔁'; }
 };
 const getRepeatTitle = () => {
