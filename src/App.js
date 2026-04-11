@@ -157,6 +157,9 @@ const musicDatabase = [
 { id: 141, title: "Tyron dans la rue", artist: "Tresko", album: "Le_Bisounours_", duration: "2:43", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique141.mp3", genre: "IA" },
 { id: 142, title: "Nuit d'épouvante", artist: "Tresko", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique142.mp3", genre: "IA" },
 { id: 143, title: "Frère Rookie", artist: "Tresko", album: "Le_Bisounours_", duration: "3:13", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique143.mp3", genre: "IA" },
+{ id: 144, title: "Empire contre République", artist: "Tresko", album: "Le_Bisounours_", duration: "2:40", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique144.mp3", genre: "IA" },
+{ id: 145, title: "Naissance d'une Légende", artist: "Tresko", album: "Le_Bisounours_", duration: "3:04", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique145.mp3", genre: "IA" },
+{ id: 146, title: "Station Astromète", artist: "Tresko", album: "Le_Bisounours_", duration: "3:43", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique146.mp3", genre: "IA" },
 ];
 
 const soundDatabase = [
