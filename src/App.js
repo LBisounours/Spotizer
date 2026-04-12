@@ -161,6 +161,7 @@ const musicDatabase = [
 { id: 145, title: "Naissance d'une Légende", artist: "Tresko", album: "Le_Bisounours_", duration: "3:04", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique145.mp3", genre: "IA" },
 { id: 146, title: "Station Astromète", artist: "Tresko", album: "Le_Bisounours_", duration: "3:43", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique146.mp3", genre: "IA" },
 { id: 147, title: "Ombre dans l'espace", artist: "Tresko", album: "Le_Bisounours_", duration: "2:42", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique147.mp3", genre: "IA" },
+{ id: 148, title: "Ashen & Devon", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique148.mp3", genre: "IA" },
 ];
 
 const soundDatabase = [
