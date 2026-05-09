@@ -424,56 +424,65 @@ if ('mediaSession' in navigator) {
 navigator.mediaSession.metadata = new window.MediaMetadata({
 title: track.title, artist: track.artist, album: track.album || '',
 artwork: [{ src: track.cover, sizes: '512x512', type: 'image/png' }]
-});if (!navigator.mediaSession._handlersSet) {
-navigator.mediaSession.setActionHandler('play', () => { audioRef.current?.play(); setIsPlaying(true); });
-navigator.mediaSession.setActionHandler('pause', () => { audioRef.current?.pause(); setIsPlaying(false); });
-navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
-navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
-navigator.mediaSession.setActionHandler('seekforward', () => { audioRef.current.currentTime += 10000; });
-navigator.mediaSession.setActionHandler('seekbackward', () => { audioRef.current.currentTime -= 10000; });
-navigator.mediaSession._handlersSet = true;
-}
+});
 }
 }, []);const nextTrack = useCallback(() => {
 if (currentQueue.length === 0) return;
 const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
-let nextIndex;if (isRepeatMode === 1) { nextIndex = (currentIndex + 1) % currentQueue.length; }else {
-nextIndex = currentIndex + 1;
-if (nextIndex >= currentQueue.length) {
-if (isRepeatMode === 0) { setIsPlaying(false); setCurrentTrack(null); setCurrentTime(0); return; }
-nextIndex = 0;
+let nextIndex;
+if (isRepeatMode === 1) { 
+  nextIndex = (currentIndex + 1) % currentQueue.length; 
+} else {
+  nextIndex = currentIndex + 1;
+  if (nextIndex >= currentQueue.length) {
+    if (isRepeatMode === 0) { 
+      setIsPlaying(false); 
+      setCurrentTrack(null); 
+      setCurrentTime(0); 
+      return; 
+    }
+    nextIndex = 0;
+  }
 }
-}if (currentQueue[nextIndex]) {
-const nextTrackData = currentQueue[nextIndex];
-setCurrentTrack(nextTrackData);
-setIsPlaying(true);
-setLastPlayTime(0);
-addToHistory(nextTrackData);
-updateMediaSessionMetadata(nextTrackData);const audio = audioRef.current;
-if (audio) {
-audio.oncanplaythrough = null;
-audio.pause();
-audio.volume = isMuted ? 0 : volume; audio.load();
-audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste suivante:', e)); };
-}
+if (currentQueue[nextIndex]) {
+  const nextTrackData = currentQueue[nextIndex];
+  setCurrentTrack(nextTrackData);
+  setIsPlaying(true);
+  setLastPlayTime(0);
+  addToHistory(nextTrackData);
+  updateMediaSessionMetadata(nextTrackData);
+  const audio = audioRef.current;
+  if (audio) {
+    audio.oncanplaythrough = null;
+    audio.pause();
+    audio.volume = isMuted ? 0 : volume;
+    audio.load();
+    audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste suivante:', e)); };
+  }
 }
 }, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata, isMuted, volume]);const previousTrack = useCallback(() => {
 if (currentQueue.length === 0) return;
-if (audioRef.current && currentTime > 3) { audioRef.current.currentTime = 0; return; }const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
-let prevIndex;if (isRepeatMode === 1) { prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1; }
-else { prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1; }if (currentQueue[prevIndex]) {
-const prevTrackData = currentQueue[prevIndex];
-setCurrentTrack(prevTrackData);
-setIsPlaying(true);
-setLastPlayTime(0);
-addToHistory(prevTrackData);
-updateMediaSessionMetadata(prevTrackData);const audio = audioRef.current;
-if (audio) {
-audio.oncanplaythrough = null;
-audio.pause();
-audio.volume = isMuted ? 0 : volume; audio.load();
-audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste précédente:', e)); };
+if (audioRef.current && currentTime > 3) { 
+  audioRef.current.currentTime = 0; 
+  return; 
 }
+const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
+let prevIndex = currentIndex === 0 ? currentQueue.length - 1 : currentIndex - 1;
+if (currentQueue[prevIndex]) {
+  const prevTrackData = currentQueue[prevIndex];
+  setCurrentTrack(prevTrackData);
+  setIsPlaying(true);
+  setLastPlayTime(0);
+  addToHistory(prevTrackData);
+  updateMediaSessionMetadata(prevTrackData);
+  const audio = audioRef.current;
+  if (audio) {
+    audio.oncanplaythrough = null;
+    audio.pause();
+    audio.volume = isMuted ? 0 : volume;
+    audio.load();
+    audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur lecture piste précédente:', e)); };
+  }
 }
 }, [currentQueue, currentTrack, isRepeatMode, addToHistory, updateMediaSessionMetadata, currentTime, isMuted, volume]);const playTrack = useCallback((track, playlist = null) => {
 setCurrentTrack(track);
@@ -497,15 +506,27 @@ audio.pause();
 audio.volume = isMuted ? 0 : volume; audio.load();
 audio.oncanplaythrough = () => { audio.play().catch(e => console.log('Erreur de lecture:', e)); };
 }
-}, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue, updateMediaSessionMetadata, isMuted, volume]);useEffect(() => {
-const audio = audioRef.current;
-if (audio) { audio.volume = isMuted ? 0 : volume; }
-localStorage.setItem('spotizer-volume', volume.toString());
-}, [volume, isMuted]);useEffect(() => {
-const savedPlaylists = localStorage.getItem('deezer-playlists');
-if (savedPlaylists) { setPlaylists(JSON.parse(savedPlaylists)); } else { setPlaylists(defaultPlaylists); }
-}, []);useEffect(() => {
-if (playlists.length > 0) { localStorage.setItem('deezer-playlists', JSON.stringify(playlists)); }
+}, [isShuffleMode, selectedPlaylist, addToHistory, shuffleArray, initializeQueue, updateMediaSessionMetadata, isMuted, volume]);
+
+useEffect(() => {
+  const audio = audioRef.current;
+  if (audio) { audio.volume = isMuted ? 0 : volume; }
+  localStorage.setItem('spotizer-volume', volume.toString());
+}, [volume, isMuted]);
+
+useEffect(() => {
+  const savedPlaylists = localStorage.getItem('deezer-playlists');
+  if (savedPlaylists) { 
+    setPlaylists(JSON.parse(savedPlaylists)); 
+  } else { 
+    setPlaylists(defaultPlaylists); 
+  }
+}, []);
+
+useEffect(() => {
+  if (playlists.length > 0) { 
+    localStorage.setItem('deezer-playlists', JSON.stringify(playlists)); 
+  }
 }, [playlists]);useEffect(() => {
 const audio = audioRef.current;
 if (!audio) return;

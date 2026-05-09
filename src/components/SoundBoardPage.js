@@ -33,7 +33,7 @@ const SoundBoardPage = ({ soundDatabase, selectedBoardFromSidebar, onBoardChange
     if (selectedBoard) {
       setSelectedSoundBoardForShortcuts(selectedBoard.id);
     }
-  }, [selectedBoard, setSelectedSoundBoardForShortcuts]);
+  }, [selectedBoard]);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
