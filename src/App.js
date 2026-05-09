@@ -29,7 +29,7 @@ const musicDatabase = [
 { id: 14, title: "Fairytale", artist: "Alexander Rybak", album: "Le_Bisounours_", duration: "3:02", cover: "Musique/Images/font14.png", audioUrl: "Musique/Musique14.mp3", genre: "Pop" },
 { id: 15, title: "Malade", artist: "Roméo Elvis", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "Rap" }, 
 { id: 16, title: "Bling-Bang-Bang-Born", artist: "Mashle", album: "Le_Bisounours_", duration: "2:48", cover: "Musique/Images/font16.png", audioUrl: "Musique/Musique16.mp3", genre: "Opening" }, 
-{ id: 17, title: "Body Talks", artist: "The Struts", album: "Le_Bisounours_", duration: "3:00", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musique17.mp3", genre: "Rock" },
+{ id: 17, title: "Body Talks", artist: "The Struts", album: "Le_Bisounours_", duration: "3:00", cover: "Musique/Images/font17.png", audioUrl: "Musique/Musi que17.mp3", genre: "Rock" },
 { id: 18, title: "Colors By Flow", artist: "Code Geass", album: "Le_Bisounours_", duration: "3:38", cover: "Musique/Images/font18.png", audioUrl: "Musique/Musique18.mp3", genre: "Opening" }, 
 { id: 19, title: "Dans l'univers", artist: "Nekfeu", album: "Le_Bisounours_", duration: "4:06", cover: "Musique/Images/font19.png", audioUrl: "Musique/Musique19.mp3", genre: "Rap" },
 { id: 38, title: "Astronaute", artist: "Nekfeu", album: "Le_Bisounours_", duration: "6:58", cover: "Musique/Images/font38.png", audioUrl: "Musique/Musique38.mp3", genre: "Rap" },
@@ -162,11 +162,12 @@ const musicDatabase = [
 { id: 146, title: "Station Astromète", artist: "Tresko", album: "Le_Bisounours_", duration: "3:43", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique146.mp3", genre: "IA" },
 { id: 147, title: "Ombre dans l'espace", artist: "Tresko", album: "Le_Bisounours_", duration: "2:42", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique147.mp3", genre: "IA" },
 { id: 148, title: "Ashen & Devon", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique148.mp3", genre: "IA" },
-{ id: 149, title: "Tyron, bloods dans le sang", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique149.mp3", genre: "IA" },
-{ id: 150, title: "Fairy Tail Theme Song", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique150.mp3", genre: "IA" },
-{ id: 151, title: "Inazuma Eleven Go Chrono Stone OST - Battle! Fighting", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique151.mp3", genre: "IA" },
-{ id: 152, title: "Inazuma Eleven OST - Burning Phase Special AI", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique152.mp3", genre: "IA" },
-{ id: 153, title: "Inazuma11 OST 1 - The crusade of God", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique153.mp3", genre: "IA" },
+{ id: 149, title: "Tyron, bloods dans le sang", artist: "Tresko", album: "Le_Bisounours_", duration: "1:58", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique149.mp3", genre: "IA" },
+{ id: 150, title: "Fairy Tail Theme Song", artist: "Tresko", album: "Le_Bisounours_", duration: "2:19", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique150.mp3", genre: "IA" },
+{ id: 151, title: "Inazuma Eleven Go Chrono Stone OST - Battle! Fighting", artist: "Tresko", album: "Le_Bisounours_", duration: "3:29", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique151.mp3", genre: "IA" },
+{ id: 152, title: "Inazuma Eleven OST - Burning Phase Special AI", artist: "Tresko", album: "Le_Bisounours_", duration: "2:39", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique152.mp3", genre: "IA" },
+{ id: 153, title: "Inazuma11 OST 1 - The crusade of God", artist: "Tresko", album: "Le_Bisounours_", duration: "2:22", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique153.mp3", genre: "IA" },
+{ id: 154, title: "Une galaxie lointaine remake", artist: "Tresko", album: "Le_Bisounours_", duration: "2:47", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique154.mp3", genre: "IA" },
 ];
 
 const soundDatabase = [
