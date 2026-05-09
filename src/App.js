@@ -162,6 +162,11 @@ const musicDatabase = [
 { id: 146, title: "Station Astromète", artist: "Tresko", album: "Le_Bisounours_", duration: "3:43", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique146.mp3", genre: "IA" },
 { id: 147, title: "Ombre dans l'espace", artist: "Tresko", album: "Le_Bisounours_", duration: "2:42", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique147.mp3", genre: "IA" },
 { id: 148, title: "Ashen & Devon", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique148.mp3", genre: "IA" },
+{ id: 149, title: "Tyron, bloods dans le sang", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique149.mp3", genre: "IA" },
+{ id: 150, title: "Fairy Tail Theme Song", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique150.mp3", genre: "IA" },
+{ id: 151, title: "Inazuma Eleven Go Chrono Stone OST - Battle! Fighting", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique151.mp3", genre: "IA" },
+{ id: 152, title: "Inazuma Eleven OST - Burning Phase Special AI", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique152.mp3", genre: "IA" },
+{ id: 153, title: "Inazuma11 OST 1 - The crusade of God", artist: "Tresko", album: "Le_Bisounours_", duration: "3:14", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique153.mp3", genre: "IA" },
 ];
 
 const soundDatabase = [
