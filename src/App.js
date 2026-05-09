@@ -955,7 +955,7 @@ Le_Bisounours_
 </div><div className="section">
 <h2 className="section-title">Titres populaires</h2>
 <div className="grid grid-cols-6">
-{musicDatabase.slice(0, 150).map(track => ( 
+{musicDatabase.slice(0, 300).map(track => ( 
 <div
 key={track.id}
 className="card"
