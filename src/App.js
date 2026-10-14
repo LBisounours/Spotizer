@@ -168,6 +168,7 @@ const musicDatabase = [
 { id: 152, title: "Inazuma Eleven OST - Burning Phase Special AI", artist: "Tresko", album: "Le_Bisounours_", duration: "2:39", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique152.mp3", genre: "IA" },
 { id: 153, title: "Inazuma11 OST 1 - The crusade of God", artist: "Tresko", album: "Le_Bisounours_", duration: "2:22", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique153.mp3", genre: "IA" },
 { id: 154, title: "Une galaxie lointaine remake", artist: "Tresko", album: "Le_Bisounours_", duration: "2:47", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique154.mp3", genre: "IA" },
+{ id: 155, title: "Lugia's Song (The Legend Comes To Life)", artist: "Anthony Lo Re", album: "Le_Bisounours_", duration: "1:02:35", cover: "Musique/Images/font99.png", audioUrl: "Musique/Musique155.mp3", genre: "Opening" },
 ];
 
 const soundDatabase = [
