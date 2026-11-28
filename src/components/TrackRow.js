@@ -1,12 +1,17 @@
 import React from 'react';
 import { HeartButton, EqBars } from './Common';
+import DownloadButton from './DownloadButton';
 import { primaryArtist } from '../utils';
+import { useMusic } from '../contexts/MusicContext';
 
 // Ligne de titre réutilisable (collections, recherche...)
 const TrackRow = React.memo(({
   track, index, isCurrent, isPlaying, currentTheme,
   onPlay, onAddToPlaylist, onAddToQueue, onContextMenu, onOpenArtist, onOpenGenre
-}) => (
+}) => {
+  const { playStats } = useMusic();
+  const plays = playStats[track.id] || 0;
+  return (
   <div
     className={`track-item ${isCurrent ? 'is-current' : ''}`}
     onClick={() => onPlay(track)}
@@ -50,6 +55,7 @@ const TrackRow = React.memo(({
       <div className="track-genre">{track.genre}</div>
     )}
     <HeartButton track={track} />
+    <DownloadButton track={track} />
     <button
       className="add-to-playlist-btn-small"
       onClick={(e) => { e.stopPropagation(); onAddToPlaylist(track); }}
@@ -76,8 +82,10 @@ const TrackRow = React.memo(({
         ⋯
       </button>
     )}
+    {plays > 0 && <span className="play-badge" title={`${plays} écoute${plays > 1 ? 's' : ''}`}>▶ {plays}</span>}
     <div className="track-duration">{track.duration}</div>
   </div>
-));
+  );
+});
 
 export default TrackRow;

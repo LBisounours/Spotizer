@@ -19,6 +19,10 @@ export const useKeyboardShortcuts = ({
   onFocusSearch,
   onEscape,
   onShowHelp,
+  onSpeedUp,
+  onSpeedDown,
+  onAbLoop,
+  onSeekPercent,
   isEnabled = true
 }) => {
   const handleKeyDown = useCallback((e) => {
@@ -43,6 +47,13 @@ export const useKeyboardShortcuts = ({
       e.preventDefault();
       onFocusSearch?.();
       return;
+    }
+
+    if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+      if (e.key === ']') { e.preventDefault(); onSpeedUp?.(); return; }
+      if (e.key === '[') { e.preventDefault(); onSpeedDown?.(); return; }
+      if (e.code === 'KeyB') { e.preventDefault(); onAbLoop?.(); return; }
+      if (/^Digit[0-9]$/.test(e.code) && !e.shiftKey) { e.preventDefault(); onSeekPercent?.(Number(e.code.slice(5)) / 10); return; }
     }
 
     if (e.key === '?') {
@@ -151,7 +162,7 @@ export const useKeyboardShortcuts = ({
       onToggleQueue?.();
       return;
     }
-  }, [onPlayPause, onNext, onPrevious, onVolumeUp, onVolumeDown, onMute, onShuffle, onRepeat, onToggleQueue, onPlaySoundBoardSound, onSeekForward, onSeekBack, onLike, onFullscreen, onFocusSearch, onEscape, onShowHelp]);
+  }, [onPlayPause, onNext, onPrevious, onVolumeUp, onVolumeDown, onMute, onShuffle, onRepeat, onToggleQueue, onPlaySoundBoardSound, onSeekForward, onSeekBack, onLike, onFullscreen, onFocusSearch, onEscape, onShowHelp, onSpeedUp, onSpeedDown, onAbLoop, onSeekPercent]);
 
   useEffect(() => {
     if (!isEnabled) return;

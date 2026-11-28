@@ -19,7 +19,7 @@ const HomePage = ({
   onPlay, onPlayAll, onShuffleAll, onAddToPlaylist, onAddToQueue, onContextMenu,
   onOpenArtist, onOpenMood, onOpenGenre, onOpenLiked, onOpenLibrary
 }) => {
-  const { listeningHistory, getRecommendations, getTopArtists } = useMusic();
+  const { listeningHistory, getRecommendations, getTopArtists, playStats, getTopTracks } = useMusic();
   const { likedIds } = useLibrary();
   const [surpriseSeed, setSurpriseSeed] = useState(0);
 
@@ -52,6 +52,23 @@ const HomePage = ({
   const liked = useMemo(
     () => likedIds.map((id) => musicDatabase.find((t) => t.id === id)).filter(Boolean),
     [likedIds, musicDatabase]
+  );
+
+  // Mix du jour : le même toute la journée (graine = date), différent demain
+  const dailyMix = useMemo(() => {
+    const d = new Date(); let seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+    const a = [...musicDatabase];
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a.slice(0, 15);
+  }, [musicDatabase]);
+  const neverPlayed = useMemo(
+    () => musicDatabase.filter((t) => !playStats[t.id]).slice(0, 15),
+    [musicDatabase, playStats]
+  );
+  const mostPlayed = useMemo(
+    () => getTopTracks(musicDatabase, 12).map((t) => musicDatabase.find((x) => x.id === t.id)).filter(Boolean),
+    [getTopTracks, musicDatabase]
   );
 
   const sections = useMemo(() => ([
@@ -143,7 +160,15 @@ const HomePage = ({
         </div>
       )}
 
+      <Row title="🗓️ Ton mix du jour">{dailyMix.map((t) => card(t, dailyMix))}</Row>
+
+      {mostPlayed.length >= 3 && <Row title="🔥 Tes plus écoutés">{mostPlayed.map((t) => card(t, mostPlayed))}</Row>}
+
       <Row title="Recommandé pour toi">{recommended.map((t) => card(t, recommended))}</Row>
+
+      {neverPlayed.length >= 3 && Object.keys(playStats).length > 0 && (
+        <Row title="🌱 Pas encore écoutés">{neverPlayed.map((t) => card(t, neverPlayed))}</Row>
+      )}
 
       {liked.length > 0 && (
         <Row title="Tes titres likés" onSeeAll={onOpenLiked}>

@@ -2,6 +2,10 @@ import React, { useMemo, useState } from 'react';
 import TrackRow from './TrackRow';
 import TrackCard from './TrackCard';
 import { useLibrary } from '../contexts/LibraryContext';
+import { useOffline } from '../contexts/OfflineContext';
+import { useMusic } from '../contexts/MusicContext';
+import { useToast } from '../contexts/ToastContext';
+import { copyText } from '../utils';
 import { normalize, parseDuration, formatTotal } from '../utils';
 
 const SORTS = [
@@ -21,6 +25,11 @@ const CollectionView = ({
   onBack
 }) => {
   const { settings, updateSetting } = useLibrary();
+  const off = useOffline();
+  const { playStats } = useMusic();
+  const { likedIds } = useLibrary();
+  const { toast } = useToast();
+  const [only, setOnly] = useState(null); // 'dl' | 'liked' | 'new'
   const [sort, setSort] = useState('default');
   const [filter, setFilter] = useState('');
   const [genre, setGenre] = useState(null);
@@ -34,6 +43,9 @@ const CollectionView = ({
   const visible = useMemo(() => {
     let list = tracks;
     if (genre) list = list.filter((t) => t.genre === genre);
+    if (only === 'dl') list = list.filter((t) => off && off.downloaded[t.id]);
+    if (only === 'liked') list = list.filter((t) => likedIds.includes(t.id));
+    if (only === 'new') list = list.filter((t) => !playStats[t.id]);
     const tokens = normalize(filter).split(/\s+/).filter(Boolean);
     if (tokens.length) {
       list = list.filter((t) => {
@@ -51,7 +63,7 @@ const CollectionView = ({
       default: break;
     }
     return sorted;
-  }, [tracks, genre, filter, sort]);
+  }, [tracks, genre, filter, sort, only, off, likedIds, playStats]);
 
   const totalSeconds = useMemo(
     () => visible.reduce((sum, t) => sum + parseDuration(t.duration), 0),
@@ -100,8 +112,24 @@ const CollectionView = ({
             >
               🔀 Aléatoire
             </button>
+            {off && off.supported && visible.length > 0 && (
+              <button className="shuffle-playlist-btn dl-all-btn" onClick={() => off.downloadMany(visible)}
+                style={{ background: 'rgba(255,255,255,.12)' }}>
+                ⬇️ Télécharger{visible.every((t) => off.downloaded[t.id]) ? ' ✓' : ''}
+              </button>
+            )}
           </div>
         </div>
+      </div>
+
+      <div className="quick-filters">
+        {[['dl', '⬇️ Téléchargés'], ['liked', '💜 Likés'], ['new', '🌱 Jamais écoutés']].map(([id, label]) => (
+          <button key={id} className={`qf-chip ${only === id ? 'on' : ''}`} onClick={() => setOnly(only === id ? null : id)}>{label}</button>
+        ))}
+        <button className="qf-chip" disabled={!visible.length} onClick={async () => {
+          await copyText(visible.map((t, i) => `${i + 1}. ${t.title} – ${t.artist}`).join('\n'));
+          toast('Liste copiée dans le presse-papiers', '📋');
+        }}>📋 Copier la liste</button>
       </div>
 
       <div className="collection-toolbar">

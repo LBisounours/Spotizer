@@ -21,6 +21,11 @@ import CollectionView from './components/CollectionView';
 import ContextMenu from './components/ContextMenu';
 import NowPlayingFull from './components/NowPlayingFull';
 import HomePage from './components/HomePage';
+import DownloadsPage from './components/DownloadsPage';
+import BottomNav from './components/BottomNav';
+import BlindTest from './components/BlindTest';
+import { OfflineProvider, useOffline } from './contexts/OfflineContext';
+import { getBlobUrl } from './offline';
 import SearchPage from './components/SearchPage';
 import SettingsPage from './components/SettingsPage';
 import { HeartButton } from './components/Common';
@@ -360,7 +365,7 @@ style={{ width: '100%' }}
 </div>
 );
 };
-const RATES = [0.75, 1, 1.25, 1.5, 2];
+const RATES = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 // Reprise de la dernière lecture (titre, file, position) au rechargement de la page
 const loadSession = () => {
@@ -384,6 +389,15 @@ const { isDarkMode, currentTheme } = useTheme();
 const { addToHistory, addListeningTime, sleepTimerActive, sleepTimerRemaining, getRecommendations } = useMusic();
 const { settings, likedIds, isLiked, toggleLike, addRecentSearch } = useLibrary();
 const { toast } = useToast();
+const off = useOffline();
+const offRef = useRef(off); offRef.current = off;
+const wantPlayRef = useRef(false);
+const settingsRef = useRef(settings); settingsRef.current = settings;
+const navMeta = useRef({ fromPop: false, first: true });
+const [abLoop, setAbLoop] = useState({ a: null, b: null });
+const abRef = useRef(abLoop); abRef.current = abLoop;
+const [scrubHover, setScrubHover] = useState(null);
+const [blobSrc, setBlobSrc] = useState({ id: null, url: null });
 const { 
 soundBoards, 
 createSoundBoard, 
@@ -514,7 +528,109 @@ title: track.title, artist: track.artist, album: track.album || '',
 artwork: [{ src: track.cover, sizes: '512x512', type: 'image/png' }]
 });
 }
-}, []);const loadAndPlay = useCallback((t) => {
+}, []);const navLive = useRef({});
+navLive.current = { currentPage, pageParam, plId: selectedPlaylist?.id ?? null, playlists, showFullPlayer };
+useEffect(() => {
+const st = { page: currentPage, param: pageParam, pl: selectedPlaylist?.id ?? null };
+try {
+if (navMeta.current.first) { navMeta.current.first = false; window.history.replaceState(st, ''); return; }
+if (navMeta.current.fromPop) { navMeta.current.fromPop = false; return; }
+window.history.pushState(st, '');
+} catch (e) {}
+}, [currentPage, pageParam, selectedPlaylist]);
+useEffect(() => {
+const onPop = (e) => {
+const st = e.state; const live = navLive.current;
+if (live.showFullPlayer) { setShowFullPlayer(false); return; }
+if (!st || !st.page) return;
+const samePl = (st.pl ?? null) === live.plId;
+if (st.page === live.currentPage && JSON.stringify(st.param ?? null) === JSON.stringify(live.pageParam ?? null) && samePl) return;
+navMeta.current.fromPop = true;
+setCurrentPage(st.page); setPageParam(st.param ?? null);
+setSelectedPlaylist(st.pl != null ? (live.playlists.find((p) => p.id === st.pl) || null) : null);
+};
+window.addEventListener('popstate', onPop);
+return () => window.removeEventListener('popstate', onPop);
+}, []);
+useEffect(() => {
+if (showFullPlayer) { try { window.history.pushState({ page: currentPage, param: pageParam, pl: selectedPlaylist?.id ?? null, fp: 1 }, ''); } catch (e) {} }
+}, [showFullPlayer]);
+useEffect(() => {
+let timer = null; let sx = 0; let sy = 0; let fired = false;
+const clear = () => { clearTimeout(timer); timer = null; };
+const start = (e) => {
+if (e.touches.length !== 1) return;
+const el = e.target.closest && e.target.closest('.track-item, .card');
+if (!el) return;
+sx = e.touches[0].clientX; sy = e.touches[0].clientY; fired = false;
+timer = setTimeout(() => {
+fired = true; try { navigator.vibrate && navigator.vibrate(15); } catch (err) {}
+el.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: sx, clientY: sy }));
+}, 550);
+};
+const move = (e) => { if (timer && (Math.abs(e.touches[0].clientX - sx) > 10 || Math.abs(e.touches[0].clientY - sy) > 10)) clear(); };
+const end = (e) => { clear(); if (fired) { e.preventDefault(); fired = false; } };
+window.addEventListener('touchstart', start, { passive: true });
+window.addEventListener('touchmove', move, { passive: true });
+window.addEventListener('touchend', end);
+window.addEventListener('touchcancel', clear);
+return () => { window.removeEventListener('touchstart', start); window.removeEventListener('touchmove', move); window.removeEventListener('touchend', end); window.removeEventListener('touchcancel', clear); };
+}, []);
+const [coverRgb, setCoverRgb] = useState('147,51,234');
+useEffect(() => {
+if (!currentTrack || !settings.dynamicColor) return undefined;
+let alive = true;
+const img = new Image();
+img.onload = () => {
+try {
+const c = document.createElement('canvas'); c.width = 12; c.height = 12;
+const g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(img, 0, 0, 12, 12);
+const d = g.getImageData(0, 0, 12, 12).data;
+let r = 0, gg = 0, b = 0, w = 0;
+for (let i = 0; i < d.length; i += 4) {
+const mx = Math.max(d[i], d[i + 1], d[i + 2]); const mn = Math.min(d[i], d[i + 1], d[i + 2]);
+const wt = 0.15 + (mx - mn) / 255 + (mx > 40 ? 0.2 : 0);
+r += d[i] * wt; gg += d[i + 1] * wt; b += d[i + 2] * wt; w += wt;
+}
+if (alive && w) setCoverRgb(`${Math.round(r / w)},${Math.round(gg / w)},${Math.round(b / w)}`);
+} catch (e) { /* image non lisible */ }
+};
+img.src = currentTrack.cover;
+return () => { alive = false; };
+}, [currentTrack, settings.dynamicColor]);
+useEffect(() => {
+const onErr = (e) => {
+const t = e.target;
+if (t && t.tagName === 'IMG' && !t.dataset.fb) { t.dataset.fb = '1'; t.src = 'Musique/Images/Bisounours.png'; }
+};
+window.addEventListener('error', onErr, true);
+return () => window.removeEventListener('error', onErr, true);
+}, []);
+useEffect(() => {
+if (!settings.wakeLock || !isPlaying || !('wakeLock' in navigator)) return undefined;
+let lock = null; let cancelled = false;
+const grab = () => navigator.wakeLock.request('screen').then((l) => { if (cancelled) l.release(); else lock = l; }).catch(() => {});
+grab();
+const vis = () => { if (document.visibilityState === 'visible' && (!lock || lock.released)) grab(); };
+document.addEventListener('visibilitychange', vis);
+return () => { cancelled = true; document.removeEventListener('visibilitychange', vis); if (lock) lock.release().catch(() => {}); };
+}, [settings.wakeLock, isPlaying]);
+useEffect(() => {
+if (!settings.autoDownloadLikes || !off.ready || !off.online || !off.supported) return;
+const todo = likedIds.map((id) => musicDatabase.find((t) => t.id === id)).filter((t) => t && !off.downloaded[t.id]);
+if (todo.length) off.downloadMany(todo, { silent: true });
+}, [settings.autoDownloadLikes, likedIds, off.ready, off.online]);
+const wasDownloaded = !!(currentTrack && off.downloaded[currentTrack.id]);
+useEffect(() => {
+  if (!currentTrack || !wasDownloaded) return undefined;
+  let alive = true; let made = null;
+  getBlobUrl(currentTrack).then((u) => { if (!alive) { if (u) URL.revokeObjectURL(u); return; } made = u; setBlobSrc({ id: currentTrack.id, url: u || 'none' }); }).catch(() => { if (alive) setBlobSrc({ id: currentTrack.id, url: 'none' }); });
+  return () => { alive = false; if (made) setTimeout(() => URL.revokeObjectURL(made), 1000); };
+}, [currentTrack, wasDownloaded]);
+const audioSrc = !currentTrack ? undefined : (wasDownloaded ? (blobSrc.id === currentTrack.id ? (blobSrc.url === 'none' ? currentTrack.audioUrl : blobSrc.url) : undefined) : currentTrack.audioUrl);
+const loadAndPlay = useCallback((t) => {
+wantPlayRef.current = true;
+setAbLoop({ a: null, b: null });
 pendingSeekRef.current = 0;
 setCurrentTrack(t);
 setIsPlaying(true);
@@ -556,16 +672,24 @@ if (isRepeatMode === 1) {
     nextIndex = 0;
   }
 }
-if (currentQueue[nextIndex]) loadAndPlay(currentQueue[nextIndex]);
+for (let i = 0; i < currentQueue.length; i++) {
+const cand = currentQueue[(nextIndex + i) % currentQueue.length];
+if (cand && offRef.current.canPlay(cand)) { loadAndPlay(cand); return; }
+}
+toast('Aucun titre disponible hors-ligne dans la file', '📡'); setIsPlaying(false);
 }, [currentQueue, currentTrack, isRepeatMode, settings.autoplaySimilar, getRecommendations, loadAndPlay, toast]);
 const previousTrack = useCallback(() => {
 if (currentQueue.length === 0) return;
 if (audioRef.current && currentTime > 3) { audioRef.current.currentTime = 0; return; }
 const currentIndex = currentQueue.findIndex(track => track.id === currentTrack?.id);
 const prevIndex = currentIndex <= 0 ? currentQueue.length - 1 : currentIndex - 1;
-if (currentQueue[prevIndex]) loadAndPlay(currentQueue[prevIndex]);
+for (let i = 0; i < currentQueue.length; i++) {
+const cand = currentQueue[((prevIndex - i) % currentQueue.length + currentQueue.length) % currentQueue.length];
+if (cand && offRef.current.canPlay(cand)) { loadAndPlay(cand); return; }
+}
 }, [currentQueue, currentTrack, currentTime, loadAndPlay]);
 const playTrack = useCallback((track, playlist = null, opts = {}) => {
+if (!offRef.current.canPlay(track)) { toast('Hors-ligne : télécharge ce titre pour l\'écouter sans internet', '📡'); return; }
 const sourceList = playlist?.tracks || musicDatabase;
 queueSourceRef.current = sourceList;
 if (opts.keepOrder) {
@@ -579,7 +703,7 @@ setCurrentQueue(shuffledList);
 setCurrentQueue(initializeQueue(track, sourceList));
 }
 loadAndPlay(track);
-}, [isShuffleMode, shuffleArray, initializeQueue, loadAndPlay]);
+}, [isShuffleMode, shuffleArray, initializeQueue, loadAndPlay, toast]);
 
 useEffect(() => {
   const audio = audioRef.current;
@@ -653,6 +777,9 @@ useEffect(() => {
 const audio = audioRef.current;
 if (!audio) return;
 const handleTimeUpdate = () => {
+try { if ('mediaSession' in navigator && navigator.mediaSession.setPositionState && audio.duration && isFinite(audio.duration) && Math.floor(audio.currentTime) % 5 === 0) navigator.mediaSession.setPositionState({ duration: audio.duration, playbackRate: audio.playbackRate || 1, position: Math.min(audio.currentTime, audio.duration) }); } catch (e) {}
+const lp = abRef.current;
+if (lp.a !== null && lp.b !== null && audio.currentTime >= lp.b) { audio.currentTime = lp.a; }
 setCurrentTime(audio.currentTime);
 try { if (npChannel.current) npChannel.current.postMessage({ type: 'time', currentTime: audio.currentTime, duration: audio.duration || 0 }); } catch (e) {}
 const currentSec = Math.floor(audio.currentTime);
@@ -677,6 +804,7 @@ audio.removeEventListener('ended', handleEnded);
 };
 }, [currentTrack, isRepeatMode, lastPlayTime, addListeningTime, nextTrack, toast]); const togglePlayPause = useCallback(() => {
 if (!audioRef.current || !currentTrack) return;
+try { if (settingsRef.current.haptics && navigator.vibrate) navigator.vibrate(8); } catch (e) {}
 if (isPlaying) { audioRef.current.pause(); setIsPlaying(false); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused'; }else { audioRef.current.play().catch(e => console.log('Erreur de lecture:', e)); setIsPlaying(true); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'; }
 }, [isPlaying, currentTrack]);const handleProgressClick = (e) => {
 if (!audioRef.current || !duration) return;
@@ -728,6 +856,21 @@ setCurrentTime(a.currentTime);
 }, []);
 const seekForward = useCallback(() => seekBy(10), [seekBy]);
 const seekBack = useCallback(() => seekBy(-10), [seekBy]);
+const stepRate = useCallback((dir) => {
+const i = RATES.indexOf(playbackRate);
+const next = RATES[Math.max(0, Math.min(RATES.length - 1, (i < 0 ? 2 : i) + dir))];
+setPlaybackRate(next);
+toast(`Vitesse de lecture : ${next}x`, '⏩');
+}, [playbackRate, toast]);
+const setRateTo = useCallback((r) => { setPlaybackRate(r); toast(`Vitesse de lecture : ${r}x`, '⏩'); }, [toast]);
+const toggleAbLoop = useCallback(() => {
+const audio = audioRef.current; if (!audio || !currentTrack) return;
+const lp = abRef.current;
+if (lp.a === null) { setAbLoop({ a: audio.currentTime, b: null }); toast('Boucle : point A posé', '🅰️'); }
+else if (lp.b === null) { if (audio.currentTime - lp.a < 1) { toast('Point B trop proche de A', '⚠️'); return; } setAbLoop({ a: lp.a, b: audio.currentTime }); toast('Boucle A-B active', '🔁'); }
+else { setAbLoop({ a: null, b: null }); toast('Boucle A-B désactivée', '⏹️'); }
+}, [currentTrack, toast]);
+const seekPercent = useCallback((p) => { const audio = audioRef.current; if (audio && audio.duration) { audio.currentTime = audio.duration * p; setCurrentTime(audio.currentTime); } }, []);
 const cycleRate = useCallback(() => {
 const next = RATES[(RATES.indexOf(playbackRate) + 1) % RATES.length];
 setPlaybackRate(next);
@@ -850,6 +993,10 @@ return () => ['play', 'pause', 'nexttrack', 'previoustrack', 'seekbackward', 'se
     onFocusSearch: focusSearch,
     onEscape: handleEscape,
     onShowHelp: () => setShowShortcutsHelp(true),
+    onSpeedUp: () => stepRate(1),
+    onSpeedDown: () => stepRate(-1),
+    onAbLoop: toggleAbLoop,
+    onSeekPercent: seekPercent,
     isEnabled: true
   });
 
@@ -989,7 +1136,11 @@ playlist: openAddToPlaylistModal,
 like: likeTrack,
 artist: (t) => openArtist(primaryArtist(t.artist)),
 genre: (t) => openGenre(t.genre),
-copy: copyForChat
+copy: copyForChat,
+share: (t) => { const data = { title: t.title, text: `🎵 ${t.title} – ${t.artist}` }; if (navigator.share) navigator.share(data).catch(() => {}); else copyForChat(t); },
+canShare: !!navigator.share,
+download: (t) => (offRef.current.isDownloaded(t.id) ? offRef.current.remove(t) : offRef.current.download(t)),
+isDownloaded: (t) => offRef.current.isDownloaded(t.id)
 };
 const clearQueue = () => {
 if (currentTrack) { setCurrentQueue([currentTrack]); } else { setCurrentQueue([]); }
@@ -1004,16 +1155,18 @@ updatePlaylist(updatedPlaylist);
 };const themeStyle = {
 '--theme-primary': currentTheme.primary, '--theme-secondary': currentTheme.secondary, '--theme-accent': currentTheme.accent, '--theme-gradient': currentTheme.gradient
 };return (
-<div className={`App ${isDarkMode ? 'dark' : 'light'}${settings.compact ? ' compact' : ''}${settings.reduceMotion ? ' reduce-motion' : ''}`} style={themeStyle}>
+<div className={`App ${isDarkMode ? 'dark' : 'light'}${settings.compact ? ' compact' : ''}${settings.reduceMotion ? ' reduce-motion' : ''}${settings.oled ? ' oled' : ''}${settings.dynamicColor ? ' dyn' : ''}`} style={{ ...themeStyle, '--cover-rgb': coverRgb }}>
 {currentTrack && (
 <audio
 ref={audioRef}
-src={currentTrack.audioUrl}
+src={audioSrc}
 preload="metadata"
+onCanPlay={(e) => { if (wantPlayRef.current) { wantPlayRef.current = false; e.target.play().catch(() => {}); } }}
 onLoadedMetadata={(e) => { if (pendingSeekRef.current > 0) { try { e.target.currentTime = pendingSeekRef.current; setCurrentTime(pendingSeekRef.current); } catch (err) {} pendingSeekRef.current = 0; } }}
-onError={() => { console.warn('Fichier audio introuvable ou illisible :', currentTrack.audioUrl); setIsPlaying(false); }}
+onError={() => { console.warn('Fichier audio introuvable ou illisible :', currentTrack.audioUrl); setIsPlaying(false); wantPlayRef.current = false; if (!offRef.current.online) toast('Hors-ligne : ce titre n\'est pas téléchargé', '📡'); }}
 />
-)}<div className="main-layout">
+)}<BottomNav page={currentPage} onNav={(id) => { setCurrentPage(id); setSelectedPlaylist(null); }} theme={currentTheme} offline={!off.online} />
+{!off.online && <div className="offline-banner">📡 Hors-ligne — seuls les titres téléchargés sont lisibles</div>}<div className="main-layout">
 {}
 <div className="sidebar">
 <div className="sidebar-logo">
@@ -1066,6 +1219,22 @@ style={currentPage === 'history' ? { background: currentTheme.gradient } : {}}
 >
 <span>📜</span>
 <span>Historique</span>
+</button>
+<button
+className={`nav-item ${currentPage === 'blindtest' ? 'active' : ''}`}
+onClick={() => setCurrentPage('blindtest')}
+style={currentPage === 'blindtest' ? { background: currentTheme.gradient } : {}}
+>
+<span>🎯</span>
+<span>Blind test</span>
+</button>
+<button
+className={`nav-item ${currentPage === 'downloads' ? 'active' : ''}`}
+onClick={() => setCurrentPage('downloads')}
+style={currentPage === 'downloads' ? { background: currentTheme.gradient } : {}}
+>
+<span>⬇️</span>
+<span>Téléchargements</span>
 </button>
 <button
 className={`nav-item ${currentPage === 'liked' ? 'active' : ''}`}
@@ -1204,6 +1373,17 @@ addRecentSearch(searchQuery);
 }
 }}
 />
+{!searchQuery && (window.SpeechRecognition || window.webkitSpeechRecognition) && (
+<button className="search-clear voice-btn" title="Recherche vocale" aria-label="Recherche vocale" onClick={() => {
+try {
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition; const rec = new SR(); rec.lang = 'fr-FR'; rec.interimResults = false;
+toast('Je t\'écoute… dis un titre ou un artiste', '🎤');
+rec.onresult = (ev) => { const txt = ev.results[0][0].transcript; handleSearch(txt); setCurrentPage('search'); addRecentSearch(txt); };
+rec.onerror = () => toast('Micro indisponible ou refusé', '⚠️');
+rec.start();
+} catch (e) { toast('Recherche vocale non supportée', '⚠️'); }
+}}>🎤</button>
+)}
 {searchQuery && (
 <button className="search-clear" onClick={() => { setSearchQuery(''); if (searchInputRef.current) searchInputRef.current.focus(); }} aria-label="Effacer la recherche" title="Effacer">✕</button>
 )}
@@ -1512,6 +1692,14 @@ onOpenGenre={openGenre}
 musicDatabase={musicDatabase}
 onPlayTrack={playTrack}
 />
+)}{currentPage === 'blindtest' && (
+<BlindTest musicDatabase={musicDatabase} currentTheme={currentTheme} onPausePlayer={() => { if (audioRef.current && !audioRef.current.paused) { audioRef.current.pause(); setIsPlaying(false); } }} />
+)}{currentPage === 'downloads' && (
+<DownloadsPage musicDatabase={musicDatabase} collectionProps={{
+currentTrack, isPlaying, currentTheme,
+onPlay: (t) => playTrack(t), onPlayAll: playAllFrom, onShuffleAll: playShuffled,
+onAddToPlaylist: openAddToPlaylistModal, onAddToQueue: addToQueue, onContextMenu: openContextMenu, onOpenArtist: (a) => openArtist(primaryArtist(a)), onOpenGenre: openGenre
+}} />
 )}{currentPage === 'history' && (
 <HistoryPage 
 musicDatabase={musicDatabase}
@@ -1552,7 +1740,7 @@ onClick={() => setShowFullPlayer(true)}
 title="Ouvrir le lecteur plein écran (F)"
 />
 <div className="player-track-details" onClick={() => setShowFullPlayer(true)} style={{ cursor: 'pointer' }}>
-<div className="player-track-title">{currentTrack.title}</div>
+<div className={`player-track-title${currentTrack.title.length > 24 ? " marquee" : ""}`}><span>{currentTrack.title}</span></div>
 <div className="player-track-artist">{currentTrack.artist}</div>
 </div>
 <HeartButton track={currentTrack} />
@@ -1588,7 +1776,16 @@ style={isRepeatMode > 0 ? { color: currentTheme.primary } : {}}
 </button>
 </div><div className="player-progress">
 <span className="player-time">{formatTime(currentTime)}</span>
-<div className="progress-bar" onClick={handleProgressClick}>
+<div className="progress-bar"
+onPointerDown={(e) => { if (!duration) return; const el = e.currentTarget; try { el.setPointerCapture(e.pointerId); } catch (err) {} el.dataset.drag = '1'; handleProgressClick(e); }}
+onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); const f = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); setScrubHover({ x: f * 100, t: f * (duration || 0) }); if (e.currentTarget.dataset.drag === '1') { const nt = f * duration; if (audioRef.current) audioRef.current.currentTime = nt; setCurrentTime(nt); } }}
+onPointerUp={(e) => { e.currentTarget.dataset.drag = ''; }}
+onPointerCancel={(e) => { e.currentTarget.dataset.drag = ''; }}
+onPointerLeave={() => setScrubHover(null)}
+onWheel={(e) => { e.preventDefault(); seekBy(e.deltaY < 0 ? 5 : -5); }}
+>
+{scrubHover && <span className="scrub-tip" style={{ left: `${scrubHover.x}%` }}>{formatTime(scrubHover.t)}</span>}
+{abLoop.a !== null && duration > 0 && <span className="ab-mark" style={{ left: `${(abLoop.a / duration) * 100}%`, width: abLoop.b !== null ? `${((abLoop.b - abLoop.a) / duration) * 100}%` : '3px' }} />}
 <div
 className="progress-fill"
 style={{ 
@@ -1599,7 +1796,8 @@ background: currentTheme.gradient
 </div>
 <span className="player-time">{formatTime(duration)}</span>
 </div>
-</div><div className="player-right-controls">
+</div><div className="player-right-controls" onWheel={(e) => { if (e.deltaY < 0) handleVolumeUp(); else handleVolumeDown(); }}>
+<button className="player-btn rate-btn" onClick={cycleRate} title="Vitesse de lecture ([ et ])">{playbackRate}x</button>
 <div className="now-playing-indicator">
 {isPlaying && <span className="playing-animation" style={{ color: currentTheme.primary }}>🎵</span>}
 <div className="playback-mode">
@@ -1747,6 +1945,10 @@ onSeek={seekTo}
 onShuffle={toggleShuffle}
 onRepeat={toggleRepeat}
 onCycleRate={cycleRate}
+rates={RATES}
+onSetRate={setRateTo}
+abLoop={abLoop}
+onAbLoop={toggleAbLoop}
 onCopy={copyForChat}
 onOpenArtist={(a) => { setShowFullPlayer(false); openArtist(a); }}
 />
@@ -1917,9 +2119,11 @@ return (
 <ToastProvider>
 <LibraryProvider>
 <MusicProvider>
+<OfflineProvider tracks={musicDatabase}>
 <SoundBoardProvider>
 <AppContent />
 </SoundBoardProvider>
+</OfflineProvider>
 </MusicProvider>
 </LibraryProvider>
 </ToastProvider>

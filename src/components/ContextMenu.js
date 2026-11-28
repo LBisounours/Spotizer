@@ -52,7 +52,9 @@ const ContextMenu = ({ menu, onClose, actions }) => {
     { icon: '🎤', label: 'Voir l\'artiste', run: () => actions.artist(track) },
     { icon: '🏷️', label: `Plus de « ${track.genre} »`, run: () => actions.genre(track) },
     { sep: true },
-    { icon: '💬', label: 'Copier pour le chat', run: () => actions.copy(track) }
+    { icon: '💬', label: 'Copier pour le chat', run: () => actions.copy(track) },
+    ...(actions.canShare ? [{ icon: '📤', label: 'Partager', run: () => actions.share(track) }] : []),
+    ...(actions.download ? [{ icon: actions.isDownloaded(track) ? '🗑️' : '⬇️', label: actions.isDownloaded(track) ? 'Supprimer le téléchargement' : 'Télécharger (hors-ligne)', run: () => actions.download(track) }] : [])
   ];
 
   return ReactDOM.createPortal(

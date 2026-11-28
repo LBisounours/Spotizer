@@ -1,13 +1,17 @@
 import React from 'react';
 import { HeartButton } from './Common';
+import DownloadButton from './DownloadButton';
+import { useLibrary } from '../contexts/LibraryContext';
 import { formatClock, primaryArtist } from '../utils';
 
 // Lecteur plein écran : grande pochette, fond flouté, contrôles, prochains titres
 const NowPlayingFull = ({
   track, isPlaying, currentTime, duration, currentTheme,
   isShuffle, repeatMode, playbackRate, upcoming,
-  onClose, onToggle, onNext, onPrev, onSeek, onShuffle, onRepeat, onCycleRate, onCopy, onOpenArtist
+  onClose, onToggle, onNext, onPrev, onSeek, onShuffle, onRepeat, onCycleRate, rates, onSetRate, abLoop, onAbLoop, onCopy, onOpenArtist
 }) => {
+  const { settings } = useLibrary();
+  const vinyl = !!settings.vinyl;
   if (!track) return null;
   const pct = duration ? Math.min(100, (currentTime / duration) * 100) : 0;
 
@@ -25,7 +29,7 @@ const NowPlayingFull = ({
         <img
           src={track.cover}
           alt={track.title}
-          className={`np-cover ${isPlaying ? 'playing' : ''}`}
+          className={`np-cover ${isPlaying ? 'playing' : ''}${vinyl ? ' vinyl' : ''}`}
           style={{ boxShadow: `0 20px 60px ${currentTheme.primary}66` }}
         />
         <div className="np-side">
@@ -60,9 +64,20 @@ const NowPlayingFull = ({
 
           <div className="np-actions">
             <HeartButton track={track} variant="large" />
-            <button className="chip" onClick={onCycleRate} title="Vitesse de lecture">⏩ {playbackRate}x</button>
+            <DownloadButton track={track} className="large" />
+            <button className={`chip ${abLoop && abLoop.a !== null ? 'on' : ''}`} onClick={onAbLoop} title="Boucle A-B (B)">
+              🔁 {!abLoop || abLoop.a === null ? 'A-B' : abLoop.b === null ? 'A…' : 'A-B ✓'}
+            </button>
             <button className="chip" onClick={() => onCopy(track)} title="Copier le titre pour le chat">💬 Copier pour le chat</button>
           </div>
+
+          {rates && (
+            <div className="rate-row" role="group" aria-label="Vitesse de lecture">
+              {rates.map((r) => (
+                <button key={r} className={`rate-chip ${r === playbackRate ? 'on' : ''}`} onClick={() => onSetRate(r)}>{r}x</button>
+              ))}
+            </div>
+          )}
 
           {upcoming.length > 0 && (
             <div className="np-upcoming">

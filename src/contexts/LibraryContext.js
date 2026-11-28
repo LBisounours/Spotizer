@@ -11,7 +11,13 @@ export const DEFAULT_SETTINGS = {
   compact: false,        // listes plus denses
   reduceMotion: false,   // coupe les animations
   playerBackdrop: true,  // pochette floue en fond du lecteur
-  viewMode: 'list'       // 'list' | 'grid' dans les collections
+  viewMode: 'list',      // 'list' | 'grid' dans les collections
+  oled: false,           // noir pur (économise la batterie sur écran OLED)
+  dynamicColor: true,    // les couleurs du lecteur suivent la pochette
+  vinyl: true,           // pochette « vinyle » qui tourne en plein écran
+  wakeLock: true,        // garde l'écran allumé pendant la lecture (mobile)
+  haptics: true,         // petites vibrations au toucher (mobile)
+  autoDownloadLikes: false // télécharge automatiquement les titres likés
 };
 
 const BACKUP_EXCLUDED = ['spotizer-session', 'spotizer-now-playing'];
