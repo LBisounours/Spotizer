@@ -127,6 +127,7 @@ const musicDatabase = [
 { id: 6, title: "Black Betty", artist: "Ram Jam", album: "Le_Bisounours_", duration: "2:24", cover: "Musique/Images/font6.png", audioUrl: "Musique/Musique6.mp3", genre: "Rock" },
 { id: 76, title: "Hit The Road Jack", artist: "Ray Charles", album: "Le_Bisounours_", duration: "2:02", cover: "Musique/Images/font76.png", audioUrl: "Musique/Musique76.mp3", genre: "R&B" },
 { id: 125, title: "What About Me", artist: "Rex Orange County", album: "Le_Bisounours_", duration: "4:22", cover: "Musique/Images/font125.png", audioUrl: "Musique/Musique125.mp3", genre: "Pop" },
+{ id: 169, title: "Christmas Kids", artist: "Roar", album: "Le_Bisounours_", duration: "2:15", cover: "Musique/Images/font169.png", audioUrl: "Musique/Musique169.mp3", genre: "Indie Rock" },
 { id: 15, title: "Malade", artist: "Roméo Elvis", album: "Le_Bisounours_", duration: "3:11", cover: "Musique/Images/font15.png", audioUrl: "Musique/Musique15.mp3", genre: "Rap" },
 { id: 80, title: "Overwhelmed", artist: "Royal & the Serpent", album: "Le_Bisounours_", duration: "3:26", cover: "Musique/Images/font80.png", audioUrl: "Musique/Musique80.mp3", genre: "Alternative" },
 { id: 162, title: "Unhappy", artist: "S0rrow", album: "Le_Bisounours_", duration: "1:38", cover: "Musique/Images/font162.png", audioUrl: "Musique/Musique162.mp3", genre: "Indie" },
