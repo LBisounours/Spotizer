@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { useMusic } from '../contexts/MusicContext';const SleepTimerModal = ({ isOpen, onClose, audioRef, onStop }) => {
+import { useMusic } from '../contexts/MusicContext';const SleepTimerModal = ({ isOpen, onClose, audioRef, onStop, onStopAfterTrack, stopAfterTrackActive }) => {
 const { isDarkMode, currentTheme } = useTheme();
 const { startSleepTimer, stopSleepTimer, sleepTimerActive, sleepTimerRemaining, isFadingOut, formatListeningTime } = useMusic();
 const [customMinutes, setCustomMinutes] = useState(30);const presetTimes = [
@@ -47,7 +47,13 @@ style={{ borderColor: currentTheme.primary }}
 {preset.label}
 </button>
 ))}
-</div><div className="timer-custom">
+</div><button
+className="timer-preset-btn"
+onClick={() => { onStopAfterTrack && onStopAfterTrack(); onClose(); }}
+style={{ borderColor: currentTheme.primary, width: '100%', marginBottom: 12 }}
+>
+{stopAfterTrackActive ? '✅ Arrêt à la fin du titre (activé, cliquer pour annuler)' : '⏭️ Arrêter à la fin du titre en cours'}
+</button><div className="timer-custom">
 <label>Durée personnalisée (minutes)</label>
 <div className="custom-input-group">
 <input

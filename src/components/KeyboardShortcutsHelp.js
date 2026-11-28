@@ -18,7 +18,13 @@ const KeyboardShortcutsHelp = ({ isOpen, onClose }) => {
     { keys: 'Ctrl + M', action: 'Activer / Désactiver le son' },
     { keys: 'Ctrl + S', action: 'Mode aléatoire' },
     { keys: 'Ctrl + R', action: 'Mode répétition' },
-    { keys: 'Ctrl + Q', action: 'Ouvrir la file d\'attente' }
+    { keys: 'Ctrl + Q', action: 'Ouvrir la file d\'attente' },
+    { keys: 'Maj + ← / →', action: 'Reculer / avancer de 10 s' },
+    { keys: 'L', action: 'Liker le titre en cours' },
+    { keys: 'F', action: 'Lecteur plein écran' },
+    { keys: '/ ou Ctrl + K', action: 'Rechercher' },
+    { keys: '?', action: 'Afficher cette aide' },
+    { keys: 'Échap', action: 'Couper tous les sons du SoundBoard / fermer' }
   ];
 
   const soundBoardShortcuts = [

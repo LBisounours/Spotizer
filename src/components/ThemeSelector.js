@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { useTheme, themes } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';
 import '../App.css';const ThemeSelector = () => {
-const { isDarkMode, toggleDarkMode, colorTheme, setColorTheme, currentTheme } = useTheme();
+const { isDarkMode, toggleDarkMode, colorTheme, setColorTheme, currentTheme, themes, customColor, setCustomColor } = useTheme();
 const [isOpen, setIsOpen] = useState(false);
 const [coords, setCoords] = useState({ x: 0, y: 0 });const btnRef = useRef();
 const dropdownRef = useRef();useEffect(() => {
@@ -67,6 +67,10 @@ title={theme.name}
 </button>
 ))}
 </div>
+<label className="custom-color-row">
+<span>🖌️ Couleur perso</span>
+<input type="color" value={customColor} onChange={(e) => { setCustomColor(e.target.value); setColorTheme('custom'); }} />
+</label>
 </div><button className="theme-close-btn" onClick={() => setIsOpen(false)}>
 Fermer
 </button>

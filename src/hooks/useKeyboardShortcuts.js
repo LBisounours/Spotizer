@@ -12,10 +12,66 @@ export const useKeyboardShortcuts = ({
   onRepeat,
   onToggleQueue,
   onPlaySoundBoardSound, // Nouvelle fonction pour jouer les sons
+  onSeekForward,
+  onSeekBack,
+  onLike,
+  onFullscreen,
+  onFocusSearch,
+  onEscape,
+  onShowHelp,
   isEnabled = true
 }) => {
   const handleKeyDown = useCallback((e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    // Échap : stoppe les sons du soundboard / ferme les panneaux (même dans un champ texte)
+    if (e.code === 'Escape') {
+      onEscape?.();
+      return;
+    }
+
+    // Ctrl+K : recherche (même dans un champ texte)
+    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyK') {
+      e.preventDefault();
+      onFocusSearch?.();
+      return;
+    }
+
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.isContentEditable) {
+      return;
+    }
+
+    if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      onFocusSearch?.();
+      return;
+    }
+
+    if (e.key === '?') {
+      e.preventDefault();
+      onShowHelp?.();
+      return;
+    }
+
+    if (e.code === 'KeyL' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      onLike?.();
+      return;
+    }
+
+    if (e.code === 'KeyF' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      onFullscreen?.();
+      return;
+    }
+
+    if (e.code === 'ArrowRight' && e.shiftKey) {
+      e.preventDefault();
+      onSeekForward?.();
+      return;
+    }
+
+    if (e.code === 'ArrowLeft' && e.shiftKey) {
+      e.preventDefault();
+      onSeekBack?.();
       return;
     }
 
@@ -95,7 +151,7 @@ export const useKeyboardShortcuts = ({
       onToggleQueue?.();
       return;
     }
-  }, [onPlayPause, onNext, onPrevious, onVolumeUp, onVolumeDown, onMute, onShuffle, onRepeat, onToggleQueue, onPlaySoundBoardSound]);
+  }, [onPlayPause, onNext, onPrevious, onVolumeUp, onVolumeDown, onMute, onShuffle, onRepeat, onToggleQueue, onPlaySoundBoardSound, onSeekForward, onSeekBack, onLike, onFullscreen, onFocusSearch, onEscape, onShowHelp]);
 
   useEffect(() => {
     if (!isEnabled) return;

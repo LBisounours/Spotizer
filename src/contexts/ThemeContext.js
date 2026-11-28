@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';const ThemeContext = createContext();export const themes = {
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { shadeColor } from '../utils';const ThemeContext = createContext();export const themes = {
 violet: {
 name: 'Violet',
 primary: '#571249',
@@ -62,23 +63,39 @@ secondary: '#834019',
 accent: '#ac5c2d',
 gradient: 'linear-gradient(135deg, #572403, #ac5c2d)'
 }
-};export const ThemeProvider = ({ children }) => {
+};const buildCustomTheme = (color) => ({
+name: 'Personnalisé',
+primary: color,
+secondary: shadeColor(color, 18),
+accent: shadeColor(color, 32),
+gradient: `linear-gradient(135deg, ${shadeColor(color, -28)}, ${color})`
+});export const ThemeProvider = ({ children }) => {
+const [customColor, setCustomColorState] = useState(() => {
+try { return localStorage.getItem('spotizer-custom-color') || '#7c3aed'; } catch (e) { return '#7c3aed'; }
+});
+const setCustomColor = (c) => {
+setCustomColorState(c);
+try { localStorage.setItem('spotizer-custom-color', c); } catch (e) {}
+};
+const allThemes = { ...themes, custom: buildCustomTheme(customColor) };
 const [isDarkMode, setIsDarkMode] = useState(() => {
 try { const saved = localStorage.getItem('spotizer-dark-mode'); return saved !== null ? JSON.parse(saved) : true; } catch (e) { return true; }
 });const [colorTheme, setColorTheme] = useState(() => {
-try { const saved = localStorage.getItem('spotizer-color-theme'); return saved && themes[saved] ? saved : 'violet'; } catch (e) { return 'violet'; }
+try { const saved = localStorage.getItem('spotizer-color-theme'); return saved && (themes[saved] || saved === 'custom') ? saved : 'violet'; } catch (e) { return 'violet'; }
 });useEffect(() => {
 localStorage.setItem('spotizer-dark-mode', JSON.stringify(isDarkMode));
 }, [isDarkMode]);useEffect(() => {
 localStorage.setItem('spotizer-color-theme', colorTheme);
-}, [colorTheme]);const toggleDarkMode = () => setIsDarkMode(!isDarkMode);const currentTheme = themes[colorTheme] || themes.violet;return (
+}, [colorTheme]);const toggleDarkMode = () => setIsDarkMode(!isDarkMode);const currentTheme = allThemes[colorTheme] || themes.violet;return (
 <ThemeContext.Provider value={{
 isDarkMode,
 toggleDarkMode,
 colorTheme,
 setColorTheme,
 currentTheme,
-themes
+themes: allThemes,
+customColor,
+setCustomColor
 }}>
 {children}
 </ThemeContext.Provider>

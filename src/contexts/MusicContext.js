@@ -154,6 +154,11 @@ setSleepTimerRemaining(0);
 setIsFadingOut(false);
 }
 }, [sleepTimer]);
+const resetStats = useCallback(() => {
+setPlayStats({});
+setListeningTime({ daily: {}, weekly: 0, monthly: 0, yearly: 0, total: 0 });
+}, []);
+const clearHistory = useCallback(() => { setListeningHistory([]); }, []);
 const formatListeningTime = (seconds) => {
 const hours = Math.floor(seconds / 3600);
 const minutes = Math.floor((seconds % 3600) / 60);
@@ -177,7 +182,9 @@ sleepTimerRemaining,
 isFadingOut,
 startSleepTimer,
 stopSleepTimer,
-sleepTimerActive: sleepTimer !== null
+sleepTimerActive: sleepTimer !== null,
+resetStats,
+clearHistory
 }}>
 {children}
 </MusicContext.Provider>
