@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import './App.css';
+import './App_responsive.css';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { MusicProvider, useMusic } from './contexts/MusicContext';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
@@ -253,29 +254,25 @@ e.preventDefault();
 if (name.trim() && queue.length > 0) { onCreate(name.trim(), description.trim(), queue); onClose(); }
 };
 return (<div className="modal-backdrop" onClick={onClose}><div className={`modal ${isDarkMode ? 'dark' : 'light'}`} onClick={e => e.stopPropagation()}><h2 className="modal-title">💾 Sauvegarder la file d'attente</h2><p className="modal-subtitle">{queue.length} musiques seront ajoutées</p><form onSubmit={handleSubmit} className="modal-form"><div className="form-group"><label className="form-label">Nom de la playlist *</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-input" placeholder="Ma nouvelle playlist" required/></div><div className="form-group"><label className="form-label">Description (optionnel)</label><textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-textarea" placeholder="Description de votre playlist" rows="2"/></div><div className="modal-buttons"><button type="submit" className="btn btn-primary" style={{ background: currentTheme.gradient }}>Sauvegarder</button><button type="button" onClick={onClose} className="btn btn-secondary">Annuler</button></div></form></div></div>);
-};function AppContent() {
-
-const { isDarkMode, currentTheme } = useTheme();
-const { addToHistory, addListeningTime, sleepTimerActive, sleepTimerRemaining } = useMusic();
-const { 
-soundBoards, 
-createSoundBoard, 
-deleteSoundBoard, 
-updateSoundBoard,
-exportSoundBoard,
-importSoundBoard,
-selectedSoundBoardForShortcuts
-} = useSoundBoard();
-const [currentPage, setCurrentPage] = useState('home');
-const [currentTrack, setCurrentTrack] = useState(null);
-const [isPlaying, setIsPlaying] = useState(false);
-const [searchQuery, setSearchQuery] = useState('');
-const [searchResults, setSearchResults] = useState([]);
-const [currentTime, setCurrentTime] = useState(0);
-const [duration, setDuration] = useState(0);
-const [showCreateSoundBoardModal, setShowCreateSoundBoardModal] = useState(false);
-const [selectedSoundBoard, setSelectedSoundBoard] = useState(null);
-const [showSoundBoardOptionsModal, setShowSoundBoardOptionsModal] = useState(false);
+};const TrackCard = React.memo(({ track, currentTrack, isPlaying, currentTheme, onPlay, onAddToPlaylist, onAddToQueue }) => (
+<div
+className="card"
+onClick={() => onPlay(track)}
+style={{
+background: currentTheme.gradient,
+cursor: "pointer",
+boxShadow: currentTrack?.id === track.id && isPlaying ? `0 0 20px 10px ${currentTheme.primary}80` : "none"
+}}
+title="Cliquer pour jouer"
+>
+<img src={track.cover} alt={track.title} className="card-image" loading="lazy" decoding="async" />
+<button className="add-to-playlist-btn" onClick={(e) => { e.stopPropagation(); onAddToPlaylist(track); }} title="Ajouter à une playlist">➕</button>
+<button className="add-to-queue-btn" onClick={(e) => { e.stopPropagation(); onAddToQueue(track); }} title="Ajouter à la file d'attente" style={{ background: currentTheme.primary }}>📋</button>
+<h3 className="card-title">{track.title}</h3>
+<p className="card-subtitle">{track.artist}</p>
+<p className="card-info">{track.genre} • {track.duration}</p>
+</div>
+));
 const CreateSoundBoardModal = ({ onClose, onCreate, onImport }) => {
 const { isDarkMode, currentTheme } = useTheme();
 const [name, setName] = useState('');
@@ -370,6 +367,29 @@ style={{ width: '100%' }}
 </div>
 );
 };
+function AppContent() {
+
+const { isDarkMode, currentTheme } = useTheme();
+const { addToHistory, addListeningTime, sleepTimerActive, sleepTimerRemaining } = useMusic();
+const { 
+soundBoards, 
+createSoundBoard, 
+deleteSoundBoard, 
+updateSoundBoard,
+exportSoundBoard,
+importSoundBoard,
+selectedSoundBoardForShortcuts
+} = useSoundBoard();
+const [currentPage, setCurrentPage] = useState('home');
+const [currentTrack, setCurrentTrack] = useState(null);
+const [isPlaying, setIsPlaying] = useState(false);
+const [searchQuery, setSearchQuery] = useState('');
+const [searchResults, setSearchResults] = useState([]);
+const [currentTime, setCurrentTime] = useState(0);
+const [duration, setDuration] = useState(0);
+const [showCreateSoundBoardModal, setShowCreateSoundBoardModal] = useState(false);
+const [selectedSoundBoard, setSelectedSoundBoard] = useState(null);
+const [showSoundBoardOptionsModal, setShowSoundBoardOptionsModal] = useState(false);
 const [soundBoardForOptions, setSoundBoardForOptions] = useState(null);
 const [showEditSoundBoardModal, setShowEditSoundBoardModal] = useState(false);
 const [soundBoardToEdit, setSoundBoardToEdit] = useState(null);
@@ -378,7 +398,12 @@ const saved = localStorage.getItem('spotizer-volume');
 return saved !== null ? parseFloat(saved) : 0.05;
 });
 const [isMuted, setIsMuted] = useState(false);
-const [playlists, setPlaylists] = useState([]);
+const [playlists, setPlaylists] = useState(() => {
+try {
+const saved = JSON.parse(localStorage.getItem('deezer-playlists'));
+return Array.isArray(saved) && saved.length > 0 ? saved : defaultPlaylists;
+} catch (e) { return defaultPlaylists; }
+});
 const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 const [showCreatePlaylistModal, setShowCreatePlaylistModal] = useState(false);
 const [showAddToPlaylistModal, setShowAddToPlaylistModal] = useState(false);
@@ -530,18 +555,7 @@ useEffect(() => {
 }, [volume, isMuted]);
 
 useEffect(() => {
-  const savedPlaylists = localStorage.getItem('deezer-playlists');
-  if (savedPlaylists) { 
-    setPlaylists(JSON.parse(savedPlaylists)); 
-  } else { 
-    setPlaylists(defaultPlaylists); 
-  }
-}, []);
-
-useEffect(() => {
-  if (playlists.length > 0) { 
-    localStorage.setItem('deezer-playlists', JSON.stringify(playlists)); 
-  }
+  try { localStorage.setItem('deezer-playlists', JSON.stringify(playlists)); } catch (e) {}
 }, [playlists]);useEffect(() => {
 const audio = audioRef.current;
 if (!audio) return;
@@ -767,7 +781,8 @@ updatePlaylist(updatedPlaylist);
 <audio
 ref={audioRef}
 src={currentTrack.audioUrl}
-preload="auto"
+preload="metadata"
+onError={() => { console.warn('Fichier audio introuvable ou illisible :', currentTrack.audioUrl); setIsPlaying(false); }}
 />
 )}<div className="main-layout">
 {}
@@ -850,7 +865,7 @@ alt={`Cover de ${playlist.name}`}
 className="playlist-cover"
 onError={(e) => {
 e.target.onerror = null;
-e.target.src = "https://media.discordapp.net/attachments/968955109155418132/1401255944725467136/TheStars.png";
+e.target.src = "Musique/Images/Bisounours.png";
 }}
 />
 <div className="playlist-name">{playlist.name}</div>
@@ -992,181 +1007,29 @@ Le_Bisounours_
 </div><div className="section">
 <h2 className="section-title">Titres populaires</h2>
 <div className="grid grid-cols-6">
-{musicDatabase.slice(0, 300).map(track => ( 
-<div
-key={track.id}
-className="card"
-onClick={() => playTrack(track)}
-style={{
-background: isDarkMode
-? currentTheme.gradient
-: currentTheme.gradient,
-cursor: "pointer",
-boxShadow: currentTrack?.id === track.id && isPlaying
-? `0 0 20px 10px ${currentTheme.primary}80`
-: "none"
-}}
-title="Cliquer pour jouer"
->
-<img src={track.cover} alt={track.title} className="card-image" />
-<button
-className="add-to-playlist-btn"
-onClick={(e) => {
-e.stopPropagation();
-openAddToPlaylistModal(track);
-}}
-title="Ajouter à une playlist"
->
-➕
-</button><button
-className="add-to-queue-btn"
-onClick={(e) => {
-e.stopPropagation();
-addToQueue(track);
-}}
-title="Ajouter à la file d'attente"
-style={{ background: currentTheme.primary }}
->
-📋
-</button><h3 className="card-title">{track.title}</h3>
-<p className="card-subtitle">{track.artist}</p>
-<p className="card-info">{track.genre} • {track.duration}</p>
-</div>
+{musicDatabase.slice(0, 300).map(track => (
+<TrackCard key={track.id} track={track} currentTrack={currentTrack} isPlaying={isPlaying} isDarkMode={isDarkMode} currentTheme={currentTheme} onPlay={playTrack} onAddToPlaylist={openAddToPlaylistModal} onAddToQueue={addToQueue} />
 ))}
 </div>
 </div><div className="section">
 <h2 className="section-title">Rock & Alternative</h2>
 <div className="grid grid-cols-6">
 {musicDatabase.filter(track => ['Rock', 'Indie Rock', 'Pop Rock', 'Alternative Rock', 'Alternative', 'Indie'].includes(track.genre)).slice(0, 150).map(track => (
-<div
-key={track.id}
-className="card"
-onClick={() => playTrack(track)}
-style={{
-background: isDarkMode
-? currentTheme.gradient
-: currentTheme.gradient,
-cursor: "pointer",
-boxShadow: currentTrack?.id === track.id && isPlaying
-? `0 0 20px 10px ${currentTheme.primary}80`
-: "none"
-}}
-title="Cliquer pour jouer"
->
-<img src={track.cover} alt={track.title} className="card-image" />
-<button
-className="add-to-playlist-btn"
-onClick={(e) => {
-e.stopPropagation();
-openAddToPlaylistModal(track);
-}}
-title="Ajouter à une playlist"
->
-➕
-</button><button
-className="add-to-queue-btn"
-onClick={(e) => {
-e.stopPropagation();
-addToQueue(track);
-}}
-title="Ajouter à la file d'attente"
-style={{ background: currentTheme.primary }}
->
-📋
-</button><h3 className="card-title">{track.title}</h3>
-<p className="card-subtitle">{track.artist}</p>
-<p className="card-info">{track.genre} • {track.duration}</p>
-</div>
+<TrackCard key={track.id} track={track} currentTrack={currentTrack} isPlaying={isPlaying} isDarkMode={isDarkMode} currentTheme={currentTheme} onPlay={playTrack} onAddToPlaylist={openAddToPlaylistModal} onAddToQueue={addToQueue} />
 ))}
 </div>
 </div><div className="section">
 <h2 className="section-title">Rap & Pop</h2>
 <div className="grid grid-cols-6">
 {musicDatabase.filter(track => ['Pop', 'Rap'].includes(track.genre)).slice(0, 150).map(track => (
-<div
-key={track.id}
-className="card"
-onClick={() => playTrack(track)}
-style={{
-background: isDarkMode
-? currentTheme.gradient
-: currentTheme.gradient,
-cursor: "pointer",
-boxShadow: currentTrack?.id === track.id && isPlaying
-? `0 0 20px 10px ${currentTheme.primary}80`
-: "none"
-}}
-title="Cliquer pour jouer"
->
-<img src={track.cover} alt={track.title} className="card-image" />
-<button
-className="add-to-playlist-btn"
-onClick={(e) => {
-e.stopPropagation();
-openAddToPlaylistModal(track);
-}}
-title="Ajouter à une playlist"
->
-➕
-</button><button
-className="add-to-queue-btn"
-onClick={(e) => {
-e.stopPropagation();
-addToQueue(track);
-}}
-title="Ajouter à la file d'attente"
-style={{ background: currentTheme.primary }}
->
-📋
-</button><h3 className="card-title">{track.title}</h3>
-<p className="card-subtitle">{track.artist}</p>
-<p className="card-info">{track.genre} • {track.duration}</p>
-</div>
+<TrackCard key={track.id} track={track} currentTrack={currentTrack} isPlaying={isPlaying} isDarkMode={isDarkMode} currentTheme={currentTheme} onPlay={playTrack} onAddToPlaylist={openAddToPlaylistModal} onAddToQueue={addToQueue} />
 ))}
 </div>
 </div><div className="section">
 <h2 className="section-title">Anime & Film</h2>
 <div className="grid grid-cols-6">
 {musicDatabase.filter(track => ['Opening', 'Film', 'OST'].includes(track.genre)).slice(0, 150).map(track => (
-<div
-key={track.id}
-className="card"
-onClick={() => playTrack(track)}
-style={{
-background: isDarkMode
-? currentTheme.gradient
-: currentTheme.gradient,
-cursor: "pointer",
-boxShadow: currentTrack?.id === track.id && isPlaying
-? `0 0 20px 10px ${currentTheme.primary}80`
-: "none"
-}}
-title="Cliquer pour jouer"
->
-<img src={track.cover} alt={track.title} className="card-image" />
-<button
-className="add-to-playlist-btn"
-onClick={(e) => {
-e.stopPropagation();
-openAddToPlaylistModal(track);
-}}
-title="Ajouter à une playlist"
->
-➕
-</button><button
-className="add-to-queue-btn"
-onClick={(e) => {
-e.stopPropagation();
-addToQueue(track);
-}}
-title="Ajouter à la file d'attente"
-style={{ background: currentTheme.primary }}
->
-📋
-</button><h3 className="card-title">{track.title}</h3>
-<p className="card-subtitle">{track.artist}</p>
-<p className="card-info">{track.genre} • {track.duration}</p>
-</div>
+<TrackCard key={track.id} track={track} currentTrack={currentTrack} isPlaying={isPlaying} isDarkMode={isDarkMode} currentTheme={currentTheme} onPlay={playTrack} onAddToPlaylist={openAddToPlaylistModal} onAddToQueue={addToQueue} />
 ))}
 </div>
 </div>
@@ -1248,7 +1111,7 @@ onClick={() => playTrack(track)}
 >
 {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
 </button>
-<img src={track.cover} alt={track.title} className="track-cover" />
+<img src={track.cover} alt={track.title} className="track-cover" loading="lazy" decoding="async" />
 <div className="track-info">
 <div className="track-title">{track.title}</div>
 <div className="track-artist">{track.artist} • {track.album}</div>
@@ -1371,7 +1234,7 @@ playTrack(track, selectedPlaylist);
 >
 {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
 </button>
-<img src={track.cover} alt={track.title} className="track-cover" />
+<img src={track.cover} alt={track.title} className="track-cover" loading="lazy" decoding="async" />
 <div className="track-info">
 <div className="track-title">{track.title}</div>
 <div className="track-artist">{track.artist} • {track.album}</div>
@@ -1422,7 +1285,7 @@ onClick={() => playPlaylist(playlist)}
 style={{ cursor: "pointer" }}
 title="Cliquer pour écouter"
 >
-<img src={playlist.cover} alt={playlist.name} className="card-image" /><button
+<img src={playlist.cover} alt={playlist.name} className="card-image" loading="lazy" decoding="async" /><button
 className="shuffle-card-btn"
 onClick={(e) => {
 e.stopPropagation();
@@ -1478,7 +1341,7 @@ onClick={() => playTrack(track)}
 >
 {currentTrack?.id === track.id && isPlaying ? '⏸️' : '▶️'}
 </button>
-<img src={track.cover} alt={track.title} className="track-cover" />
+<img src={track.cover} alt={track.title} className="track-cover" loading="lazy" decoding="async" />
 <div className="track-info">
 <div className="track-title">{track.title}</div>
 <div className="track-artist">{track.artist} • {track.album}</div>
@@ -1844,7 +1707,7 @@ onClick={() => onPlayTrack(entry)}
 style={{ background: currentTheme.gradient }}
 >
 <div className="track-number" >{index + 1}</div>
-<img src={entry.cover} alt={entry.title} className="track-cover" />
+<img src={entry.cover} alt={entry.title} className="track-cover" loading="lazy" decoding="async" />
 <div className="track-info">
 <div className="track-title">{entry.title}</div>
 <div className="track-artist">{entry.artist}</div>

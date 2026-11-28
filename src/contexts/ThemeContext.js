@@ -64,11 +64,9 @@ gradient: 'linear-gradient(135deg, #572403, #ac5c2d)'
 }
 };export const ThemeProvider = ({ children }) => {
 const [isDarkMode, setIsDarkMode] = useState(() => {
-const saved = localStorage.getItem('spotizer-dark-mode');
-return saved !== null ? JSON.parse(saved) : true;
+try { const saved = localStorage.getItem('spotizer-dark-mode'); return saved !== null ? JSON.parse(saved) : true; } catch (e) { return true; }
 });const [colorTheme, setColorTheme] = useState(() => {
-const saved = localStorage.getItem('spotizer-color-theme');
-return saved || 'violet';
+try { const saved = localStorage.getItem('spotizer-color-theme'); return saved && themes[saved] ? saved : 'violet'; } catch (e) { return 'violet'; }
 });useEffect(() => {
 localStorage.setItem('spotizer-dark-mode', JSON.stringify(isDarkMode));
 }, [isDarkMode]);useEffect(() => {

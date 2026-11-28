@@ -1,5 +1,6 @@
 // /src/contexts/SoundBoardContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { loadJSON, saveJSON } from '../utils_storage';
 
 const SoundBoardContext = createContext();
 
@@ -12,47 +13,29 @@ export const useSoundBoard = () => {
 };
 
 export const SoundBoardProvider = ({ children }) => {
-  const [soundBoards, setSoundBoards] = useState([]);
-  const [soundBoardHistory, setSoundBoardHistory] = useState([]);
-  const [selectedSoundBoardForShortcuts, setSelectedSoundBoardForShortcuts] = useState(null);
+  const [soundBoards, setSoundBoards] = useState(() => {
+    const saved = loadJSON('spotizer-soundboards', []);
+    return Array.isArray(saved) ? saved : [];
+  });
+  const [soundBoardHistory, setSoundBoardHistory] = useState(() => {
+    const saved = loadJSON('spotizer-soundboard-history', []);
+    return Array.isArray(saved) ? saved : [];
+  });
+  const [selectedSoundBoardForShortcuts, setSelectedSoundBoardForShortcuts] = useState(() => {
+    try { return localStorage.getItem('spotizer-selected-soundboard-shortcuts'); } catch (e) { return null; }
+  });
 
-  // Charger les soundboards depuis le localStorage
+  // Sauvegardes (même quand la liste est vide, sinon un board supprimé réapparaît)
+  useEffect(() => { saveJSON('spotizer-soundboards', soundBoards); }, [soundBoards]);
+  useEffect(() => { saveJSON('spotizer-soundboard-history', soundBoardHistory); }, [soundBoardHistory]);
   useEffect(() => {
-    const savedSoundBoards = localStorage.getItem('spotizer-soundboards');
-    if (savedSoundBoards) {
-      setSoundBoards(JSON.parse(savedSoundBoards));
-    }
-
-    const savedHistory = localStorage.getItem('spotizer-soundboard-history');
-    if (savedHistory) {
-      setSoundBoardHistory(JSON.parse(savedHistory));
-    }
-
-    const savedSelectedBoard = localStorage.getItem('spotizer-selected-soundboard-shortcuts');
-    if (savedSelectedBoard) {
-      setSelectedSoundBoardForShortcuts(savedSelectedBoard);
-    }
-  }, []);
-
-  // Sauvegarder les soundboards
-  useEffect(() => {
-    if (soundBoards.length > 0) {
-      localStorage.setItem('spotizer-soundboards', JSON.stringify(soundBoards));
-    }
-  }, [soundBoards]);
-
-  // Sauvegarder l'historique
-  useEffect(() => {
-    if (soundBoardHistory.length > 0) {
-      localStorage.setItem('spotizer-soundboard-history', JSON.stringify(soundBoardHistory));
-    }
-  }, [soundBoardHistory]);
-
-  // Sauvegarder le soundboard sélectionné pour les raccourcis
-  useEffect(() => {
-    if (selectedSoundBoardForShortcuts) {
-      localStorage.setItem('spotizer-selected-soundboard-shortcuts', selectedSoundBoardForShortcuts);
-    }
+    try {
+      if (selectedSoundBoardForShortcuts) {
+        localStorage.setItem('spotizer-selected-soundboard-shortcuts', selectedSoundBoardForShortcuts);
+      } else {
+        localStorage.removeItem('spotizer-selected-soundboard-shortcuts');
+      }
+    } catch (e) {}
   }, [selectedSoundBoardForShortcuts]);
 
   const addToSoundBoardHistory = (sound) => {
@@ -73,12 +56,12 @@ export const SoundBoardProvider = ({ children }) => {
       sounds: [],
       createdAt: new Date().toISOString()
     };
-    setSoundBoards([...soundBoards, newSoundBoard]);
+    setSoundBoards(prev => [...prev, newSoundBoard]);
     return newSoundBoard;
   };
 
   const deleteSoundBoard = (soundBoardId) => {
-    setSoundBoards(soundBoards.filter(sb => sb.id !== soundBoardId));
+    setSoundBoards(prev => prev.filter(sb => sb.id !== soundBoardId));
     if (selectedSoundBoardForShortcuts === soundBoardId) {
       setSelectedSoundBoardForShortcuts(null);
       localStorage.removeItem('spotizer-selected-soundboard-shortcuts');
@@ -86,13 +69,13 @@ export const SoundBoardProvider = ({ children }) => {
   };
 
   const updateSoundBoard = (updatedSoundBoard) => {
-    setSoundBoards(soundBoards.map(sb => 
+    setSoundBoards(prev => prev.map(sb => 
       sb.id === updatedSoundBoard.id ? updatedSoundBoard : sb
     ));
   };
 
   const addSoundToBoard = (soundBoardId, sound) => {
-    setSoundBoards(soundBoards.map(sb => {
+    setSoundBoards(prev => prev.map(sb => {
       if (sb.id === soundBoardId) {
         if (!sb.sounds.find(s => s.id === sound.id)) {
           return { ...sb, sounds: [...sb.sounds, sound] };
@@ -103,7 +86,7 @@ export const SoundBoardProvider = ({ children }) => {
   };
 
   const removeSoundFromBoard = (soundBoardId, soundId) => {
-    setSoundBoards(soundBoards.map(sb => {
+    setSoundBoards(prev => prev.map(sb => {
       if (sb.id === soundBoardId) {
         return { ...sb, sounds: sb.sounds.filter(s => s.id !== soundId) };
       }
@@ -114,10 +97,14 @@ export const SoundBoardProvider = ({ children }) => {
   const importSoundBoard = (importedSoundBoard) => {
     const newSoundBoard = {
       ...importedSoundBoard,
+      name: importedSoundBoard?.name || 'SoundBoard importé',
+      description: importedSoundBoard?.description || '',
+      cover: importedSoundBoard?.cover || "SoundBoard/Images/default.png",
+      sounds: Array.isArray(importedSoundBoard?.sounds) ? importedSoundBoard.sounds : [],
       id: Date.now().toString(),
       createdAt: new Date().toISOString()
     };
-    setSoundBoards([...soundBoards, newSoundBoard]);
+    setSoundBoards(prev => [...prev, newSoundBoard]);
     return newSoundBoard;
   };
 

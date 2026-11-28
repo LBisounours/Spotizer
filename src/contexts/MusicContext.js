@@ -1,32 +1,27 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';const MusicContext = createContext();export const MusicProvider = ({ children }) => {const [listeningHistory, setListeningHistory] = useState(() => {
-const saved = localStorage.getItem('spotizer-history');
-return saved ? JSON.parse(saved) : [];
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { loadJSON, saveJSON } from '../utils_storage';const MusicContext = createContext();export const MusicProvider = ({ children }) => {const [listeningHistory, setListeningHistory] = useState(() => {
+const saved = loadJSON('spotizer-history', []);
+return Array.isArray(saved) ? saved : [];
 });
-const [playStats, setPlayStats] = useState(() => {
-const saved = localStorage.getItem('spotizer-play-stats');
-return saved ? JSON.parse(saved) : {};
-});
-const [listeningTime, setListeningTime] = useState(() => {
-const saved = localStorage.getItem('spotizer-listening-time');
-return saved ? JSON.parse(saved) : {
+const [playStats, setPlayStats] = useState(() => loadJSON('spotizer-play-stats', {}) || {});
+const [listeningTime, setListeningTime] = useState(() => loadJSON('spotizer-listening-time', null) || {
 daily: {},
 weekly: 0,
 monthly: 0,
 yearly: 0,
 total: 0
-};
 });
 const [sleepTimer, setSleepTimer] = useState(null);
 const [sleepTimerRemaining, setSleepTimerRemaining] = useState(0);
 const [isFadingOut, setIsFadingOut] = useState(false);
 useEffect(() => {
-localStorage.setItem('spotizer-history', JSON.stringify(listeningHistory));
+saveJSON('spotizer-history', listeningHistory);
 }, [listeningHistory]);
 useEffect(() => {
-localStorage.setItem('spotizer-play-stats', JSON.stringify(playStats));
+saveJSON('spotizer-play-stats', playStats);
 }, [playStats]);
 useEffect(() => {
-localStorage.setItem('spotizer-listening-time', JSON.stringify(listeningTime));
+saveJSON('spotizer-listening-time', listeningTime);
 }, [listeningTime]);
 const addToHistory = useCallback((track) => {
 const historyEntry = {
